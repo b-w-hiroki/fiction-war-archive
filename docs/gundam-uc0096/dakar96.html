@@ -80,7 +80,7 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
     <div class="force ui" aria-label="戦力">
       <div class="row e"><span class="side">ジオン残党</span><div class="bar"><i class="dep" id="eDep"></i><i class="fig" id="eFig"></i></div><span class="num" id="eNum"></span></div>
       <div class="row a"><span class="side">地球連邦軍</span><div class="bar"><i class="dep" id="aDep"></i><i class="fig" id="aFig"></i></div><span class="num" id="aNum"></span></div>
-      <div class="note">交戦中／健在の部隊。OVA第4話にもとづく概略</div>
+      <div class="note">交戦中／健在の部隊。小説版にもとづく概略（OVAではダカール襲撃は描かれない）</div>
       <button class="resbtn" id="resOpen">戦果・損害を見る ›</button><a class="back" href="index.html#gundam-uc0096">‹ 年表へ戻る</a>
     </div>
     <div class="res ui" id="res" role="dialog" aria-label="戦果"><div class="in" id="resIn"></div></div>
@@ -154,17 +154,17 @@ function reSprite(s,main,sub,col){const {t,a}=makeTex(main,sub,col,30);s.materia
 const U=[
  {"name": "シャンブロ", "cmd": "ロニ・ガーベイ", "side": "E", "n": 1, "k": {"0": {"p": [0, 7, -40], "s": "move", "l": "海から上陸"}, "1": {"p": [0, 7, -14], "s": "fight", "b": 1}, "2": {"p": [0, 7, 0], "s": "fight", "l": "市街を焼く"}, "3": {"p": [0, 7, -4], "s": "broken"}, "4": {"s": "gone"}}},
  {"name": "連邦の防衛部隊", "cmd": "連邦軍", "side": "A", "n": 10, "k": {"0": {"p": [-8, 7, 30], "s": "ready", "f": "line"}, "1": {"p": [-6, 7, 16], "s": "fight"}, "2": {"p": [-6, 7, 10], "s": "broken"}, "3": {"p": [-6, 7, 20], "s": "wait"}, "4": {"p": [-6, 7, 20], "s": "ready"}}},
- {"name": "ユニコーン", "cmd": "バナージ・リンクス", "side": "A", "n": 1, "k": {"0": {"p": [10, 7, 20], "s": "hidden"}, "1": {"p": [10, 7, 20], "s": "move"}, "2": {"p": [6, 7, 6], "s": "fight", "l": "止めに入る"}, "3": {"p": [2, 7, -2], "s": "charge", "l": "バンシィが撃破"}, "4": {"p": [4, 7, 6], "s": "ready"}}}
+ {"name": "ユニコーン", "cmd": "バナージ・リンクス", "side": "A", "n": 1, "k": {"0": {"p": [10, 7, 20], "s": "hidden"}, "1": {"p": [10, 7, 20], "s": "move"}, "2": {"p": [6, 7, 6], "s": "fight", "l": "止めに入る"}, "3": {"p": [2, 7, -2], "s": "charge", "l": "リディと共に撃破"}, "4": {"p": [4, 7, 6], "s": "ready"}}}
 ];
 const PH=[
- {"time": "5月（推定）", "clock": "OVA第4話（推定）", "step": "上陸", "title": "巨大MAの上陸", "text": "残党の巨大モビルアーマー、シャンブロが海から首都ダカールへ上陸した。", "cam": {"fit": 1, "th": 0.4, "ph": 0.9}, "arrows": []},
+ {"time": "5月（推定）", "clock": "小説版", "step": "上陸", "title": "巨大MAの上陸", "text": "残党の巨大モビルアーマー、シャンブロが海から首都ダカールへ上陸した。", "cam": {"fit": 1, "th": 0.4, "ph": 0.9}, "arrows": []},
  {"time": "同日", "clock": "", "step": "攻撃", "title": "市街の破壊", "text": "シャンブロは市街と連邦の拠点を焼き、防衛部隊を退けた。", "cam": {"fit": 1, "th": 0.4, "ph": 0.9}, "arrows": [{"p": [[0, 7, -14], [0, 7, 0]], "c": "E"}]},
  {"time": "同日", "clock": "", "step": "説得", "title": "バナージの説得", "text": "バナージは乗り手のロニを止めようとした。", "cam": {"fit": 1, "th": 0.6, "ph": 0.9}, "arrows": []},
- {"time": "同日", "clock": "", "step": "撃破", "title": "シャンブロの最期", "text": "連邦のバンシィがシャンブロを撃破し、ロニは戦死した（推定）。", "cam": {"fit": 1, "th": 0.2, "ph": 1.0}, "arrows": []}
+ {"time": "同日", "clock": "", "step": "撃破", "title": "シャンブロの最期", "text": "バナージとリディがシャンブロを倒した。ロニは父マハディに撃たれて死んだ。", "cam": {"fit": 1, "th": 0.2, "ph": 1.0}, "arrows": []}
 ];
-const RESULT={"title": "ダカール襲撃の結果", "when": "U.C.0096年、ダカール", "prev": "トリントン基地攻防", "next": "メガラニカの決戦", "factors": ["巨大MAの火力に首都の守りは追いつかなかった。"], "winner": "A", "outcome": "連邦の勝利（ただし首都に大被害）", "summary": "首都が焼かれ、残党の怨念の深さが示された。", "sides": [{"name": "ジオン残党", "side": "E", "cmdr": "ロニ・ガーベイ", "flag": "不明", "others": "—", "before": "不明", "loss": "シャンブロ", "rate": null, "deaths": "不明", "dead": []}, {"name": "地球連邦軍", "side": "A", "cmdr": "不明", "flag": "不明", "others": "バンシィ（リディ／マリーダ、推定）", "before": "不明", "loss": "不明", "rate": null, "deaths": "不明", "dead": []}], "after": ["バナージは宇宙へ戻り、箱の在りかへ向かう。"], "note": "時期・話数・撃破した機体は推定。"};
+const RESULT={"title": "ダカール襲撃の結果", "when": "U.C.0096年、ダカール", "prev": "トリントン基地攻防", "next": "メガラニカの決戦", "factors": ["巨大MAの火力に首都の守りは追いつかなかった。"], "winner": "A", "outcome": "連邦の勝利（ただし首都に大被害）", "summary": "首都が焼かれ、残党の怨念の深さが示された。", "sides": [{"name": "ジオン残党", "side": "E", "cmdr": "ロニ・ガーベイ", "flag": "不明", "others": "—", "before": "不明", "loss": "シャンブロ", "rate": null, "deaths": "不明", "dead": []}, {"name": "地球連邦軍", "side": "A", "cmdr": "不明", "flag": "不明", "others": "バナージ・リンクス、リディ・マーセナス", "before": "不明", "loss": "不明", "rate": null, "deaths": "不明", "dead": []}], "after": ["バナージは宇宙へ戻り、箱の在りかへ向かう。"], "note": "ダカール襲撃は小説版の展開（OVA第4話ではシャンブロはトリントン基地周辺を襲う）。ロニは小説版では父マハディに射殺される（https://dic.pixiv.net/a/%E3%83%AD%E3%83%8B%E3%83%BB%E3%82%AC%E3%83%BC%E3%83%99%E3%82%A4 、https://gundam.wiki.cre.jp/wiki/%E3%82%B7%E3%83%A3%E3%83%B3%E3%83%96%E3%83%AD ）。時期（月）は記憶にもとづく推定。"};
 
-RESULT.refs=[{"k": "OVA", "v": "OVA『機動戦士ガンダムUC』 episode4「重力の井戸の底で」（推定）"}];
+RESULT.refs=[{"k": "小説", "v": "小説『機動戦士ガンダムUC』（福井晴敏。OVAでは描かれない）"}];
 
 
 const u0=(o,i)=>(U.find(u=>u.name===o.name).k[i]||{});

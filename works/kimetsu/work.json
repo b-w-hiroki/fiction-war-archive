@@ -1,0 +1,52 @@
+{
+ "title": "鬼殺隊戦記",
+ "short": "鬼滅の刃",
+ "span": "大正時代（推定）",
+ "unit": "戦い",
+ "date": "uc",
+ "yl": "",
+ "lead": "<span class=\"nb\">最終選別から</span><span class=\"nb\">夜明けの最終決戦まで、</span><span class=\"nb\">吾峠呼世晴『鬼滅の刃』の</span><span class=\"nb\">8つの戦いを順に並べた年表です。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>年の表記</dt><dd><span class=\"nb\">作中の年は明示が少ないため、</span><span class=\"nb\">すべて「大正時代（推定）」としました。</span></dd>\n<dt>数値の典拠</dt><dd><span class=\"nb\">兵力・死者数は作中に示されず、</span><span class=\"nb\">多くは「不明」です。</span></dd>\n<dt>陣営の色</dt><dd><span class=\"nb\">緑は鬼殺隊、</span><span class=\"nb\">灰紫は鬼です。</span></dd>\n<dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>",
+ "eras": [
+  [
+   "立志編",
+   "鬼殺隊への入隊"
+  ],
+  [
+   "無限列車編",
+   "炎柱と上弦の参"
+  ],
+  [
+   "遊郭編",
+   "上弦の陸"
+  ],
+  [
+   "刀鍛冶の里編",
+   "上弦の肆・伍"
+  ],
+  [
+   "最終決戦",
+   "無限城と夜明け"
+  ]
+ ],
+ "names": {
+  "serpent": "鬼の側",
+  "scout": "鬼殺隊",
+  "none": "決着なし"
+ },
+ "order": [
+  "scout",
+  "serpent",
+  "none"
+ ],
+ "colors": {
+  "scout": [
+   "#22703c",
+   "#6cc488"
+  ],
+  "serpent": [
+   "#5a4a6a",
+   "#a596b8"
+  ]
+ }
+}

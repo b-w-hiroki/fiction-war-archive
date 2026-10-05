@@ -166,15 +166,15 @@ const U=[
  {name:'ジュール隊',cmd:'イザーク・ジュール',side:'A',n:8,k:{0:{"p": [-20, 0, 30], "s": "move"},1:{"p": [-6, 0, 6], "s": "fight", "l": "破砕作業"},2:{"p": [-4, 0, 4], "s": "fight"},3:{"p": [-10, 0, 30], "s": "withdraw"},4:{"s": "gone"}}}
 ];
 const PH=[
- {"time": "C.E.73年10月3日", "clock": "DESTINY第3話（推定）", "step": "落下", "title": "ユニウスセブン動く", "text": "旧ザフト兵が、ユニウスセブンの残骸を地球へ落とそうとした。", "cam": {"fit": 1, "th": 0.4, "ph": 0.95}, "arrows": []},
+ {"time": "C.E.73年10月3日", "clock": "DESTINY第4話", "step": "落下", "title": "ユニウスセブン動く", "text": "旧ザフト兵が、ユニウスセブンの残骸を地球へ落とそうとした。", "cam": {"fit": 1, "th": 0.4, "ph": 0.95}, "arrows": []},
  {"time": "同日", "clock": "", "step": "破砕", "title": "破砕作業", "text": "ザフトは破砕作業に向かい、テロリストと戦った。", "cam": {"fit": 1, "th": 0.8, "ph": 0.95}, "arrows": []},
- {"time": "同日", "clock": "DESTINY第4話（推定）", "step": "交戦", "title": "破砕作業中の戦い", "text": "連合のファントムペインも介入して混戦となる。", "cam": {"fit": 1, "th": 0.3, "ph": 0.95}, "arrows": []},
+ {"time": "同日", "clock": "DESTINY第5話", "step": "交戦", "title": "破砕作業中の戦い", "text": "連合のファントムペインも介入して混戦となる。", "cam": {"fit": 1, "th": 0.3, "ph": 0.95}, "arrows": []},
  {"time": "同日", "clock": "", "step": "突入", "title": "大気圏突入", "text": "ミネルバは大気圏に入りながら砲撃し、残骸を砕いた。", "cam": {"fit": 1, "th": 0.5, "ph": 0.95}, "arrows": []},
- {"time": "同日", "clock": "DESTINY第5話（推定）", "step": "落着", "title": "破片の落下", "text": "砕ききれない破片が地球各地に落ち、大きな被害が出た。", "cam": {"fit": 1, "th": 0.4, "ph": 0.95}, "arrows": []}
+ {"time": "同日", "clock": "DESTINY第6話", "step": "落着", "title": "破片の落下", "text": "砕ききれない破片が地球各地に落ち、大きな被害が出た。", "cam": {"fit": 1, "th": 0.4, "ph": 0.95}, "arrows": []}
 ];
-const RESULT={"title": "ブレイク・ザ・ワールドの結果", "when": "C.E.73年10月3日、地球軌道", "prev": "アーモリーワン事件（10月2日）", "next": "開戦（連合のプラント攻撃）", "factors": ["残骸が大きく、破砕しきれなかった。"], "winner": "none", "outcome": "落下阻止に一部失敗", "summary": "ユニウスセブン残骸の地球落下事件。第二次連合・プラント大戦の引き金になった。", "sides": [{"name": "旧ザフト兵", "side": "E", "cmdr": "サトー", "flag": "不明", "others": "—", "before": "不明", "loss": "全滅", "rate": null, "deaths": "不明", "dead": []}, {"name": "ザフト", "side": "A", "cmdr": "不明", "flag": "不明", "others": "ミネルバ、ジュール隊", "before": "不明", "loss": "不明", "rate": null, "deaths": "不明", "dead": []}], "after": ["連合はプラントを非難し、再び開戦する。"], "note": "日付はfandom年表による。この戦いはザフト正規軍を右側（A枠）に置いた。話数は推定。"};
+const RESULT={"title": "ブレイク・ザ・ワールドの結果", "when": "C.E.73年10月3日、地球軌道", "prev": "アーモリーワン事件（10月2日）", "next": "開戦（連合のプラント攻撃）", "factors": ["残骸が大きく、破砕しきれなかった。"], "winner": "none", "outcome": "落下阻止に一部失敗", "summary": "ユニウスセブン残骸の地球落下事件。第二次連合・プラント大戦の引き金になった。", "sides": [{"name": "旧ザフト兵", "side": "E", "cmdr": "サトー", "flag": "不明", "others": "—", "before": "不明", "loss": "全滅", "rate": null, "deaths": "不明", "dead": []}, {"name": "ザフト", "side": "A", "cmdr": "不明", "flag": "不明", "others": "ミネルバ、ジュール隊", "before": "不明", "loss": "不明", "rate": null, "deaths": "不明", "dead": []}], "after": ["連合はプラントを非難し、再び開戦する。"], "note": "日付はfandom年表による。この戦いはザフト正規軍を右側（A枠）に置いた。話数はPHASE-04「星屑の戦場」〜PHASE-06「世界の終わる時」（https://en.wikipedia.org/wiki/List_of_Mobile_Suit_Gundam_SEED_Destiny_episodes ）。"};
 
-RESULT.refs=[{"k": "TV版", "v": "TV『機動戦士ガンダムSEED DESTINY』 第3〜5話（推定）"}];
+RESULT.refs=[{"k": "TV版", "v": "TV『機動戦士ガンダムSEED DESTINY』 第4〜6話"}];
 
 
 const u0=(o,i)=>(U.find(u=>u.name===o.name).k[i]||{});

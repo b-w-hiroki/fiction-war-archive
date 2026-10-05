@@ -1,0 +1,14 @@
+{
+ "title": "西暦戦史（ガンダム00）",
+ "short": "ガンダム00",
+ "span": "西暦2307〜2314年",
+ "unit": "戦い",
+ "date": "uc",
+ "yl": "西暦",
+ "lead": "<span class=\"nb\">西暦2307年の武力介入開始から</span><span class=\"nb\">西暦2314年のELSとの対話まで、</span><span class=\"nb\">8つの戦いを</span><span class=\"nb\">時代順に並べた年表です。</span><br><span class=\"nb\">『機動戦士ガンダム00』TV版と</span><span class=\"nb\">劇場版を扱います。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>陣営の色</dt><dd><span class=\"nb\">灰紫が国連軍・アロウズなど、</span><span class=\"nb\">褐橙がELS、</span><span class=\"nb\">緑がソレスタルビーイングです。</span></dd>\n   <dt>日付</dt><dd><span class=\"nb\">年は作中設定に拠ります。</span><span class=\"nb\">月日は確かめられず「月日不明」としています。</span></dd>\n   <dt>数値</dt><dd><span class=\"nb\">兵力・損害は公式数値が少なく、</span><span class=\"nb\">確かめられない値は「不明」です。</span></dd>\n   <dt>話数</dt><dd><span class=\"nb\">TV版の番号です。</span><span class=\"nb\">題名から位置づけたものは「推定」と書いています。</span></dd>\n   <dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>",
+ "eras": [["武力介入","西暦2307年の武力介入"],["国連軍","トリニティと国連軍"],["アロウズ","西暦2312年の再起"],["ELS","劇場版"]],
+ "names": {"serpent":"国連軍・アロウズ側","titan":"ELS側","scout":"ソレスタルビーイング側","none":"決着なし"},
+ "order": ["serpent","titan","scout","none"],
+ "colors": {"serpent":["#5a4a6a","#a596b8"],"titan":["#9a5420","#e0a070"],"scout":["#22703c","#6cc488"]}
+}

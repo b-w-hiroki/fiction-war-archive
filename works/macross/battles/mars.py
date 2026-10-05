@@ -10,7 +10,7 @@ NOTE='交戦中／健在の部隊。展開は作中描写にもとづく概略�
 ENV=space_env()+planet((0,-220,0),180,color='0xa8543a',land='0xc87850',label=('火星','サラ基地','A'))+specials(labels([('サラ基地','放棄された基地','A',(0,-30,20),3)]))
 DATA=r"""
 const U=[
- {name:'ゼントラーディ部隊',cmd:'カムジン隊（推定）',side:'E',n:24,k:{0:{p:[0,10,-50],s:'ready',l:''},1:{p:[0,10,-30],s:'fight',l:'奇襲'},2:{p:[0,8,-10],s:'fight',l:''},3:{p:[0,10,-20],s:'broken',l:''},4:{p:[0,10,-50],s:'withdraw',l:''}}},
+ {name:'ゼントラーディ部隊',cmd:'カムジン隊',side:'E',n:24,k:{0:{p:[0,10,-50],s:'ready',l:''},1:{p:[0,10,-30],s:'fight',l:'奇襲'},2:{p:[0,8,-10],s:'fight',l:''},3:{p:[0,10,-20],s:'broken',l:''},4:{p:[0,10,-50],s:'withdraw',l:''}}},
  {name:'SDF-1マクロス',cmd:'グローバル艦長',side:'A',n:10,k:{0:{p:[0,0,30],s:'ready',l:'補給のため寄港'},1:{p:[0,0,30],s:'wait',l:''},2:{p:[0,0,30],s:'fight',l:''},3:{p:[0,10,30],s:'move',l:'基地を爆破し離脱'},4:{p:[0,20,40],s:'ready',l:''}}},
  {name:'VF隊',cmd:'一条輝ほか',side:'A',n:12,k:{0:{p:[10,4,20],s:'ready',l:''},1:{p:[10,4,0],s:'fight',l:''},2:{p:[6,6,-4],s:'fight',l:''},3:{p:[6,8,10],s:'fight',l:''},4:{p:[10,10,30],s:'ready',l:''}}}
 ];
@@ -22,7 +22,7 @@ const PH=[
 ];
 const RESULT={title:'火星サラ基地の戦いの戦果',when:'2009年（月日不明・推定）',prev:'—',next:'—',
  factors:["敵を基地の爆発に巻き込んだ（推定）"],winner:'A',outcome:'統合軍の離脱成功',summary:'火星での補給の途中に襲われたが、マクロスは離脱に成功した。',
- sides:[{name:'ゼントラーディ軍',side:'E',cmdr:'カムジン隊（推定）',flag:'不明',others:'—',before:'不明',loss:'不明',rate:null,deaths:'不明',dead:[]},
+ sides:[{name:'ゼントラーディ軍',side:'E',cmdr:'カムジン隊',flag:'不明',others:'—',before:'不明',loss:'不明',rate:null,deaths:'不明',dead:[]},
         {name:'統合軍',side:'A',cmdr:'グローバル艦長',flag:'不明',others:'—',before:'不明',loss:'不明',rate:null,deaths:'不明',dead:[]}],
- after:["マクロスは地球への旅を続ける"],note:'第7話の内容は英語版Wikipediaの話数一覧による。細部は推定。'};
+ after:["マクロスは地球への旅を続ける"],note:'第7話の内容は英語版Wikipediaの話数一覧（https://en.wikipedia.org/wiki/List_of_The_Super_Dimension_Fortress_Macross_episodes ）による。カムジン（クァムジン）の攻撃も同所で確認。細部は記憶にもとづく推定。'};
 """

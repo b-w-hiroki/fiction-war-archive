@@ -1,0 +1,62 @@
+{
+ "title": "三国志演義 戦史",
+ "short": "三国志演義",
+ "span": "184〜234年",
+ "unit": "戦い",
+ "date": "uc",
+ "yl": "",
+ "lead": "<span class=\"nb\">184年の黄巾の乱から</span><span class=\"nb\">234年の五丈原まで、</span><span class=\"nb\">羅貫中『三国志演義』の</span><span class=\"nb\">12の戦いを時代順に並べた年表です。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>小説と正史</dt><dd><span class=\"nb\">内容は小説『三国志演義』に沿います。</span><span class=\"nb\">正史『三国志』と違う点は</span><span class=\"nb\">各戦いの注に書きました。</span></dd>\n   <dt>兵力</dt><dd><span class=\"nb\">演義の数字（号称）と</span><span class=\"nb\">正史にもとづく推定を分けて書きます。</span><span class=\"nb\">原典との照合は済んでいないものがあります。</span></dd>\n   <dt>巻数</dt><dd><span class=\"nb\">横山光輝『三国志』の巻は</span><span class=\"nb\">赤壁（26巻）以外は推定です。</span></dd>\n   <dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>",
+ "eras": [
+  [
+   "群雄割拠",
+   "黄巾の乱から官渡まで"
+  ],
+  [
+   "赤壁と三分",
+   "赤壁から関羽の死まで"
+  ],
+  [
+   "北伐の時代",
+   "夷陵から五丈原まで"
+  ]
+ ],
+ "names": {
+  "zeon": "曹操・魏側",
+  "scout": "劉備・蜀側",
+  "efsf": "孫権・呉側",
+  "titan": "袁紹側",
+  "serpent": "黄巾・董卓・南蛮側",
+  "none": "決着なし"
+ },
+ "order": [
+  "zeon",
+  "scout",
+  "efsf",
+  "titan",
+  "serpent",
+  "none"
+ ],
+ "colors": {
+  "zeon": [
+   "#b4452b",
+   "#ec7c5f"
+  ],
+  "scout": [
+   "#22703c",
+   "#6cc488"
+  ],
+  "efsf": [
+   "#2d68be",
+   "#79abee"
+  ],
+  "titan": [
+   "#9a5420",
+   "#e0a070"
+  ],
+  "serpent": [
+   "#5a4a6a",
+   "#a596b8"
+  ]
+ }
+}
