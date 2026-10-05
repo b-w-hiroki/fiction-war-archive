@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>銀河戦略図 帝国暦487〜488年</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#e9ecf1;--map:#070b14;--panel:#f7f8fa;--ink:#121722;--sub:#5a6272;--line:rgba(18,23,34,.14);
+--E:#b8871c;--N:#8a5cc9;--A:#18909f;--K:#cc4f33;--P:#7c8691;--acc:#b8871c}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0f18;--panel:#101624;--ink:#e7ecf4;--sub:#98a3b6;--line:rgba(231,236,244,.13);--E:#e2b24a;--N:#b28cf0;--A:#4cc5d4;--K:#ef7a5c;--P:#9aa4b0;--acc:#e2b24a}}
+:root[data-theme="dark"]{--bg:#0b0f18;--panel:#101624;--ink:#e7ecf4;--sub:#98a3b6;--line:rgba(231,236,244,.13);--E:#e2b24a;--N:#b28cf0;--A:#4cc5d4;--K:#ef7a5c;--P:#9aa4b0;--acc:#e2b24a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Zen Kaku Gothic New",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.app{height:100%;display:grid;grid-template-rows:56% 44%}
+@media (min-width:860px){.app{grid-template-rows:none;grid-template-columns:minmax(0,1.15fr) minmax(360px,1fr)}}
+.mapw{position:relative;background:var(--map);overflow:hidden;min-height:0}
+.mapw svg{width:100%;height:100%;display:block}
+.legend{position:absolute;right:8px;top:6px;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:2px 9px;font-size:10px;color:#c9d2e0;max-width:58%}
+.legend span{display:flex;align-items:center;gap:4px}
+.legend i{width:9px;height:9px;border-radius:2px;display:inline-block}
+.panel{overflow-y:auto;background:var(--panel);border-top:1px solid var(--line);min-height:0}
+@media (min-width:860px){.panel{border-top:none;border-left:1px solid var(--line)}}
+.bar{position:sticky;top:0;z-index:2;background:var(--panel);padding:10px 14px 8px;border-bottom:1px solid var(--line)}
+.date{display:flex;align-items:baseline;gap:10px;font-family:"Barlow Condensed",sans-serif;font-weight:700}
+.date b{font-size:26px;letter-spacing:.02em}
+.date span{font-size:15px;color:var(--sub);font-weight:500}
+.ctl{display:flex;align-items:center;gap:8px;margin-top:6px}
+.ctl button{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--ink);font-size:14px;cursor:pointer}
+.ctl button.play{background:var(--acc);border-color:var(--acc);color:#0b0f18}
+.ctl input{flex:1;accent-color:var(--acc);min-width:0}
+.ctl output{font-family:"Barlow Condensed",sans-serif;font-size:14px;color:var(--sub);width:3.2em;text-align:right}
+.body{padding:12px 14px 20px}
+.body h2{margin:0 0 6px;font-size:19px;font-weight:900;letter-spacing:.06em}
+.body p{margin:0 0 10px;font-size:13.5px;line-height:1.75}
+.sites{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.sites button{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:14px;padding:4px 10px;font:700 12px "Zen Kaku Gothic New",sans-serif;cursor:pointer}
+.sec{font-size:12px;font-weight:900;color:var(--sub);margin:14px 0 6px;letter-spacing:.08em}
+.chart{width:100%;height:auto;display:block}
+.cnote{font-size:11px;color:var(--sub);margin-top:2px;line-height:1.6}
+.detail{border:1px solid var(--line);border-radius:6px;padding:10px 12px;font-size:13px;line-height:1.7}
+.detail b{font-size:15px}
+.tag{display:inline-block;font-size:10.5px;border-radius:3px;padding:0 5px;margin-left:6px;border:1px solid currentColor}
+.foot{font-size:11px;color:var(--sub);line-height:1.6;margin-top:14px}
+button:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.chip{cursor:pointer}
+.chip rect{transition:opacity .6s}
+.pulse{animation:pulse 1.6s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes pulse{from{opacity:.9;transform:scale(.4)}to{opacity:0;transform:scale(1.6)}}
+.hl{animation:hl 1.2s ease-out 2;transform-box:fill-box;transform-origin:center}
+@keyframes hl{from{opacity:1;transform:scale(.6)}to{opacity:0;transform:scale(2.2)}}
+@media (prefers-reduced-motion:reduce){.pulse,.hl{animation:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="mapw"><svg id="map" viewBox="0 0 100 160" preserveAspectRatio="xMidYMid meet" role="img" aria-label="銀河の勢力図"></svg>
+    <div class="legend" id="legend"></div></div>
+  <div class="panel">
+    <div class="bar">
+      <div class="date"><b id="dE"></b><span id="dA"></span></div>
+      <div class="ctl">
+        <button id="prev" aria-label="前のターン">◀</button>
+        <button id="play" class="play" aria-label="再生">▶</button>
+        <button id="next" aria-label="次のターン">▶▶</button>
+        <input id="slider" type="range" min="0" max="12" value="0" aria-label="ターン">
+        <output id="tno"></output>
+      </div>
+    </div>
+    <div class="body">
+      <h2 id="evT"></h2>
+      <p id="evX"></p>
+      <div class="sites" id="sites"></div>
+      <div class="sec">稼働艦隊（マップ上の駒）の推移</div>
+      <svg class="chart" id="chart" viewBox="0 0 300 116"></svg>
+      <div class="cnote">作中の全艦隊数ではなく、この図に置いた主要艦隊の数。</div>
+      <div class="sec">艦隊の詳細</div>
+      <div class="detail" id="detail">マップ上の艦隊駒をタップすると詳細を表示します。</div>
+      <div class="foot">日付・兵力は原作小説の記述を参照。星系の位置は模式図で、一部の艦隊配置と動向は推定を含みます（詳細欄に「推定」と表示）。</div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const NS='http://www.w3.org/2000/svg';
+const el=(t,a,p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e};
+const hs=(a,b)=>{const n=Math.sin(a*127.1+b*311.7)*43758.5453;return n-Math.floor(n)};
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const FN={E:'帝国軍（ローエングラム陣営）',N:'貴族連合軍',A:'同盟軍',K:'救国軍事会議',P:'フェザーン',X:'壊滅'};
+const MAPC={E:'#e2b24a',N:'#b28cf0',A:'#4cc5d4',K:'#ef7a5c',P:'#9aa4b0',X:'#55585e'};
+
+/* ---------- 星系 ---------- */
+const NODES={
+ odin:['帝都オーディン',52,13,'cap'],geier:['ガイエスブルク要塞',22,24,'fort'],wester:['ヴェスターラント',8,15,'star'],
+ renten:['レンテンベルク要塞',50,37,'fort'],altena:['アルテナ星域',75,30,'star'],shantau:['シャンタウ星域',10,46,'star'],
+ garmisch:['ガルミッシュ要塞',88,20,'fort'],kiff:['キフォイザー星域',90,41,'star'],
+ fw:['辺境星域（西）',12,60,'star'],fm:['辺境星域（中）',34,50,'star'],rugen:['リューゲン',65,47,'star'],fe:['辺境星域（東）',82,57,'star'],
+ amrit:['アムリッツァ',30,63,'star'],iser:['イゼルローン要塞',27,77,'fort'],phez:['フェザーン',75,78,'cap'],
+ astarte:['アスターテ',33,93,'star'],dorea:['ドーリア星域',46,106,'star'],neptis:['ネプティス',15,112,'star'],
+ kaffer:['カッファー',80,101,'star'],palm:['パルメレンド',86,119,'star'],champ:['シャンプール',28,126,'star'],heine:['首都ハイネセン',56,138,'cap']
+};
+const EDGES=[['odin','geier'],['odin','renten'],['odin','altena'],['odin','garmisch'],['geier','wester'],['geier','shantau'],['geier','renten'],['renten','altena'],['renten','shantau'],['garmisch','kiff'],['kiff','fe'],['altena','rugen'],['renten','fm'],['fm','rugen'],['rugen','fe'],['shantau','fw'],['fw','amrit'],['fm','amrit'],['amrit','iser'],['fe','phez'],['iser','astarte'],['astarte','dorea'],['astarte','neptis'],['dorea','heine'],['dorea','champ'],['neptis','champ'],['champ','heine'],['phez','kaffer'],['kaffer','heine'],['kaffer','palm'],['palm','heine']];
+const BASE={};for(const k in NODES)BASE[k]=NODES[k][2]<70?'E':'A';BASE.iser='E';BASE.phez='P';
+const OWN=[[1,12,['iser'],'A'],[2,3,['fw','fm','rugen','fe','amrit'],'A'],[4,4,['amrit'],'A'],
+ [7,10,['geier'],'N'],[7,9,['wester','garmisch','shantau'],'N'],[10,12,['wester'],'X'],[7,7,['renten'],'N'],
+ [7,9,['heine','neptis','kaffer','palm'],'K'],[7,8,['champ'],'K']];
+function own(n,t){let f=BASE[n];OWN.forEach(([a,b,ns,x])=>{if(t>=a&&t<=b&&ns.includes(n))f=x});return f}
+
+/* ---------- ターン ---------- */
+const TURNS=[
+ {e:'帝国暦487年2月',a:'宇宙暦796年2月',t:'アスターテ会戦',x:'ラインハルトの2万隻が、三方から包囲を狙った同盟の第2・第4・第6艦隊（計4万隻）を各個撃破。第4・第6艦隊が壊滅し、負傷したパエッタに代わってヤンが第2艦隊の残存部隊を指揮して崩壊を防いだ。ラインハルトは元帥に昇進し、ローエングラム伯爵家を継ぐ。',b:['astarte']},
+ {e:'帝国暦487年5月',a:'宇宙暦796年5月',t:'第7次イゼルローン攻略',x:'新設の第13艦隊（半個艦隊）を率いるヤンが、薔薇の騎士連隊の潜入で要塞の中枢を奪取。出撃した駐留艦隊は要塞主砲で撃退され、回廊の出口を同盟が押さえた。',b:['iser']},
+ {e:'帝国暦487年8〜9月',a:'宇宙暦796年8〜9月',t:'帝国領侵攻作戦',x:'同盟は8個艦隊による帝国領侵攻を発動し、回廊を越えて辺境星域へ進出する。帝国軍は辺境から物資を引き揚げ、抵抗せずに後退した。',b:[]},
+ {e:'帝国暦487年10月',a:'宇宙暦796年10月',t:'焦土作戦と反攻',x:'補給が尽き、占領地の住民を養いきれなくなった同盟軍へ帝国軍が一斉に反攻。ウランフの第10艦隊とボロディンの第12艦隊が壊滅し、残存艦隊はアムリッツァへ集結を命じられる。',b:['fw','fm','rugen','fe']},
+ {e:'帝国暦487年10月',a:'宇宙暦796年10月',t:'アムリッツァ会戦',x:'機雷原を背にした同盟軍を、帝国軍が正面と背後から挟撃。第8艦隊が瓦解して同盟軍は大敗し、ヤンが殿を務めて残存兵力を撤退させた。',b:['amrit']},
+ {e:'帝国暦487年10〜11月',a:'宇宙暦796年10〜11月',t:'皇帝崩御',x:'皇帝フリードリヒ4世が後継者を定めないまま死去。幼帝エルウィン・ヨーゼフ2世が即位し、宰相リヒテンラーデとラインハルトが手を組む。同盟は侵攻兵力の大半を失い、ヤンがイゼルローン要塞の司令官となる。',b:[]},
+ {e:'帝国暦488年2月',a:'宇宙暦797年2月',t:'リップシュタットの盟約',x:'権力から締め出された門閥貴族3,740名が、ブラウンシュヴァイク公を盟主、リッテンハイム侯を副盟主として結集する。同じころイゼルローンで捕虜交換が行われ、キルヒアイスが帝国側の代表を務めた。',b:[]},
+ {e:'帝国暦488年4月',a:'宇宙暦797年4月',t:'帝国と同盟で同時に内乱',x:'4月6日に戦役が始まり、貴族連合はガイエスブルク要塞に拠る。総兵力は2,560万人、艦艇15万隻以上。19日にはアルテナでミッターマイヤー（14,500隻）がシュターデン（16,000隻）を破る。同盟でも13日に救国軍事会議がハイネセンを掌握し、ヤンに鎮圧命令が下った。',b:['altena','renten','heine']},
+ {e:'帝国暦488年5月',a:'宇宙暦797年5月',t:'ドーリア星域会戦',x:'救国軍事会議の唯一の機動戦力であるルグランジュの第11艦隊を、ヤン艦隊が撃破する。帝国ではレンテンベルク要塞が陥落し、守将オフレッサーが捕らえられた。',b:['dorea','renten']},
+ {e:'帝国暦488年7月',a:'宇宙暦797年7月',t:'キフォイザー星域会戦',x:'盟主と反目したリッテンハイム侯が5万隻で辺境へ出撃し、キルヒアイスに大敗。貴族連合は全兵力の約3割を失う。シャンタウ星域ではロイエンタールがメルカッツと交戦。同盟ではヤンが叛乱惑星の鎮圧を進める。',b:['kiff','shantau','champ']},
+ {e:'帝国暦488年8月',a:'宇宙暦797年8月',t:'ヴェスターラントの惨劇',x:'ブラウンシュヴァイク公が、叛乱を起こした自領ヴェスターラントに核攻撃を加え、貴族連合は民心を失う。同盟ではヤンが防衛衛星網「アルテミスの首飾り」を破壊し、救国軍事会議のクーデターは崩壊した。',b:['wester','heine']},
+ {e:'帝国暦488年8〜9月',a:'宇宙暦797年8〜9月',t:'ガイエスブルク陥落',x:'追い詰められた貴族連合は艦隊決戦に出て敗れ、要塞は陥落、ブラウンシュヴァイク公は死亡した。メルカッツは同盟へ亡命する。戦勝式典の場でキルヒアイスが死去する。',b:['geier']},
+ {e:'帝国暦488年10月',a:'宇宙暦797年10月',t:'ローエングラム体制の成立',x:'オーディンに戻ったラインハルトは公爵となり、帝国宰相に就任。リヒテンラーデは失脚し、帝国の実権はラインハルトに集まった。同盟は侵攻とクーデターで艦隊戦力を大きく損なっている。',b:[]}
+];
+
+/* ---------- 艦隊駒（src: 原作＝艦艇数が作中に記述あり／推定＝配置や動向を推定） ---------- */
+const P=[
+ ['E','ライン','ラインハルト艦隊・本隊','20,000隻（アスターテ時）','原作',['0 astarte f','1-3 odin i','4 amrit f','5-6 odin i','7-8 renten f','9 renten i','10 geier m','11 geier f','12 odin i']],
+ ['E','キルヒ','キルヒアイス艦隊','不明','推定',['1-2 odin i','3 fe f','4 amrit f','5 odin i','6 iser m','7 fe m','8 fe f','9 kiff f','10 garmisch i','11 geier f','12 odin k']],
+ ['E','ミッタ','ミッターマイヤー艦隊','14,500隻（アルテナ時）','原作',['1-2 odin i','3 rugen f','4 amrit f','5-6 odin i','7 altena f','8 renten f','9 renten i','10 geier m','11 geier f','12 odin i']],
+ ['E','ロイエ','ロイエンタール艦隊','不明','推定',['1-2 odin i','3 fm f','4 amrit f','5-6 odin i','7-8 renten f','9 shantau f','10 geier m','11 geier f','12 odin i']],
+ ['E','ビッテ','黒色槍騎兵艦隊（ビッテンフェルト）','不明','推定',['1-2 odin i','3 rugen f','4 amrit f','5-6 odin i','7-9 renten i','10 geier m','11 geier f','12 odin i']],
+ ['E','ケンプ','ケンプ艦隊','不明','推定',['1-2 odin i','3 fw f','4 amrit f','5-6 odin i','7-9 renten i','10 geier m','11 geier f','12 odin i']],
+ ['E','メック','メックリンガー艦隊','不明','推定',['1-2 odin i','3 fm f','4 amrit f','5-12 odin i']],
+ ['E','ワーレ','ワーレン艦隊','不明','推定',['1-2 odin i','3 fw f','4 amrit f','5-6 odin i','7 fe m','8 fe f','9 kiff f','10 garmisch i','11 geier f','12 odin i']],
+ ['E','ルッツ','ルッツ艦隊','不明','推定',['1-2 odin i','3 fe f','4 amrit f','5-6 odin i','7 fe m','8 fe f','9 kiff f','10 garmisch i','11 geier f','12 odin i']],
+ ['E','ミュラ','ミュラー艦隊','不明','推定',['6 odin i','7-9 renten i','10 geier m','11 geier f','12 odin i']],
+ ['E','駐留','イゼルローン駐留艦隊','不明','推定',['0 iser i','1 iser l']],
+ ['N','ブラ公','ブラウンシュヴァイク公（盟主）','貴族連合全体で15万隻以上','原作',['6 odin i','7-10 geier i','11 geier l']],
+ ['N','リッテ','リッテンハイム侯（副盟主）','50,000隻（キフォイザー時）','原作',['6 odin i','7-8 geier i','9 kiff f','10 garmisch l']],
+ ['N','シュタ','シュターデン艦隊','16,000隻（アルテナ時）','原作',['7 altena f','8 geier w']],
+ ['N','オフレ','オフレッサー（レンテンベルク守備）','不明','推定',['7 renten f','8 renten l']],
+ ['N','メルカ','メルカッツ艦隊（連合総司令官）','不明','推定',['7-8 geier i','9 shantau f','10 geier i','11 geier f']],
+ ['A','第1','第1艦隊（本国防衛）','不明','推定',['0-12 heine i']],
+ ['A','第2','第2艦隊（パエッタ）','15,000隻','原作',['0 astarte f','1 heine l']],
+ ['A','第3','第3艦隊（ルフェーブル）','不明','推定',['0-1 heine i','2 fw m','3 fw f','4 amrit f','5 amrit l']],
+ ['A','第4','第4艦隊（パストーレ）','12,000隻','原作',['0 astarte f','1 astarte l']],
+ ['A','第5','第5艦隊（ビュコック）','不明','推定',['0-1 heine i','2 fm m','3 fm f','4 amrit f','5-12 heine i']],
+ ['A','第6','第6艦隊（ムーア）','13,000隻','原作',['0 astarte f','1 astarte l']],
+ ['A','第7','第7艦隊（ホーウッド）','不明','推定',['0-1 heine i','2 fe m','3 fe f','4 amrit f','5 amrit l']],
+ ['A','第8','第8艦隊（アップルトン）','不明','推定',['0-1 heine i','2 fm m','3 fm f','4 amrit f','5 amrit l']],
+ ['A','第9','第9艦隊（アル・サレム）','不明','推定',['0-1 heine i','2 rugen m','3 rugen f','4 amrit f','5 amrit l']],
+ ['A','第10','第10艦隊（ウランフ）','不明','推定',['0-1 heine i','2 rugen m','3 rugen f','4 rugen l']],
+ ['A','第11','第11艦隊（ルグランジュ）','不明','推定',['0-6 heine i']],
+ ['A','第12','第12艦隊（ボロディン）','不明','推定',['0-1 heine i','2 fe m','3 fe f','4 fe l']],
+ ['A','第13','第13艦隊／ヤン艦隊','半個艦隊で新設','原作',['1 iser f','2 fw m','3 fw f','4 amrit f','5-6 iser i','7 astarte m','8 dorea f','9 champ f','10 heine f','11-12 iser i']],
+ ['A','メルカ','メルカッツ（亡命）','少数','推定',['12 iser i']],
+ ['K','第11','第11艦隊（救国軍事会議側）','本隊7,000隻＋別働隊','原作',['7 heine i','8 dorea f','9 dorea l']],
+ ['K','首飾','アルテミスの首飾り（防衛衛星網）','—','原作',['7-9 heine i','10 heine l']],
+ ['K','叛乱','ネプティス叛乱部隊','不明','推定',['7-9 neptis i','10 neptis l']],
+ ['K','叛乱','カッファー叛乱勢力','不明','推定',['7-9 kaffer i','10 kaffer l']],
+ ['K','叛乱','パルメレンド叛乱勢力','不明','推定',['7-9 palm i','10 palm l']],
+ ['K','叛乱','シャンプール武装勢力','不明','推定',['7-8 champ i','9 champ l']]
+].map((r,id)=>{const st={};r[5].forEach(s=>{const [rg,n,c]=s.split(' '),[a,b]=rg.split('-').map(Number);for(let t=a;t<=(b??a);t++)st[t]={n,c}});return {id,f:r[0],s:r[1],full:r[2],ships:r[3],src:r[4],st}});
+const STW={i:'待機',m:'進軍',f:'交戦',l:'喪失・壊走',w:'後退',k:'司令官死去'};
+
+/* ---------- 地図描画 ---------- */
+const svg=$('map'),defs=el('defs',{},svg);
+for(const f in MAPC){const g=el('radialGradient',{id:'g'+f},defs);el('stop',{offset:'0','stop-color':MAPC[f],'stop-opacity':'.55'},g);el('stop',{offset:'1','stop-color':MAPC[f],'stop-opacity':'0'},g)}
+const blur=el('filter',{id:'blur',x:'-20%',y:'-50%',width:'140%',height:'200%'},defs);el('feGaussianBlur',{stdDeviation:'2.2'},blur);
+const gal=el('radialGradient',{id:'gal'},defs);el('stop',{offset:'0','stop-color':'#2b3a63','stop-opacity':'.55'},gal);el('stop',{offset:'1','stop-color':'#070b14','stop-opacity':'0'},gal);
+el('ellipse',{cx:50,cy:80,rx:70,ry:95,fill:'url(#gal)'},svg);
+for(let i=0;i<220;i++)el('circle',{cx:hs(i,1)*100,cy:hs(2,i)*160,r:.12+hs(i,3)*.25,fill:'#fff',opacity:.25+hs(i,4)*.5},svg);
+// 航行不能宙域（回廊以外）
+const dz=el('g',{filter:'url(#blur)',opacity:.85},svg);
+[[-5,19],[36,66],[85,110]].forEach(([a,b])=>el('rect',{x:a,y:68,width:b-a,height:17,fill:'#4a1f23'},dz));
+el('text',{x:51,y:77.8,'text-anchor':'middle','font-size':2.6,fill:'#c99a9a','letter-spacing':'.3'},svg).textContent='航行不能宙域';
+el('text',{x:3,y:6,'font-size':3.4,fill:'#e2c98f','font-weight':900,'letter-spacing':'.4'},svg).textContent='銀河帝国';
+el('text',{x:3,y:156,'font-size':3.4,fill:'#9bdbe4','font-weight':900,'letter-spacing':'.4'},svg).textContent='自由惑星同盟';
+const terr=el('g',{},svg),edges=el('g',{},svg),nodeG=el('g',{},svg),fxG=el('g',{},svg),chipG=el('g',{},svg);
+EDGES.forEach(([a,b])=>{const A=NODES[a],B=NODES[b];el('line',{x1:A[1],y1:A[2],x2:B[1],y2:B[2],stroke:'#8fa3c7','stroke-width':.22,'stroke-dasharray':'.8 .8',opacity:.45},edges)});
+const terrC={};
+for(const k in NODES){const [nm,x,y,tp]=NODES[k];
+ terrC[k]=el('circle',{cx:x,cy:y,r:13,fill:'url(#gE)'},terr);
+ if(tp==='fort')el('rect',{x:x-1.3,y:y-1.3,width:2.6,height:2.6,transform:`rotate(45 ${x} ${y})`,fill:'#e8edf5',stroke:'#070b14','stroke-width':.3},nodeG);
+ else if(tp==='cap'){el('circle',{cx:x,cy:y,r:1.8,fill:'none',stroke:'#e8edf5','stroke-width':.35},nodeG);el('circle',{cx:x,cy:y,r:.9,fill:'#e8edf5'},nodeG)}
+ else el('circle',{cx:x,cy:y,r:.8,fill:'#e8edf5'},nodeG);
+ const t=el('text',{x:x,y:y-2.6,'text-anchor':'middle','font-size':2.5,fill:'#dfe6f1','font-weight':700,'paint-order':'stroke',stroke:'#070b14','stroke-width':.7},nodeG);t.textContent=nm;
+}
+// 凡例
+$('legend').innerHTML=['E','N','A','K','P'].map(f=>`<span><i style="background:${MAPC[f]}"></i>${FN[f].replace('（ローエングラム陣営）','')}</span>`).join('');
+
+// 駒
+const CW=11,CH=4.6;
+const chips=P.map(p=>{
+ const g=el('g',{class:'chip',tabindex:0,role:'button','aria-label':p.full},chipG);g.style.transition='transform 1.1s cubic-bezier(.5,0,.3,1), opacity .6s';
+ const r=el('rect',{x:-CW/2,y:-CH/2,width:CW,height:CH,rx:.8,fill:MAPC[p.f],stroke:'#070b14','stroke-width':.3},g);
+ const t=el('text',{x:0,y:1,'text-anchor':'middle','font-size':2.6,'font-weight':900,fill:'#0a0e17'},g);t.textContent=p.s;
+ const x=el('path',{d:'M-3 -2.2L3 2.2M3 -2.2L-3 2.2',stroke:'#ff5a4a','stroke-width':.7,opacity:0},g);
+ const k=el('text',{x:CW/2-.4,y:-CH/2+.2,'font-size':2.6,fill:'#fff','text-anchor':'middle',opacity:0},g);k.textContent='✝';
+ g.addEventListener('click',()=>showDetail(p));g.addEventListener('keydown',e=>{if(e.key==='Enter')showDetail(p)});
+ return {p,g,r,x,k,pos:null};
+});
+
+/* ---------- ターン描画 ---------- */
+let turn=0,playing=false,timer=null;const UP=['amrit'];
+function layout(t){
+ const by={};P.forEach(p=>{const s=p.st[t];if(s)(by[s.n]=by[s.n]||[]).push(p)});
+ const out={};
+ for(const n in by){const list=by[n],cols=Math.min(list.length>12?5:list.length>6?4:3,list.length),[,x,y]=NODES[n],up=UP.includes(n);
+  list.forEach((p,i)=>{const c=i%cols,r=Math.floor(i/cols),rowsLen=Math.min(cols,list.length-r*cols);
+   let st=x-(rowsLen-1)/2*(CW+.8);st=Math.max(CW/2+.5,Math.min(100-CW/2-.5-(rowsLen-1)*(CW+.8),st));const cx=st+c*(CW+.8);
+   out[p.id]=[cx,up?y-6.2-r*(CH+.8):y+4.6+r*(CH+.8)]})}
+ return out;
+}
+function render(t){
+ turn=t;const T=TURNS[t];
+ $('dE').textContent=T.e;$('dA').textContent=T.a;$('evT').textContent=T.t;$('evX').textContent=T.x;
+ $('slider').value=t;$('tno').textContent=(t+1)+'/13';
+ for(const k in NODES){const f=own(k,t);terrC[k].setAttribute('fill','url(#g'+f+')')}
+ const L=layout(t);
+ chips.forEach(c=>{const s=c.p.st[t];
+  if(!s){c.g.style.opacity=0;c.g.style.pointerEvents='none';return}
+  const [x,y]=L[c.p.id];c.g.style.transform=`translate(${x}px,${y}px)`;c.g.style.opacity=1;c.g.style.pointerEvents='auto';
+  c.r.style.opacity=s.c==='l'?.35:s.c==='w'||s.c==='k'?.7:1;
+  c.x.setAttribute('opacity',s.c==='l'?1:0);c.k.setAttribute('opacity',s.c==='k'?1:0);
+  c.r.setAttribute('stroke',s.c==='f'?'#fff':'#070b14');c.r.setAttribute('stroke-width',s.c==='f'?.45:.3);
+ });
+ fxG.innerHTML='';
+ T.b.forEach(n=>{const [,x,y]=NODES[n];el('circle',{cx:x,cy:y,r:6,fill:'none',stroke:'#ff8a5c','stroke-width':.6,class:'pulse'},fxG);
+  el('text',{x:x+2.6,y:y+1,'font-size':3.2,fill:'#ffb08a'},fxG).textContent='⚔'});
+ const sites=$('sites');sites.innerHTML='';
+ T.b.forEach(n=>{const b=document.createElement('button');b.textContent='⚔ '+NODES[n][0];b.onclick=()=>flash(n);sites.appendChild(b)});
+ drawChart(t);
+}
+function flash(n){const [,x,y]=NODES[n];const c=el('circle',{cx:x,cy:y,r:5,fill:'none',stroke:'#fff','stroke-width':.8,class:'hl'},fxG);setTimeout(()=>c.remove(),2600)}
+function showDetail(p){
+ const s=p.st[turn];const col=css('--'+p.f)||MAPC[p.f];
+ $('detail').innerHTML=`<b>${p.full}</b><span class="tag" style="color:${col}">${FN[p.f]}</span><br>艦艇：${p.ships}<br>このターンの状況：${s?(NODES[s.n][0]+'／'+STW[s.c]):'—'}<br>配置・動向の根拠：${p.src==='原作'?'兵力は原作に記述あり':'推定を含む'}`;
+}
+
+/* ---------- 推移グラフ ---------- */
+const counts=TURNS.map((_,t)=>{const c={E:0,N:0,A:0,K:0};P.forEach(p=>{const s=p.st[t];if(s&&s.c!=='l'&&p.s!=='首飾'&&p.s!=='叛乱')c[p.f]++});return c});
+function drawChart(t){
+ const g=$('chart');g.innerHTML='';const X=i=>22+i*(270/12),Y=v=>98-v*(84/14);
+ const tc=css('--sub'),lc=css('--line');
+ [0,5,10].forEach(v=>{el('line',{x1:22,x2:292,y1:Y(v),y2:Y(v),stroke:lc,'stroke-width':.8},g);el('text',{x:16,y:Y(v)+3,'font-size':9,fill:tc,'text-anchor':'end','font-family':'Barlow Condensed'},g).textContent=v});
+ [0,4,7,11].forEach(i=>el('text',{x:X(i),y:112,'font-size':8.5,fill:tc,'text-anchor':'middle','font-family':'Barlow Condensed'},g).textContent=TURNS[i].e.replace('帝国暦','').replace('年','.').replace(/月.*/,''));
+ el('line',{x1:X(t),x2:X(t),y1:10,y2:100,stroke:css('--acc'),'stroke-width':1.2},g);
+ ['E','N','A','K'].forEach(f=>{const col=css('--'+f);const pts=counts.map((c,i)=>X(i)+','+Y(c[f])).join(' ');
+  el('polyline',{points:pts,fill:'none',stroke:col,'stroke-width':1.8,'stroke-linejoin':'round',opacity:.95},g);
+  el('circle',{cx:X(t),cy:Y(counts[t][f]),r:3,fill:col},g)});
+ const lg=[['E','帝国'],['N','貴族連合'],['A','同盟'],['K','救国軍事会議']];
+ lg.forEach(([f,n],i)=>{el('rect',{x:26+i*68,y:2,width:8,height:4,fill:css('--'+f)},g);el('text',{x:37+i*68,y:7,'font-size':8.5,fill:css('--ink')},g).textContent=`${n} ${counts[t][f]}`});
+}
+
+/* ---------- 操作 ---------- */
+function go(t){render(Math.max(0,Math.min(12,t)))}
+function setPlay(v){playing=v;$('play').textContent=v?'❚❚':'▶';$('play').setAttribute('aria-label',v?'一時停止':'再生');clearInterval(timer);
+ if(v){if(turn===12)go(0);timer=setInterval(()=>{if(turn>=12)setPlay(false);else go(turn+1)},4500)}}
+$('prev').onclick=()=>{setPlay(false);go(turn-1)};$('next').onclick=()=>{setPlay(false);go(turn+1)};
+$('play').onclick=()=>setPlay(!playing);
+$('slider').oninput=e=>{setPlay(false);go(+e.target.value)};
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>drawChart(turn));
+render(0);
+})();
+</script>
+</body>
+</html>
