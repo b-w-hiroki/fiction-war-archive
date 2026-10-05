@@ -2,7 +2,7 @@
 
 物語に描かれた戦いを、作中の暦で並べた年表と、各戦いの3D再現・損害・原作/アニメの該当箇所をまとめるアーカイブ。
 
-最初の作品は『銀河英雄伝説』（28会戦）。
+収録作品：『銀河英雄伝説』（28会戦）、『機動戦士ガンダム』一年戦争（18の戦い。TV版・THE ORIGIN・08小隊・0080・サンダーボルトほか）。
 
 ## 構成
 
@@ -22,6 +22,8 @@ tools/
 docs/                   公開用の出力（GitHub Pages を想定）
   index.html              作品一覧
   ginei/                  銀英伝の会戦ページとポータル
+  gundam-uc0079/          一年戦争の戦いページとポータル
+site.json               サイト共通設定（ga_id: Google Analytics の測定ID。空なら出力しない）
 extras/                 本体に含めない試作（関ヶ原の3D再現）
 notes/                  設計メモ（作品の選定基準など）
 ```
@@ -34,6 +36,10 @@ python3 tools/build.py ginei --artifact   # build/artifact/ginei/ に出力（cl
 ```
 
 Node.js（構文チェックとデータ読み込みに使用）と Python 3 が必要。
+
+## Google Analytics
+
+`site.json` の `ga_id` に測定ID（G-XXXXXXXXXX）を入れてビルドすると、docs/ 配下（GitHub Pages 用）にだけタグが入る。claude.ai 用（--artifact）には入らない。
 
 ## 会戦を追加する
 

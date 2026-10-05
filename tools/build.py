@@ -13,8 +13,24 @@ sys.path.insert(0, str(ENGINE))
 
 PALS = {'noble': ('0x9b6fe0', '#b28cf0', '#7a4fc0'), 'coup': ('0xe0603f', '#ef7a5c', '#c0452a'),
         'iser': ('0x4cc38a', '#5fd39a', '#1f8a58'), 'rebel': ('0xd8505c', '#ec6e78', '#b83a46'),
-        'ally': ('0x3fbccf', '#58c7d8', '#1b8ea2')}
-COL = {'': None, 'noble': 'nob', 'coup': 'coup', 'iser': 'iser', 'rebel': 'reb', 'ally': 'all'}
+        'ally': ('0x3fbccf', '#58c7d8', '#1b8ea2'),
+        'zeon': ('0xd25a3e', '#ec7c5f', '#b4452b'), 'efsf': ('0x4a86d8', '#79abee', '#2d68be')}
+COL = {'': None, 'noble': 'nob', 'coup': 'coup', 'iser': 'iser', 'rebel': 'reb', 'ally': 'all', 'zeon': 'zeon', 'efsf': 'efsf'}
+
+
+SITE = json.loads((ROOT / 'site.json').read_text()) if (ROOT / 'site.json').exists() else {}
+GA_RE = re.compile(r'\n?<!-- ga -->.*?<!-- /ga -->', re.S)
+
+
+def with_ga(html):
+    """GitHub Pages 版にだけ Google Analytics を入れる。site.json の ga_id が空なら何もしない"""
+    html = GA_RE.sub('', html)
+    gid = SITE.get('ga_id', '').strip()
+    if not gid or '</head>' not in html:
+        return html
+    tag = (f'<!-- ga --><script async src="https://www.googletagmanager.com/gtag/js?id={gid}"></script>'
+           f"<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}gtag('js',new Date());gtag('config','{gid}');</script><!-- /ga -->")
+    return html.replace('</head>', tag + '\n</head>', 1)
 
 
 def node(code):
@@ -25,7 +41,7 @@ def node(code):
     return r
 
 
-def build_battle(path, work_dir, refs, out_dir):
+def build_battle(path, work_dir, refs, out_dir, ga=False):
     spec = importlib.util.spec_from_file_location('battle', path)
     c = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(c)
@@ -44,7 +60,7 @@ def build_battle(path, work_dir, refs, out_dir):
     data = c.DATA + '\nRESULT.refs=' + json.dumps([{'k': a, 'v': b} for a, b in refs.get(key, [])], ensure_ascii=False) + ';\n'
     s = s.replace('/*@@ENV@@*/', c.ENV).replace('/*@@DATA@@*/', data)
     out_dir.mkdir(parents=True, exist_ok=True)
-    (out_dir / f'{key}.html').write_text(s)
+    (out_dir / f'{key}.html').write_text(with_ga(s) if ga else s)
     js = re.findall(r'<script>(.*?)</script>', s, re.S)[0]
     chk = subprocess.run(['node', '--check', '-'], input=js, capture_output=True, text=True)
     if chk.returncode:
@@ -80,7 +96,7 @@ def build_portal(work_dir, metas, impact, link, strategy_url, out_file, standalo
                 + html.replace('<style>', '<style>\nbody{margin:0;padding-top:env(safe-area-inset-top,0px)}', 1)
                 .replace('<div class="wrap">', '</head>\n<body>\n<div class="wrap">', 1) + '\n</body>\n</html>\n')
     out_file.parent.mkdir(parents=True, exist_ok=True)
-    out_file.write_text(html)
+    out_file.write_text(with_ga(html) if standalone else html)
 
 
 def main():
@@ -91,12 +107,14 @@ def main():
     from refs import R
     from impact import I
     out_dir = ROOT / ('build/artifact' if artifact else 'docs') / work
-    metas = [build_battle(p, work_dir, R, out_dir) for p in sorted(glob.glob(str(work_dir / 'battles' / '*.py')))]
+    metas = [build_battle(p, work_dir, R, out_dir, ga=not artifact) for p in sorted(glob.glob(str(work_dir / 'battles' / '*.py')))]
     if artifact:
         urls = json.loads((work_dir / 'artifacts.json').read_text())
-        build_portal(work_dir, metas, I, lambda k: urls[k], urls['_strategy'], out_dir / 'index.html')
+        build_portal(work_dir, metas, I, lambda k: urls.get(k, '#'), urls.get('_strategy', ''), out_dir / 'index.html')
     else:
         build_portal(work_dir, metas, I, lambda k: f'{k}.html', 'strategy.html', out_dir / 'index.html', standalone=True)
+        for extra in [ROOT / 'docs' / 'index.html', *out_dir.glob('strategy.html')]:  # 手書きのページにも反映
+            extra.write_text(with_ga(extra.read_text()))
     print(f'{work}: {len(metas)}会戦とポータルを {out_dir.relative_to(ROOT)}/ に出力')
 
 

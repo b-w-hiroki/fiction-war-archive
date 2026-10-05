@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>一年戦争アーカイブ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/budoux@0.9.3/bundle/budoux-ja.min.js"></script>
+<style>
+body{margin:0;padding-top:env(safe-area-inset-top,0px)}
+/* 一覧そのものを年表にする。左の縦線が時の流れ、印の大きさが後世への影響 */
+:root{
+ --paper:#e9ecef;--ink:#151a22;--sub:#566070;--rule:#c3cad3;--faint:#dde2e8;--seal:#151a22;
+ --zeon:#b4452b;--efsf:#2d68be;--none:#7a7c84;
+ --f-m:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;--f-g:"Zen Kaku Gothic New","Hiragino Sans",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#10141b;--ink:#e3e7ed;--sub:#97a1b0;--rule:#2f3743;--faint:#1b212b;--seal:#e3e7ed;--zeon:#ec7c5f;--efsf:#79abee;--none:#8f9198;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#10141b;--ink:#e3e7ed;--sub:#97a1b0;--rule:#2f3743;--faint:#1b212b;--seal:#e3e7ed;--zeon:#ec7c5f;--efsf:#79abee;--none:#8f9198;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-g);font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:auto-phrase;line-break:strict;overflow-wrap:anywhere}
+p,dd{text-wrap:pretty}
+h1,h2,.nm b{text-wrap:balance}
+.nb{display:inline-block;max-width:100%}
+budoux-ja{display:inline}
+.wrap{max-width:820px;margin:0 auto;padding-inline:16px;padding-block:36px 56px}
+a{color:inherit}
+header{border-bottom:2px solid var(--ink);padding-bottom:14px}
+h1{font-family:var(--f-m);font-weight:800;font-size:clamp(28px,6.4vw,40px);letter-spacing:.12em;line-height:1.2;margin:0}
+.lead{margin:10px 0 0;font-size:14px;color:var(--sub);line-height:1.85}
+/* 凡例と絞り込み */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:3;background:var(--paper);border-bottom:1px solid var(--rule);padding-top:10px}
+.tabs{display:flex;gap:2px 18px;overflow-x:auto}
+.tabs button{flex:none;font:500 14px var(--f-m);color:var(--sub);background:none;border:0;border-bottom:2px solid transparent;padding:4px 0 8px;cursor:pointer;letter-spacing:.05em}
+.tabs button[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--seal);font-weight:700}
+.tabs button:focus-visible{outline:2px solid var(--seal);outline-offset:2px}
+.key{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:16px 0 0;font-size:12.5px;align-items:center}
+.key dt{color:var(--sub);white-space:nowrap;align-self:start;line-height:1.9}
+.key dd{margin:0;display:flex;flex-wrap:wrap;gap:2px 16px;align-items:center;line-height:1.9}
+.key dd span{display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.key .sw{width:12px;height:12px;border-radius:2px;display:inline-block}
+.key .mk{width:18px;display:inline-flex;justify-content:center}
+.key .mark.m3{width:11px;height:11px}
+.mark{display:inline-block;flex:none}
+.mark.m3{width:16px;height:16px;transform:rotate(45deg);background:var(--c)}
+.mark.m2{width:11px;height:11px;border-radius:50%;background:var(--c)}
+.mark.m1{width:9px;height:9px;border-radius:50%;border:2px solid var(--c);background:var(--paper)}
+/* 時代 */
+.era{margin-top:34px}
+.era h2{font-family:var(--f-m);font-weight:700;font-size:20px;letter-spacing:.12em;margin:0 0 4px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.era h2 small{font-family:var(--f-g);font-size:13px;font-weight:400;letter-spacing:0;color:var(--sub)}
+.era h2 b{font-family:var(--f-m);font-size:14px;color:var(--sub);font-weight:500;letter-spacing:.04em}
+/* 行：縦線の上に印 */
+.row{position:relative;padding-left:44px}
+.row::before{content:"";position:absolute;left:21px;top:0;bottom:0;width:2px;background:var(--rule)}
+.row>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:4.4em minmax(0,1fr) 7.5em;gap:2px 16px;align-items:start;padding:14px 0;border-bottom:1px solid var(--faint)}
+.row>summary::-webkit-details-marker{display:none}
+.row>summary:focus-visible{outline:2px solid var(--seal);outline-offset:2px}
+.row .mark{position:absolute;left:22px;top:23px;transform:translate(-50%,-50%)}
+.row .mark.m3{transform:translate(-50%,-50%) rotate(45deg)}
+.yr{font-family:var(--f-m);font-weight:700;font-size:15px;font-variant-numeric:tabular-nums;line-height:1.5}
+.yr small{display:block;font-family:var(--f-g);font-weight:400;font-size:11px;color:var(--sub);white-space:nowrap}
+.nm{min-width:0}
+.nm b{font-family:var(--f-m);font-weight:700;font-size:16px;line-height:1.5;display:block}
+.nm .oc{font-size:13px;color:var(--sub);display:flex;flex-wrap:wrap;gap:0 12px;line-height:1.6}
+.nm .oc>*{white-space:nowrap}
+.nm .oc span{font-weight:700}
+.nm .oc em{font-style:normal}
+.row.big .nm b{font-size:19px}
+.row.big .nm .imt{display:block;margin-top:4px;font-size:13.5px;color:var(--ink);line-height:1.6;padding-left:10px;border-left:2px solid var(--seal)}
+.nm .imt{display:none}
+.loss{font-size:12px;color:var(--sub);text-align:right;line-height:1.5;font-variant-numeric:tabular-nums;padding-top:2px}
+.loss b{display:block;font-family:var(--f-m);font-size:18px;color:var(--ink);font-weight:700}
+.body{padding:2px 0 20px calc(4.4em + 16px);border-bottom:1px solid var(--faint)}
+.body p{margin:10px 0;max-width:58ch}
+dl.f{display:grid;grid-template-columns:auto 1fr;gap:3px 14px;margin:0 0 12px;font-size:13px}
+dl.f dt{color:var(--sub);white-space:nowrap}
+dl.f dd{margin:0;min-width:0}
+.open3d{display:inline-block;font-family:var(--f-m);font-weight:700;font-size:14px;color:var(--seal);text-decoration:none;border-bottom:1px solid currentColor}
+.open3d:focus-visible{outline:2px solid var(--seal);outline-offset:3px}
+.open3d small{font-family:var(--f-g);font-weight:400;color:var(--sub);margin-left:6px}
+footer{margin-top:44px;border-top:2px solid var(--ink);padding-top:12px;font-size:12.5px;color:var(--sub);display:grid;gap:6px}
+footer p{margin:0;max-width:66ch}
+.notes{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin:0;line-height:1.7}
+.notes dt{white-space:nowrap;color:var(--ink)}
+.notes dd{margin:0;min-width:0}
+@media (max-width:560px){
+ .row{padding-left:36px}.row::before{left:15px}.row .mark{left:16px}
+ .row>summary{grid-template-columns:minmax(0,1fr) auto;gap:2px 12px}
+ .yr{grid-column:1/-1;display:flex;gap:8px;align-items:baseline}.yr small{display:inline}
+ .body{padding-left:0}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <header>
+  <h1>一年戦争アーカイブ</h1>
+  <p class="lead"><span class="nb">U.C.0077年の暁の蜂起から</span><span class="nb">0080年1月の終戦まで、</span><span class="nb">18の戦いを</span><span class="nb">時代順に並べた年表です。</span><br><span class="nb">TV版に加え、</span><span class="nb">THE ORIGIN・08小隊・0080・サンダーボルトなどを含みます。</span><br><span class="nb">行を押すと、</span><span class="nb">詳細と3D再現への入口が開きます。</span></p>
+  <dl class="key" id="key"></dl>
+ </header>
+ <div class="bar"><nav class="tabs" id="tabs" aria-label="表示の切り替え"></nav></div>
+ <main id="eras"></main>
+ <footer>
+  <dl class="notes">
+   <dt>損耗率</dt><dd><span class="nb">敗れた側、</span><span class="nb">または損害の大きい側の値です。</span></dd>
+   <dt>数値の典拠</dt><dd><span class="nb">作中の描写と公式の設定に拠ります。</span><span class="nb">一年戦争は兵力・損害の公式数値が少なく、</span><span class="nb">確かめられなかった値は「—」です。</span></dd>
+   <dt>日付</dt><dd><span class="nb">作中で日付が示されない戦いは、</span><span class="nb">前後の出来事から推定し、</span><span class="nb">「推定」と書いています。</span></dd>
+   <dt>影響の段階</dt><dd><span class="nb">3段階の区分は編者の判断です。</span></dd>
+   <dt>話数</dt><dd><span class="nb">TV版は1979年放送の全43話の番号です。</span><span class="nb">作品ごとに描写が食い違う場合は、</span><span class="nb">TV版を基準にしています。</span></dd>
+  </dl>
+ </footer>
+</div>
+<script>
+const B=[{"k": "akatsuki", "u": "akatsuki.html", "t": "暁の蜂起", "era": "U.C.0077年（開戦の2年前）", "uc": 77.0, "arc": "前史", "oc": "学生隊の勝利（連邦連隊を武装解除）", "sum": "士官学校の学生約200名が、約2,000名の連邦軍駐屯連隊を一夜で制圧した事件。ガルマが英雄となる一方、実際の立役者はシャアだった。", "when": "U.C.0077年、サイド3・ガーディアン・バンチ", "s": [{"n": "士官学校学生隊", "c": "zeon", "b": "約200名", "l": "不明", "r": null, "d": [], "cm": "ガルマ・ザビ"}, {"n": "連邦軍駐屯部隊", "c": "efsf", "b": "一個連隊・約2,000名", "l": "兵営を制圧され武装解除", "r": null, "d": [], "cm": "不明"}], "win": "士官学校学生隊", "wc": "zeon", "ph": 5, "refs": [{"k": "アニメ", "v": "『THE ORIGIN』III「暁の蜂起」"}, {"k": "漫画", "v": "安彦良和『機動戦士ガンダム THE ORIGIN』"}, {"k": "TV版", "v": "『THE ORIGIN 前夜 赤い彗星』（再編集版）"}], "im": 2, "imt": "自治共和国と連邦の対立が深まり、開戦への流れが加速する"}, {"k": "week", "u": "week.html", "t": "一週間戦争", "era": "U.C.0079年1月3日〜10日", "uc": 79.0103, "arc": "開戦", "oc": "ジオン軍の優勢（連邦は多くのサイドを失う）", "sum": "開戦から1週間で、ジオンは地球圏の宇宙で主導権を握った。ブリティッシュ作戦を含め、この時期の死者は約55億人、当時の人類の半数とされる。", "when": "U.C.0079年1月3日〜10日、地球圏の各サイドと月", "s": [{"n": "ジオン軍", "c": "zeon", "b": "不明", "l": "不明", "r": null, "d": [], "cm": "ギレン・ザビ（総帥）"}, {"n": "地球連邦軍", "c": "efsf", "b": "不明", "l": "不明（多くのサイドの駐留軍を失う）", "r": null, "d": [], "cm": "不明"}], "win": "ジオン軍", "wc": "zeon", "ph": 4, "refs": [{"k": "アニメ", "v": "『THE ORIGIN』V「激突 ルウム会戦」（開戦部分・推定）"}, {"k": "TV版", "v": "直接の描写はなく、設定・ナレーションで言及"}], "im": 3, "imt": "人類の半数が死に、宇宙の主導権がジオンに移る"}, {"k": "british", "u": "british.html", "t": "ブリティッシュ作戦", "era": "U.C.0079年1月4日〜10日", "uc": 79.0104, "arc": "開戦", "oc": "作戦は目標を外す（ジャブローは健在）", "sum": "コロニーを地球に落として連邦の中枢を一撃で破壊しようとした作戦。目標は外れたが、シドニーの消滅をはじめ地球に甚大な被害を出した。", "when": "U.C.0079年1月4日〜10日、地球軌道〜オーストラリア", "s": [{"n": "ジオン軍", "c": "zeon", "b": "不明", "l": "不明", "r": null, "d": [], "cm": "ギレン・ザビ（立案・推定）"}, {"n": "地球連邦軍", "c": "efsf", "b": "不明", "l": "不明", "r": null, "d": [], "cm": "不明"}], "win": "", "wc": "none", "ph": 5, "refs": [{"k": "アニメ", "v": "『THE ORIGIN』V「激突 ルウム会戦」（推定）"}, {"k": "TV版", "v": "直接の描写はなく、設定で言及"}], "im": 3, "imt": "シドニーが消え、地球環境が大きく損なわれる"}, {"k": "loum", "u": "loum.html", "t": "ルウム戦役", "era": "U.C.0079年1月15日〜16日", "uc": 79.0115, "arc": "開戦", "oc": "ジオン軍の勝利（連邦宇宙軍の約8割が失われる）", "sum": "数で約3倍の連邦艦隊を、MSを使うジオン軍が破った戦い。MSの価値を決定づけ、シャアや黒い三連星の名を広めた。", "when": "U.C.0079年1月15日〜16日、サイド5（ルウム）宙域", "s": [{"n": "ジオン軍", "c": "zeon", "b": "連邦の約3分の1", "l": "不明", "r": null, "d": [], "cm": "ドズル・ザビ中将"}, {"n": "地球連邦軍", "c": "efsf", "b": "ジオンの約3倍", "l": "宇宙戦力の約8割", "r": 80, "d": [], "cm": "レビル中将（捕虜となる）"}], "win": "ジオン軍", "wc": "zeon", "ph": 5, "refs": [{"k": "アニメ", "v": "『THE ORIGIN』V「激突 ルウム会戦」・VI「誕生 赤い彗星」"}, {"k": "OVA", "v": "『MS IGLOO』第1話「大蛇はルウムに消えた」（推定）"}, {"k": "TV版", "v": "回想・言及のみ"}], "im": 3, "imt": "MSの時代が始まり、連邦は宇宙戦力の8割を失う"}, {"k": "descent", "u": "descent.html", "t": "地球降下作戦", "era": "U.C.0079年3月1日〜18日", "uc": 79.0301, "arc": "地球降下", "oc": "ジオン軍の勝利（地球の広い地域を占領）", "sum": "3回にわたる降下で、ジオンは地球の資源地帯と多くの拠点を手に入れた。一方でジャブローは落とせず、長い地上戦が始まる。", "when": "U.C.0079年3月1日・11日・18日、地球各地", "s": [{"n": "ジオン軍", "c": "zeon", "b": "不明", "l": "不明", "r": null, "d": [], "cm": "キシリア・ザビ（突撃機動軍）"}, {"n": "地球連邦軍", "c": "efsf", "b": "不明", "l": "不明（各地の拠点を失う）", "r": null, "d": [], "cm": "不明"}], "win": "ジオン軍", "wc": "zeon", "ph": 5, "refs": [{"k": "OVA", "v": "『MS IGLOO 2 重力戦線』（降下後の地上戦・推定）"}, {"k": "TV版", "v": "直接の描写はなく、設定で言及"}], "im": 2, "imt": "ジオンが地球の資源地帯を押さえ、長い地上戦が始まる"}, {"k": "side7", "u": "side7.html", "t": "サイド7襲撃", "era": "U.C.0079年9月18日", "uc": 79.0918, "arc": "V作戦", "oc": "ホワイトベースとガンダムが脱出（V作戦の一部を守る）", "sum": "連邦のMS開発拠点をジオンが襲った戦い。ガンダムは守られたが、多くの関係者と施設が失われ、民間人を乗せた艦の逃避行が始まった。", "when": "U.C.0079年9月18日〜19日、サイド7", "s": [{"n": "ジオン軍", "c": "zeon", "b": "ザク3機（偵察）＋シャア隊", "l": "ザク2機以上", "r": null, "d": ["ジーン", "デニム"], "cm": "シャア・アズナブル少佐"}, {"n": "地球連邦軍", "c": "efsf", "b": "ホワイトベース、V作戦のMS", "l": "開発施設とMSの一部", "r": null, "d": [], "cm": "パオロ・カシアス中佐（重傷）"}], "win": "地球連邦軍", "wc": "efsf", "ph": 5, "refs": [{"k": "TV版", "v": "第1話「ガンダム大地に立つ!!」・第2話「ガンダム破壊命令」"}, {"k": "劇場版", "v": "劇場版『機動戦士ガンダム』"}], "im": 3, "imt": "ガンダムとアムロが世に出て、連邦の反攻の芽が守られる"}, {"k": "reentry", "u": "reentry.html", "t": "大気圏突入戦", "era": "U.C.0079年9月23日", "uc": 79.0923, "arc": "V作戦", "oc": "ホワイトベースは突入に成功（降下地点は敵地の北米）", "sum": "ホワイトベースはシャアの攻撃を受けながら大気圏突入に成功したが、ジャブローではなくジオン勢力圏の北米に降りた。", "when": "U.C.0079年9月23日、地球軌道〜北米", "s": [{"n": "ジオン軍", "c": "zeon", "b": "MS数機", "l": "ザク1機以上", "r": null, "d": ["クラウン（ザクで大気圏に落ちる）"], "cm": "シャア・アズナブル少佐"}, {"n": "地球連邦軍", "c": "efsf", "b": "ホワイトベース、MS数機", "l": "なし（推定）", "r": null, "d": [], "cm": "ブライト・ノア中尉"}], "win": "", "wc": "none", "ph": 5, "refs": [{"k": "TV版", "v": "第4話「ルナツー脱出作戦」・第5話「大気圏突入」"}, {"k": "劇場版", "v": "劇場版『機動戦士ガンダム』"}], "im": 1, "imt": "ホワイトベースが敵地の北米に降りる"}, {"k": "garma", "u": "garma.html", "t": "ガルマ戦死", "era": "U.C.0079年10月4日", "uc": 79.1004, "arc": "V作戦", "oc": "ホワイトベースの勝利（ガルマ・ザビ戦死）", "sum": "ザビ家の末子ガルマが戦死した戦い。シャアの復讐の最初の一歩であり、ジオン本国の戦意高揚にも使われた。", "when": "U.C.0079年10月4日、北米・ニューヤーク郊外", "s": [{"n": "ジオン軍", "c": "zeon", "b": "ガウ1隻と航空機・MS", "l": "ガウ1隻ほか", "r": null, "d": ["ガルマ・ザビ大佐"], "cm": "ガルマ・ザビ大佐"}, {"n": "地球連邦軍", "c": "efsf", "b": "ホワイトベースとMS数機", "l": "小", "r": null, "d": [], "cm": "ブライト・ノア中尉"}], "win": "地球連邦軍", "wc": "efsf", "ph": 5, "refs": [{"k": "TV版", "v": "第6話「ガルマ出撃す」〜第10話「ガルマ散る」、第12話「ジオンの脅威」（国葬）"}, {"k": "劇場版", "v": "劇場版『機動戦士ガンダム』"}], "im": 2, "imt": "ザビ家の末子が死に、ギレンが戦意をあおる"}, {"k": "ral", "u": "ral.html", "t": "ランバ・ラル隊との戦い", "era": "U.C.0079年10月〜11月上旬（推定）", "uc": 79.1025, "arc": "V作戦", "oc": "ホワイトベースの勝利（ラル隊は全滅）", "sum": "歴戦のランバ・ラル隊は、補給を断たれたまま白兵戦を挑んで敗れた。ホワイトベースもリュウ・ホセイを失った。", "when": "U.C.0079年10月〜11月上旬（推定）、中央アジア", "s": [{"n": "ジオン軍", "c": "zeon", "b": "グフ、陸戦艇、歩兵", "l": "ほぼ全滅", "r": null, "d": ["ランバ・ラル大尉", "クラウレ・ハモン"], "cm": "ランバ・ラル大尉"}, {"n": "地球連邦軍", "c": "efsf", "b": "ホワイトベースとMS数機", "l": "コア・ファイター1機ほか", "r": null, "d": ["リュウ・ホセイ"], "cm": "ブライト・ノア中尉"}], "win": "地球連邦軍", "wc": "efsf", "ph": 4, "refs": [{"k": "TV版", "v": "第12話「ジオンの脅威」、第19話「ランバ・ラル特攻！」〜第21話「激闘は憎しみ深く」"}, {"k": "劇場版", "v": "劇場版『哀・戦士編』"}], "im": 1, "imt": "ジオン内部の対立が前線の補給に響いていると表に出る"}, {"k": "odessa", "u": "odessa.html", "t": "オデッサ作戦", "era": "U.C.0079年11月7日〜9日", "uc": 79.1107, "arc": "反攻", "oc": "連邦軍の勝利（マ・クベは宇宙へ脱出）", "sum": "連邦軍が初めて大規模な反攻に成功した戦い。ジオンは地球での資源拠点を失い、地上での劣勢が決まった。", "when": "U.C.0079年11月7日〜9日、東ヨーロッパ・オデッサ一帯", "s": [{"n": "ジオン軍", "c": "zeon", "b": "不明", "l": "不明（地上軍主力の多く）", "r": null, "d": ["マッシュ（黒い三連星）", "ガイア（黒い三連星）", "オルテガ（黒い三連星）"], "cm": "マ・クベ大佐"}, {"n": "地球連邦軍", "c": "efsf", "b": "不明（大兵力）", "l": "不明", "r": null, "d": [], "cm": "レビル将軍"}], "win": "地球連邦軍", "wc": "efsf", "ph": 5, "refs": [{"k": "TV版", "v": "第22話「マ・クベ包囲網を破れ！」〜第25話「オデッサの激戦」"}, {"k": "劇場版", "v": "劇場版『哀・戦士編』"}, {"k": "OVA", "v": "『MS IGLOO 2 重力戦線』第3話（推定）"}], "im": 3, "imt": "ジオンが地球の資源拠点を失い、地上の劣勢が決まる"}, {"k": "apsaras", "u": "apsaras.html", "t": "東南アジア戦線とアプサラス", "era": "U.C.0079年11月〜12月（推定）", "uc": 79.112, "arc": "反攻", "oc": "連邦軍の勝利（ジオン山岳基地が陥落）", "sum": "東南アジアのジオン拠点を連邦軍が攻め落とした戦い。宇宙からジャブローを狙う巨大MAアプサラスの計画もここで潰えた。", "when": "U.C.0079年11月〜12月（推定）、東南アジアの山岳地帯", "s": [{"n": "ジオン軍", "c": "zeon", "b": "不明", "l": "基地を放棄", "r": null, "d": ["ギニアス・サハリン少将", "ノリス・パッカード大佐"], "cm": "ギニアス・サハリン少将"}, {"n": "地球連邦軍", "c": "efsf", "b": "不明", "l": "不明", "r": null, "d": [], "cm": "コジマ中佐（大隊長）"}], "win": "地球連邦軍", "wc": "efsf", "ph": 5, "refs": [{"k": "OVA", "v": "『第08MS小隊』第9〜11話（推定）"}, {"k": "OVA", "v": "『第08MS小隊 ミラーズ・リポート』（総集編）"}], "im": 1, "imt": "宇宙からジャブローを撃つ計画が消える"}, {"k": "jaburo", "u": "jaburo.html", "t": "ジャブロー攻防戦", "era": "U.C.0079年11月30日", "uc": 79.113, "arc": "反攻", "oc": "連邦軍の勝利（総司令部を守り抜く）", "sum": "ジオンが連邦軍の総司令部を直接突いた戦い。攻撃は失敗し、地上での勝敗はほぼ決まった。", "when": "U.C.0079年11月30日、南米アマゾン流域", "s": [{"n": "ジオン軍", "c": "zeon", "b": "不明", "l": "不明（降下部隊の多く）", "r": null, "d": [], "cm": "不明（シャア大佐らが参加）"}, {"n": "地球連邦軍", "c": "efsf", "b": "不明", "l": "不明", "r": null, "d": ["ウッディ・マルデン大尉"], "cm": "不明"}], "win": "地球連邦軍", "wc": "efsf", "ph": 4, "refs": [{"k": "TV版", "v": "第27話「女スパイ潜入！」〜第29話「ジャブローに散る！」"}, {"k": "劇場版", "v": "劇場版『哀・戦士編』"}], "im": 2, "imt": "ジオンの地上での攻勢が終わり、連邦は宇宙へ上がる"}, {"k": "rubicon", "u": "rubicon.html", "t": "ルビコン作戦", "era": "U.C.0079年12月9日〜25日", "uc": 79.1209, "arc": "宇宙決戦", "oc": "ジオン側の作戦失敗（コロニーへの核攻撃も阻止）", "sum": "新型ガンダムをめぐる秘密作戦。ジオンは北極でもサイド6でも目的を果たせず、関わった兵士の多くが死んだ。", "when": "U.C.0079年12月9日〜25日、北極基地〜サイド6（リボー・コロニー）", "s": [{"n": "ジオン軍", "c": "zeon", "b": "特殊部隊と核攻撃艦隊", "l": "特殊部隊全滅、核攻撃部隊は阻止", "r": null, "d": ["シュタイナー・ハーディ大尉", "ガルシア", "ミハイル・カミンスキー", "バーナード・ワイズマン伍長"], "cm": "キシリア・ザビ（作戦命令）"}, {"n": "地球連邦軍", "c": "efsf", "b": "北極基地、新型ガンダム", "l": "北極基地の一部、アレックス大破", "r": null, "d": [], "cm": "不明"}], "win": "地球連邦軍", "wc": "efsf", "ph": 5, "refs": [{"k": "OVA", "v": "『0080 ポケットの中の戦争』第1話「戦場までは何マイル？」〜第6話「ポケットの中の戦争」"}], "im": 1, "imt": "中立コロニーへの核攻撃が阻止される"}, {"k": "solomon", "u": "solomon.html", "t": "ソロモン攻略戦", "era": "U.C.0079年12月24日〜25日", "uc": 79.1224, "arc": "宇宙決戦", "oc": "連邦軍の勝利（ソロモン陥落）", "sum": "連邦が宇宙での反攻に初めて成功した戦い。ザビ家のドズルが戦死し、ジオンの宇宙防衛線は大きく崩れた。", "when": "U.C.0079年12月24日〜25日、宇宙要塞ソロモン", "s": [{"n": "ジオン軍", "c": "zeon", "b": "不明", "l": "要塞と守備艦隊の大半", "r": null, "d": ["ドズル・ザビ中将"], "cm": "ドズル・ザビ中将"}, {"n": "地球連邦軍", "c": "efsf", "b": "不明", "l": "不明（ビグ・ザムで多数の艦艇とMS）", "r": null, "d": ["ティアンム中将", "スレッガー・ロウ中尉"], "cm": "ティアンム中将"}], "win": "地球連邦軍", "wc": "efsf", "ph": 5, "refs": [{"k": "TV版", "v": "第35話「ソロモン攻略戦」・第36話「恐怖！ 機動ビグ・ザム」"}, {"k": "劇場版", "v": "劇場版『めぐりあい宇宙編』"}], "im": 3, "imt": "ドズルが死に、ジオンの宇宙防衛線が崩れる"}, {"k": "thunderbolt", "u": "thunderbolt.html", "t": "サンダーボルト宙域の戦い", "era": "U.C.0079年12月（推定・ソロモン攻略と同時期）", "uc": 79.12241, "arc": "宇宙決戦", "oc": "連邦軍の勝利（宙域を確保・推定）", "sum": "旧サイド4の暗礁宙域で、連邦のムーア同胞団とジオンの守備部隊が戦った。勝敗の大筋は連邦側だが、経過には推定を含む。", "when": "U.C.0079年12月（推定）、旧サイド4周辺の暗礁宙域", "s": [{"n": "ジオン軍", "c": "zeon", "b": "不明", "l": "不明", "r": null, "d": [], "cm": "不明"}, {"n": "地球連邦軍", "c": "efsf", "b": "不明", "l": "不明（大きな損害）", "r": null, "d": [], "cm": "不明"}], "win": "地球連邦軍", "wc": "efsf", "ph": 5, "refs": [{"k": "アニメ", "v": "『機動戦士ガンダム サンダーボルト』第1シーズン／劇場版『DECEMBER SKY』"}, {"k": "漫画", "v": "太田垣康男『機動戦士ガンダム サンダーボルト』"}], "im": 1, "imt": "旧サイド4宙域を連邦が押さえる（推定）"}, {"k": "texas", "u": "texas.html", "t": "テキサスからララァの死まで", "era": "U.C.0079年12月下旬（ソロモン陥落後〜ソーラ・レイ以前）", "uc": 79.1226, "arc": "宇宙決戦", "oc": "連邦軍の勝利（マ・クベ、シャリア・ブル、ララァが戦死）", "sum": "ソロモン後の数日間の戦い。ジオンは指揮官と貴重なニュータイプ兵を失い、ララァの死はアムロとシャアに長く影を落とす。", "when": "U.C.0079年12月下旬（推定）、ソロモンとア・バオア・クーの間の宙域", "s": [{"n": "ジオン軍", "c": "zeon", "b": "少数のMS・MA", "l": "ギャン、ブラウ・ブロ、エルメス", "r": null, "d": ["マ・クベ大佐", "シャリア・ブル大尉", "ララァ・スン少尉"], "cm": "不明（キシリア配下の部隊）"}, {"n": "地球連邦軍", "c": "efsf", "b": "ホワイトベースと艦隊の一部", "l": "艦艇数隻（エルメスの攻撃）", "r": null, "d": [], "cm": "不明"}], "win": "地球連邦軍", "wc": "efsf", "ph": 5, "refs": [{"k": "TV版", "v": "第37話「テキサスの攻防」〜第41話「光る宇宙」"}, {"k": "劇場版", "v": "劇場版『めぐりあい宇宙編』"}], "im": 2, "imt": "ララァが死に、アムロとシャアの因縁が決まる"}, {"k": "solarray", "u": "solarray.html", "t": "ソーラ・レイ照射", "era": "U.C.0079年12月30日 21時05分", "uc": 79.123, "arc": "宇宙決戦", "oc": "ジオン軍の戦術的勝利（連邦艦隊の約3分の1を撃破）", "sum": "ギレンがコロニーレーザーで連邦主力艦隊を撃った。レビルと、和平を探っていた公王デギンがともに死んだ。", "when": "U.C.0079年12月30日21時05分、ア・バオア・クー手前の宙域", "s": [{"n": "ジオン軍", "c": "zeon", "b": "ソーラ・レイ", "l": "グレート・デギン（公王座乗艦）", "r": null, "d": ["デギン・ソド・ザビ公王"], "cm": "ギレン・ザビ総帥"}, {"n": "地球連邦軍", "c": "efsf", "b": "不明（主力艦隊）", "l": "艦隊の約3分の1", "r": 33, "d": ["レビル将軍"], "cm": "レビル将軍"}], "win": "ジオン軍", "wc": "zeon", "ph": 5, "refs": [{"k": "TV版", "v": "第42話「宇宙要塞ア・バオア・クー」"}, {"k": "劇場版", "v": "劇場版『めぐりあい宇宙編』"}], "im": 3, "imt": "レビルとデギンが死に、和平の道が消える"}, {"k": "abaoaqu", "u": "abaoaqu.html", "t": "ア・バオア・クー攻略戦", "era": "U.C.0079年12月31日〜0080年1月1日", "uc": 79.1231, "arc": "宇宙決戦", "oc": "連邦軍の勝利（一年戦争の終結）", "sum": "一年戦争最後の決戦。ザビ家のギレンとキシリアが相次いで死に、ジオンは共和国となって戦争は終わった。", "when": "U.C.0079年12月31日〜0080年1月1日、宇宙要塞ア・バオア・クー", "s": [{"n": "ジオン軍", "c": "zeon", "b": "不明", "l": "不明（要塞を失う）", "r": null, "d": ["ギレン・ザビ総帥", "キシリア・ザビ少将"], "cm": "ギレン・ザビ総帥"}, {"n": "地球連邦軍", "c": "efsf", "b": "不明", "l": "不明（ホワイトベースを含む多数）", "r": null, "d": [], "cm": "不明（レビル戦死後の残存艦隊）"}], "win": "地球連邦軍", "wc": "efsf", "ph": 5, "refs": [{"k": "TV版", "v": "第42話「宇宙要塞ア・バオア・クー」・第43話「脱出」"}, {"k": "劇場版", "v": "劇場版『めぐりあい宇宙編』"}, {"k": "OVA", "v": "『MS IGLOO 黙示録0079』（推定）"}], "im": 3, "imt": "ザビ家が倒れ、一年戦争が終わる"}];
+(function(){
+const $=id=>document.getElementById(id);
+const ERAS=[['前史','開戦の前'],['開戦','一週間戦争からルウムまで'],['地球降下','地上戦の始まり'],['V作戦','ホワイトベースの航海'],['反攻','連邦の地上での反攻'],['宇宙決戦','ソロモンから終戦まで']];
+const NAME={zeon:'ジオン側',efsf:'連邦側',none:'決着なし'};
+const IMPN={3:'歴史を変えた',2:'情勢を動かした',1:'局地的'};
+const ph=t=>`<budoux-ja>${t}</budoux-ja>`;
+const c=k=>`var(--${k})`,Y=b=>{const m=b.era.match(/U\.C\.(\d{4})/);return m?m[1]:''};
+const mk=(im,col)=>`<span class="mark m${im}" style="--c:${c(col)}"></span>`;
+const ORDER=['zeon','efsf','none'];
+$('key').innerHTML=`<dt>印の形</dt><dd>${[3,2,1].map(i=>`<span><span class="mk">${mk(i,'sub')}</span>${IMPN[i]}</span>`).join('')}</dd>`
+ +`<dt>印の色</dt><dd>${ORDER.filter(k=>B.some(b=>b.wc===k)).map(k=>`<span><span class="sw" style="background:${c(k)}"></span>${k==='none'?'決着なし':NAME[k]+'の勝利'}</span>`).join('')}</dd>`;
+let cur='すべて';
+const VIEWS=['すべて','歴史を変えた戦い',...ERAS.map(e=>e[0])];
+$('tabs').innerHTML=VIEWS.map(v=>`<button type="button" aria-pressed="${v===cur}">${v}</button>`).join('');
+$('tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;cur=b.textContent;$('tabs').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));render()});
+function loss(b){const known=b.s.filter(z=>z.r!=null);if(!known.length)return'<b>—</b>損耗率';const m=known.reduce((a,z)=>z.r>a.r?z:a);return `<b>${m.r}%</b>${m.n}の損耗`}
+function row(b){
+ const md=b.era.match(/年(\d+)月(\d+)?/),sub=md?md[1]+'月'+(md[2]?md[2]+'日':''):'';
+ const m=b.oc.match(/^(.*?)（(.*)）$/),oc=m?m[1]:b.oc;
+ const dead=b.s.flatMap(z=>z.d);
+ return `<details class="row${b.im===3?' big':''}"><summary>
+  ${mk(b.im,b.wc)}
+  <div class="yr">${Y(b)}${sub?`<small>${sub}</small>`:''}</div>
+  <div class="nm"><b>${ph(b.t)}</b><span class="oc"><span style="color:${c(b.wc)}">${oc}</span><em>${b.s.map(z=>z.n).join(' 対 ')}</em></span><span class="imt">${ph(b.imt)}</span></div>
+  <div class="loss">${loss(b)}</div>
+ </summary><div class="body">
+  <p>${ph(b.sum)}</p>
+  <dl class="f"><dt>後世への影響</dt><dd>${ph(IMPN[b.im]+'。'+b.imt)}</dd>${b.when?`<dt>日時・場所</dt><dd>${ph(b.when)}</dd>`:''}${b.s.map(z=>`<dt style="color:${c(z.c)}">${z.n}</dt><dd>${ph('指揮　'+(z.cm||'不明'))}<br>${ph('兵力　'+(z.b||'不明'))}<br>${ph('損害　'+(z.l||'不明')+(z.r!=null?`（損耗率${z.r}%）`:''))}</dd>`).join('')}${dead.length?`<dt>戦死</dt><dd>${ph(dead.join('、'))}</dd>`:''}${b.refs.map(r=>`<dt>${r.k}</dt><dd>${ph(r.v)}</dd>`).join('')}</dl>
+  <a class="open3d" href="${b.u}" target="_blank" rel="noopener">3D再現を開く<small>${b.ph}場面</small></a>
+ </div></details>`;
+}
+function render(){
+ const pick=b=>cur==='すべて'||(cur==='歴史を変えた戦い'?b.im===3:b.arc===cur);
+ $('eras').innerHTML=ERAS.map(([e,d])=>{const l=B.filter(b=>b.arc===e&&pick(b));if(!l.length)return'';
+  const a=Y(l[0]),z=Y(l[l.length-1]);
+  return `<section class="era"><h2>${e}<b>U.C.${a}${z!==a?'〜'+z:''}</b><small>${d}</small></h2>${l.map(row).join('')}</section>`}).join('');
+}
+render();
+})();
+</script>
+
+</body>
+</html>

@@ -9,7 +9,12 @@
 - `ENV`：`common.env(...)` で恒星と光源。要塞は `common.fort(...)`、主砲演出は `common.fort_cannon(...)`
 - `DATA`：JS文字列。`const U=[...]`（部隊）、`const PH=[...]`（場面）、`const RESULT={...}`（戦果）
 
-任意: `SE`/`SA`（陣営名。既定は帝国軍/同盟軍）、`PAL`/`PALE`（陣営色。noble, coup, iser, rebel, ally）
+任意: `SE`/`SA`（陣営名。既定は帝国軍/同盟軍）、`PAL`/`PALE`（陣営色。noble, coup, iser, rebel, ally, zeon, efsf）
+
+地球圏・地上戦の環境（engine/common.py）:
+- 宇宙：`space_env()`＋`planet(...)`／`colony(...)`／`rock_fortress(pos,r,'solomon'|'abaoaqu')`
+- 地上：`land_env(low,high,water=None,amp,seed,sky)`。部隊は y=6〜7 に置く
+- 演出は `specials(labels([...]), move_obj(名前,{場面:座標}), shot(発射位置,部隊名,場面))` でまとめる。ENV の末尾に必ず `specials(...)` を1つ置く（SPECIAL を定義するため）
 
 部隊 `k` の場面ごとの指定:
 - `p:[x,y,z]` 位置。帝国側は z 負、相手側は z 正に置くのが基本
