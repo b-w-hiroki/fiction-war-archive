@@ -126,3 +126,10 @@ def space_env(pos=(-160, 60, -220), color='0xfff4e0'):
 def land_env(low, high, water=None, amp=6, seed=1, sky='0x6f8297'):
     e = sky_env() + ground(low=low, high=high, amp=amp, seed=seed, water=water)
     return e.replace('0x6f8297', sky)
+
+
+def wall(r=60, h=14, cx=0, cz=0, y=-4, color='0xb8b0a0', arc=6.2832, start=0):
+    """円形の壁（進撃の巨人の城壁など）。arc で一部だけにもできる"""
+    return f"""
+(function(){{const g=new THREE.CylinderGeometry({r},{r},{h},120,1,true,{start},{arc});const m=new THREE.Mesh(g,new THREE.MeshLambertMaterial({{color:{color},side:THREE.DoubleSide}}));m.position.set({cx},{y}+{h}/2,{cz});scene.add(m)}})();
+"""

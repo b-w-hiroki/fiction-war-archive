@@ -1,0 +1,70 @@
+{
+ "title": "壁の戦史アーカイブ",
+ "short": "進撃の巨人",
+ "span": "845〜854年",
+ "unit": "戦い",
+ "date": "uc",
+ "yl": "",
+ "lead": "<span class=\"nb\">845年のシガンシナ区陥落から</span><span class=\"nb\">854年の天と地の戦いまで、</span><span class=\"nb\">諫山創『進撃の巨人』の</span><span class=\"nb\">11の戦いを時代順に並べた年表です。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>数値の典拠</dt><dd><span class=\"nb\">作中で数が示されるものは少なく、</span><span class=\"nb\">多くは「—」です。</span><span class=\"nb\">一部は英語版ファンWikiに拠ります。</span></dd>\n   <dt>話数</dt><dd><span class=\"nb\">漫画・アニメの範囲には</span><span class=\"nb\">推定を含みます。</span></dd>\n   <dt>陣営の色</dt><dd><span class=\"nb\">緑はパラディ島（調査兵団）、</span><span class=\"nb\">橙は巨人、</span><span class=\"nb\">赤はマーレ、</span><span class=\"nb\">青は中東連合、</span><span class=\"nb\">灰は王政です。</span></dd>\n   <dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>",
+ "eras": [
+  [
+   "壁の陥落",
+   "シガンシナからストヘスまで"
+  ],
+  [
+   "王政編",
+   "壁の中の王"
+  ],
+  [
+   "壁の奪還",
+   "ウォール・マリア最終奪還"
+  ],
+  [
+   "マーレ編",
+   "海の向こうの戦争"
+  ],
+  [
+   "地鳴らし",
+   "世界との最後の戦い"
+  ]
+ ],
+ "names": {
+  "titan": "巨人側",
+  "scout": "パラディ側",
+  "marley": "マーレ側",
+  "allied": "中東連合側",
+  "none": "決着なし",
+  "serpent": "王政側"
+ },
+ "order": [
+  "scout",
+  "titan",
+  "marley",
+  "allied",
+  "serpent",
+  "none"
+ ],
+ "colors": {
+  "titan": [
+   "#9a5420",
+   "#e0a070"
+  ],
+  "scout": [
+   "#22703c",
+   "#6cc488"
+  ],
+  "marley": [
+   "#8a2a2a",
+   "#d87a7a"
+  ],
+  "allied": [
+   "#2d68be",
+   "#79abee"
+  ],
+  "serpent": [
+   "#5a4a6a",
+   "#a596b8"
+  ]
+ }
+}
