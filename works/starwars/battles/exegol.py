@@ -26,5 +26,5 @@ const RESULT={title:'エクセゴルの戦いの戦果',when:'35 ABY、惑星エ
  summary:'シスとファースト・オーダーの支配は終わった。',
  sides:[{name:'ファイナル・オーダー',side:'E',cmdr:'皇帝パルパティーン',flag:'—',others:'プライド元帥',before:'不明',loss:'艦隊',rate:null,deaths:'不明',dead:['皇帝パルパティーン']},{name:'レジスタンス',side:'A',cmdr:'ポー・ダメロン',flag:'—',others:'ランド、フィン、レイ',before:'不明',loss:'不明',rate:null,deaths:'不明',dead:['ベン・ソロ']}],
  after:['銀河各地でファースト・オーダーへの反乱が広がる。'],
- note:'年は記憶にもとづく（Wookieepedia年表では未確認）。兵力・損害の数値は確認できず「不明」とした。'};
+ note:'年はWookieepedia（https://starwars.fandom.com/wiki/Battle_of_Exegol）で35 ABYと確認。兵力・損害の数値は確認できず「不明」とした。'};
 """

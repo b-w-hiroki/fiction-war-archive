@@ -25,5 +25,5 @@ const RESULT={title:'スターキラー基地の戦いの戦果',when:'34 ABY、
  summary:'基地は破壊されたが、新共和国の首都星系はすでに失われていた。',
  sides:[{name:'ファースト・オーダー',side:'E',cmdr:'ハックス将軍',flag:'—',others:'カイロ・レン',before:'不明',loss:'基地',rate:null,deaths:'不明',dead:[]},{name:'レジスタンス',side:'A',cmdr:'レイア将軍',flag:'—',others:'ポー、レイ、フィン',before:'不明',loss:'不明',rate:null,deaths:'不明',dead:['ハン・ソロ']}],
  after:['新共和国は大きく弱まり、レジスタンスが追われる立場になる。'],
- note:'年は記憶にもとづく（Wookieepedia年表では未確認）。兵力・損害の数値は確認できず「不明」とした。'};
+ note:'年はWookieepedia（https://starwars.fandom.com/wiki/Battle_of_Starkiller_Base）で34 ABYと確認。兵力・損害の数値は確認できず「不明」とした。'};
 """

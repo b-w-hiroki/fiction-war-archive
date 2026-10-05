@@ -1,0 +1,14 @@
+{
+ "title": "皇暦戦史",
+ "short": "コードギアス",
+ "span": "皇暦2017〜2018年",
+ "unit": "戦い",
+ "date": "uc",
+ "yl": "皇暦",
+ "lead": "<span class=\"nb\">皇暦2017年のシンジュク事変から</span><span class=\"nb\">2018年のゼロ・レクイエムまで、</span><span class=\"nb\">『コードギアス 反逆のルルーシュ』</span><span class=\"nb\">TV版（R1・R2）の</span><span class=\"nb\">8の戦いを時代順に並べた年表です。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>数値の典拠</dt><dd><span class=\"nb\">作中で兵力の数が示されることは少なく、</span><span class=\"nb\">多くは「不明」です。</span></dd>\n   <dt>年月</dt><dd><span class=\"nb\">年は作中の皇暦表記にもとづきます。</span><span class=\"nb\">月は確認できず、</span><span class=\"nb\">並び順は放送順です。</span></dd>\n   <dt>陣営の色</dt><dd><span class=\"nb\">赤はブリタニア、</span><span class=\"nb\">青は黒の騎士団、</span><span class=\"nb\">橙は中華連邦（大宦官）、</span><span class=\"nb\">灰紫はシュナイゼル陣営です。</span></dd>\n   <dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>",
+ "eras": [["反逆","R1 エリア11の反乱"],["復活","R2 ゼロの帰還と世界の戦争"],["レクイエム","皇帝ルルーシュの戦い"]],
+ "names": {"zeon":"ブリタニア側","efsf":"黒の騎士団側","sind":"中華連邦側","serpent":"シュナイゼル側","none":"決着なし"},
+ "order": ["efsf","zeon","sind","serpent","none"],
+ "colors": {"zeon":["#b4452b","#ec7c5f"],"efsf":["#2d68be","#79abee"],"sind":["#b8641a","#eda15a"],"serpent":["#5a4a6a","#a596b8"]}
+}
