@@ -76,7 +76,7 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 <div id="app">
   <div id="stage"></div>
   <div class="hud">
-    <div class="title"><b>ダブリン</b><span>U.C.0088年10月31日（推定）</span></div>
+    <div class="title"><b>ダブリン</b><span>U.C.0088年10月31日</span></div>
     <div class="force ui" aria-label="戦力">
       <div class="row e"><span class="side">ネオ・ジオン</span><div class="bar"><i class="dep" id="eDep"></i><i class="fig" id="eFig"></i></div><span class="num" id="eNum"></span></div>
       <div class="row a"><span class="side">エゥーゴ・カラバ</span><div class="bar"><i class="dep" id="aDep"></i><i class="fig" id="aFig"></i></div><span class="num" id="aNum"></span></div>
@@ -161,14 +161,14 @@ const U=[
  {"name": "避難する市民", "cmd": "ダブリン市民", "side": "A", "n": 10, "k": {"0": {"p": [0, 7, 20], "s": "wait"}, "1": {"p": [0, 7, 24], "s": "move"}, "2": {"p": [10, 7, 30], "s": "move"}, "3": {"p": [0, 7, 20], "s": "broken", "l": "多くが逃げ遅れる"}, "4": {"s": "gone"}}}
 ];
 const PH=[
- {"time": "10月（推定）", "clock": "TV第35話（推定）", "step": "予告", "title": "落下の予告", "text": "ネオ・ジオンは連邦政府に圧力をかけるため、コロニーをダブリンに落とすと決めた。", "cam": {"fit": 1, "th": 0.4, "ph": 0.9}, "arrows": [{"p": [[0, 7, -40], [0, 7, -30]], "c": "E"}]},
+ {"time": "10月31日", "clock": "TV第35話", "step": "予告", "title": "落下の予告", "text": "ネオ・ジオンは連邦政府に圧力をかけるため、コロニーをダブリンに落とすと決めた。", "cam": {"fit": 1, "th": 0.4, "ph": 0.9}, "arrows": [{"p": [[0, 7, -40], [0, 7, -30]], "c": "E"}]},
  {"time": "同日", "clock": "", "step": "妨害", "title": "避難の妨害", "text": "連邦政府は動かず、避難は遅れた。", "cam": {"fit": 1, "th": 0.6, "ph": 0.9}, "arrows": []},
  {"time": "同日", "clock": "TV第36話（推定）", "step": "救出", "title": "ガンダム・チームの奮戦", "text": "ジュドーたちは市民を逃がしながらネオ・ジオンと戦った。", "cam": {"fit": 1, "th": 0.3, "ph": 0.9}, "arrows": []},
  {"time": "落着", "clock": "", "step": "落着", "title": "コロニー落着", "text": "コロニーはダブリンに落ち、多くの命が失われた。", "cam": {"fit": 1, "th": 0, "ph": 1.1}, "arrows": []}
 ];
-const RESULT={"title": "ダブリン・コロニー落としの結果", "when": "U.C.0088年、アイルランド・ダブリン", "prev": "グリプス戦役最終決戦", "next": "コア3の戦い", "factors": ["連邦政府は避難に本気で取り組まなかった。", "ネオ・ジオンは政府を脅す手段として落下を選んだ。"], "winner": "E", "outcome": "ネオ・ジオンの戦略目的達成（コロニー落着）", "summary": "コロニー落としで連邦政府はネオ・ジオンに屈し、サイド3の譲渡に応じる。", "sides": [{"name": "ネオ・ジオン", "side": "E", "cmdr": "ハマーン・カーン", "flag": "不明", "others": "—", "before": "不明", "loss": "不明", "rate": null, "deaths": "不明", "dead": []}, {"name": "エゥーゴ・カラバ", "side": "A", "cmdr": "不明", "flag": "不明", "others": "ジュドー・アーシタ", "before": "不明", "loss": "ダブリン市街（死者数は不明）", "rate": null, "deaths": "不明", "dead": []}], "after": ["連邦政府はネオ・ジオンにサイド3を明け渡す。", "ネオ・ジオン内部でグレミーの反乱が起きる。"], "note": "日付・話数は記憶にもとづく推定。死者数の公式値は確認できず。"};
+const RESULT={"title": "ダブリン・コロニー落としの結果", "when": "U.C.0088年、アイルランド・ダブリン", "prev": "グリプス戦役最終決戦", "next": "コア3の戦い", "factors": ["連邦政府は避難に本気で取り組まなかった。", "ネオ・ジオンは政府を脅す手段として落下を選んだ。"], "winner": "E", "outcome": "ネオ・ジオンの戦略目的達成（コロニー落着）", "summary": "コロニー落としで連邦政府はネオ・ジオンに屈し、サイド3の譲渡に応じる。", "sides": [{"name": "ネオ・ジオン", "side": "E", "cmdr": "ハマーン・カーン", "flag": "不明", "others": "—", "before": "不明", "loss": "不明", "rate": null, "deaths": "不明", "dead": []}, {"name": "エゥーゴ・カラバ", "side": "A", "cmdr": "不明", "flag": "不明", "others": "ジュドー・アーシタ", "before": "不明", "loss": "ダブリン市街（死者数は不明）", "rate": null, "deaths": "不明", "dead": []}], "after": ["連邦政府はネオ・ジオンにサイド3を明け渡す。", "ネオ・ジオン内部でグレミーの反乱が起きる。"], "note": "日付はGundam Wiki（https://gundam.fandom.com/wiki/First_Neo_Zeon_War）で確認。落着は第35話「落ちてきた空」（https://en.wikipedia.org/wiki/List_of_Mobile_Suit_Gundam_ZZ_episodes）。第36〜37話の範囲は記憶にもとづく推定。死者数の公式値は確認できず。"};
 
-RESULT.refs=[{"k": "TV版", "v": "TV版『機動戦士ガンダムΖΖ』 第35話〜第37話（推定）"}];
+RESULT.refs=[{"k": "TV版", "v": "TV版『機動戦士ガンダムΖΖ』 第35話〜第37話（第36話以降は推定）"}];
 
 
 const u0=(o,i)=>(U.find(u=>u.name===o.name).k[i]||{});

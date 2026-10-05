@@ -26,5 +26,5 @@ const RESULT={title:'エンドアの戦いの戦果',when:'4 ABY、衛星エン�
  summary:'皇帝とベイダーが死に、帝国は中心を失った。',
  sides:[{name:'銀河帝国',side:'E',cmdr:'皇帝パルパティーン',flag:'—',others:'ダース・ベイダー',before:'不明',loss:'第2デス・スター、旗艦',rate:null,deaths:'不明',dead:['ダース・ベイダー']},{name:'反乱同盟',side:'A',cmdr:'アクバー提督',flag:'—',others:'ランド、ハン、レイア',before:'不明',loss:'不明',rate:null,deaths:'不明',dead:[]}],
  after:['帝国は分裂し、新共和国が生まれる。'],
- note:'年は記憶にもとづく（Wookieepedia年表では未確認）。兵力・損害の数値は確認できず「不明」とした。皇帝はのちの作品で生存していたことが描かれる。'};
+ note:'年はWookieepedia（https://starwars.fandom.com/wiki/Battle_of_Endor）で4 ABYと確認。兵力・損害の数値は確認できず「不明」とした。皇帝はのちの作品で生存していたことが描かれる。'};
 """

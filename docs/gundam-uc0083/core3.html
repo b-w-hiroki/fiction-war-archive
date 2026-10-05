@@ -76,7 +76,7 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 <div id="app">
   <div id="stage"></div>
   <div class="hud">
-    <div class="title"><b>コア3</b><span>U.C.0089年1月17日（推定）</span></div>
+    <div class="title"><b>コア3</b><span>U.C.0089年1月17日</span></div>
     <div class="force ui" aria-label="戦力">
       <div class="row e"><span class="side">ネオ・ジオン</span><div class="bar"><i class="dep" id="eDep"></i><i class="fig" id="eFig"></i></div><span class="num" id="eNum"></span></div>
       <div class="row a"><span class="side">エゥーゴ</span><div class="bar"><i class="dep" id="aDep"></i><i class="fig" id="aFig"></i></div><span class="num" id="aNum"></span></div>
@@ -160,12 +160,12 @@ const U=[
  {"name": "エゥーゴ（ネェル・アーガマ）", "cmd": "ジュドー・アーシタら", "side": "A", "n": 10, "k": {"0": {"p": [20, 0, 30], "s": "move"}, "1": {"p": [16, 0, 10], "s": "fight"}, "2": {"p": [10, 0, 0], "s": "fight"}, "3": {"p": [4, 0, -14], "s": "fight", "l": "ジュドーとハマーン"}, "4": {"p": [10, 0, 10], "s": "ready"}}}
 ];
 const PH=[
- {"time": "1月（推定）", "clock": "TV第45話（推定）", "step": "内乱", "title": "ネオ・ジオンの内乱", "text": "グレミーがハマーンに反旗をひるがえし、ネオ・ジオンは二つに割れた。", "cam": {"fit": 1, "th": 0.4, "ph": 0.9}, "arrows": [{"p": [[-30, 0, -10], [-24, 0, -16]], "c": "E"}]},
+ {"time": "1月（推定）", "clock": "TV第45話", "step": "内乱", "title": "ネオ・ジオンの内乱", "text": "グレミーがハマーンに反旗をひるがえし、ネオ・ジオンは二つに割れた。", "cam": {"fit": 1, "th": 0.4, "ph": 0.9}, "arrows": [{"p": [[-30, 0, -10], [-24, 0, -16]], "c": "E"}]},
  {"time": "同日", "clock": "TV第46話（推定）", "step": "乱戦", "title": "三つどもえ", "text": "エゥーゴもコア3へ向かい、三勢力が戦った。", "cam": {"fit": 1, "th": 0.6, "ph": 0.9}, "arrows": []},
  {"time": "同日", "clock": "", "step": "反乱鎮圧", "title": "グレミーの最期", "text": "反乱軍は崩れ、グレミーは戦死した。", "cam": {"fit": 1, "th": 0.3, "ph": 0.9}, "arrows": []},
- {"time": "1月17日（推定）", "clock": "TV第47話", "step": "終結", "title": "ハマーンの最期", "text": "ジュドーがハマーンと戦い、ハマーンは死んだ。第一次ネオ・ジオン抗争は終わった。", "cam": {"fit": 1, "th": 0, "ph": 1.0}, "arrows": []}
+ {"time": "1月17日", "clock": "TV第47話", "step": "終結", "title": "ハマーンの最期", "text": "ジュドーがハマーンと戦い、ハマーンは死んだ。第一次ネオ・ジオン抗争は終わった。", "cam": {"fit": 1, "th": 0, "ph": 1.0}, "arrows": []}
 ];
-const RESULT={"title": "コア3の戦いの結果", "when": "U.C.0089年1月、サイド3・コア3", "prev": "ダブリン・コロニー落とし", "next": "5thルナ落とし（第二次ネオ・ジオン抗争）", "factors": ["ネオ・ジオンが内乱で二つに割れた。", "エゥーゴは少数ながら決戦に間に合った。"], "winner": "A", "outcome": "エゥーゴの勝利（ネオ・ジオン崩壊）", "summary": "内乱で弱ったネオ・ジオンは崩れ、ハマーンとグレミーがともに死んだ。", "sides": [{"name": "ネオ・ジオン", "side": "E", "cmdr": "ハマーン・カーン", "flag": "不明", "others": "グレミー・トト（反乱側）", "before": "不明", "loss": "ほぼ壊滅", "rate": null, "deaths": "不明", "dead": ["ハマーン・カーン", "グレミー・トト"]}, {"name": "エゥーゴ", "side": "A", "cmdr": "ブライト・ノア（推定）", "flag": "不明", "others": "ジュドー・アーシタ", "before": "不明", "loss": "不明", "rate": null, "deaths": "不明", "dead": []}], "after": ["第一次ネオ・ジオン抗争が終わる。", "ジュドーは木星へ旅立つ。"], "note": "日付は資料により推定。話数は推定を含む。"};
+const RESULT={"title": "コア3の戦いの結果", "when": "U.C.0089年1月、サイド3・コア3", "prev": "ダブリン・コロニー落とし", "next": "5thルナ落とし（第二次ネオ・ジオン抗争）", "factors": ["ネオ・ジオンが内乱で二つに割れた。", "エゥーゴは少数ながら決戦に間に合った。"], "winner": "A", "outcome": "エゥーゴの勝利（ネオ・ジオン崩壊）", "summary": "内乱で弱ったネオ・ジオンは崩れ、ハマーンとグレミーがともに死んだ。", "sides": [{"name": "ネオ・ジオン", "side": "E", "cmdr": "ハマーン・カーン", "flag": "不明", "others": "グレミー・トト（反乱側）", "before": "不明", "loss": "ほぼ壊滅", "rate": null, "deaths": "不明", "dead": ["ハマーン・カーン", "グレミー・トト"]}, {"name": "エゥーゴ", "side": "A", "cmdr": "ブライト・ノア（推定）", "flag": "不明", "others": "ジュドー・アーシタ", "before": "不明", "loss": "不明", "rate": null, "deaths": "不明", "dead": []}], "after": ["第一次ネオ・ジオン抗争が終わる。", "ジュドーは木星へ旅立つ。"], "note": "1月17日はネオ・ジオン降伏の日（https://gundam.fandom.com/wiki/First_Neo_Zeon_War）。第45話「アクシズの戦闘」〜第47話（https://en.wikipedia.org/wiki/List_of_Mobile_Suit_Gundam_ZZ_episodes）。各話と場面の対応は記憶にもとづく推定。"};
 
 RESULT.refs=[{"k": "TV版", "v": "TV版『機動戦士ガンダムΖΖ』 第45話〜第47話（推定）"}];
 

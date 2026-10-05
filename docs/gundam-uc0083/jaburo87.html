@@ -80,7 +80,7 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
     <div class="force ui" aria-label="戦力">
       <div class="row e"><span class="side">ティターンズ</span><div class="bar"><i class="dep" id="eDep"></i><i class="fig" id="eFig"></i></div><span class="num" id="eNum"></span></div>
       <div class="row a"><span class="side">エゥーゴ</span><div class="bar"><i class="dep" id="aDep"></i><i class="fig" id="aFig"></i></div><span class="num" id="aNum"></span></div>
-      <div class="note">交戦中／健在の部隊。南米ジャブロー。TV版Zガンダム第9〜11話（推定）にもとづく概略</div>
+      <div class="note">交戦中／健在の部隊。南米ジャブロー。TV版Zガンダム第11〜13話にもとづく概略</div>
       <button class="resbtn" id="resOpen">戦果・損害を見る ›</button><a class="back" href="index.html#gundam-uc0083">‹ 年表へ戻る</a>
     </div>
     <div class="res ui" id="res" role="dialog" aria-label="戦果"><div class="in" id="resIn"></div></div>
@@ -157,14 +157,14 @@ const U=[
  {"name": "カラバ", "cmd": "ハヤト・コバヤシ", "side": "A", "n": 6, "k": {"0": {"p": [40, 7, 30], "s": "wait"}, "1": {"p": [36, 7, 20], "s": "move"}, "2": {"p": [30, 7, 10], "s": "move", "l": "脱出を手助け"}, "3": {"p": [30, 7, 20], "s": "fight"}, "4": {"p": [40, 20, 40], "s": "withdraw"}}}
 ];
 const PH=[
- {"time": "3月2日（推定）", "clock": "TV第9話（推定）", "step": "降下", "title": "大気圏突入", "text": "エゥーゴは連邦の総司令部ジャブローを奪うため、軌道から部隊を降ろした。", "cam": {"fit": 1, "th": 0.4, "ph": 0.9}, "arrows": [{"p": [[0, 40, 30], [0, 7, 10]], "c": "A"}]},
+ {"time": "3月2日（推定）", "clock": "TV第11話", "step": "降下", "title": "大気圏突入", "text": "エゥーゴは連邦の総司令部ジャブローを奪うため、軌道から部隊を降ろした。", "cam": {"fit": 1, "th": 0.4, "ph": 0.9}, "arrows": [{"p": [[0, 40, 30], [0, 7, 10]], "c": "A"}]},
  {"time": "同日", "clock": "", "step": "突入", "title": "基地への突入", "text": "エゥーゴは守備隊を破って基地へ入ったが、連邦の中枢はすでに宇宙へ移っていた。", "cam": {"fit": 1, "th": 0.6, "ph": 0.9}, "arrows": []},
- {"time": "同日", "clock": "TV第10話（推定）", "step": "罠", "title": "核の罠", "text": "ティターンズは基地に核爆弾を仕掛けていた。降下部隊は急いで退く。", "cam": {"fit": 1, "th": 0.3, "ph": 0.9}, "arrows": [{"p": [[0, 7, -4], [10, 7, 10]], "c": "A"}]},
+ {"time": "同日", "clock": "TV第12話", "step": "罠", "title": "核の罠", "text": "ティターンズは基地に核爆弾を仕掛けていた。降下部隊は急いで退く。", "cam": {"fit": 1, "th": 0.3, "ph": 0.9}, "arrows": [{"p": [[0, 7, -4], [10, 7, 10]], "c": "A"}]},
  {"time": "同日", "clock": "", "step": "脱出", "title": "爆発と脱出", "text": "カラバの助けでエゥーゴは脱出し、ジャブローは爆発で失われた。", "cam": {"fit": 1, "th": 0, "ph": 1.0}, "arrows": []}
 ];
-const RESULT={"title": "ジャブロー降下作戦の結果", "when": "U.C.0087年、南米ジャブロー", "prev": "グリプスでのガンダムMk-II奪取", "next": "ダカール演説", "factors": ["ティターンズは作戦を事前に知っていた。", "連邦の中枢はすでに宇宙へ移っていた。"], "winner": "", "outcome": "決着なし（ジャブローは自爆で消滅）", "summary": "エゥーゴは空の基地を攻め、核の罠から逃げることになった。ジャブローは失われた。", "sides": [{"name": "ティターンズ", "side": "E", "cmdr": "不明", "flag": "不明", "others": "—", "before": "不明", "loss": "ジャブロー基地（自爆）", "rate": null, "deaths": "不明", "dead": []}, {"name": "エゥーゴ", "side": "A", "cmdr": "不明", "flag": "不明", "others": "クワトロ・バジーナ大尉", "before": "不明", "loss": "降下部隊の一部（数は不明）", "rate": null, "deaths": "不明", "dead": []}], "after": ["エゥーゴは地上でカラバと手を結ぶ。", "連邦の中枢はティターンズの影響下に入る。"], "note": "日付・話数は記憶にもとづく推定。"};
+const RESULT={"title": "ジャブロー降下作戦の結果", "when": "U.C.0087年、南米ジャブロー", "prev": "グリプスでのガンダムMk-II奪取", "next": "ダカール演説", "factors": ["ティターンズは作戦を事前に知っていた。", "連邦の中枢はすでに宇宙へ移っていた。"], "winner": "", "outcome": "決着なし（ジャブローは自爆で消滅）", "summary": "エゥーゴは空の基地を攻め、核の罠から逃げることになった。ジャブローは失われた。", "sides": [{"name": "ティターンズ", "side": "E", "cmdr": "不明", "flag": "不明", "others": "—", "before": "不明", "loss": "ジャブロー基地（自爆）", "rate": null, "deaths": "不明", "dead": []}, {"name": "エゥーゴ", "side": "A", "cmdr": "不明", "flag": "不明", "others": "クワトロ・バジーナ大尉", "before": "不明", "loss": "降下部隊の一部（数は不明）", "rate": null, "deaths": "不明", "dead": []}], "after": ["エゥーゴは地上でカラバと手を結ぶ。", "連邦の中枢はティターンズの影響下に入る。"], "note": "話数は第11話「大気圏突入」・第12話「ジャブローの風」・第13話「シャトル発進」（https://en.wikipedia.org/wiki/List_of_Mobile_Suit_Zeta_Gundam_episodes）。日付は記憶にもとづく推定。"};
 
-RESULT.refs=[{"k": "TV版", "v": "TV版『機動戦士Ζガンダム』 第9話〜第11話（推定）"}, {"k": "劇場版", "v": "『Ζガンダム A New Translation 星を継ぐ者』（推定）"}];
+RESULT.refs=[{"k": "TV版", "v": "TV版『機動戦士Ζガンダム』 第11話〜第13話"}, {"k": "劇場版", "v": "『Ζガンダム A New Translation 星を継ぐ者』（推定）"}];
 
 
 const u0=(o,i)=>(U.find(u=>u.name===o.name).k[i]||{});

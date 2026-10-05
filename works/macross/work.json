@@ -1,0 +1,52 @@
+{
+ "title": "マクロス戦史",
+ "short": "マクロス",
+ "span": "2009〜2059年",
+ "unit": "戦い",
+ "date": "uc",
+ "yl": "",
+ "lead": "<span class=\"nb\">2009年2月7日の主砲誤射から</span><span class=\"nb\">2010年のボドル基幹艦隊決戦まで、</span><span class=\"nb\">第一次星間大戦を中心に</span><span class=\"nb\">時代順に並べた年表です。</span><br><span class=\"nb\">『マクロス7』『マクロスF』の</span><span class=\"nb\">決戦も加えています。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>数値の典拠</dt><dd><span class=\"nb\">作中の描写と公開資料に拠ります。</span><span class=\"nb\">確かめられなかった値は「不明」です。</span></dd>\n<dt>日付</dt><dd><span class=\"nb\">確認できた日付は2009年2月7日だけです。</span><span class=\"nb\">ほかは前後の出来事から推定し、</span><span class=\"nb\">「推定」と書いています。</span></dd>\n<dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>\n<dt>話数</dt><dd><span class=\"nb\">TV版『超時空要塞マクロス』（1982年）を基準にしています。</span></dd>",
+ "eras": [
+  [
+   "開戦",
+   "主砲誤射と第一次星間大戦の始まり"
+  ],
+  [
+   "帰還の旅",
+   "冥王星軌道から地球へ"
+  ],
+  [
+   "最終決戦",
+   "ボドル基幹艦隊との決戦"
+  ],
+  [
+   "マクロス7",
+   "2046年・プロトデビルン戦役"
+  ],
+  [
+   "マクロスF",
+   "2059年・バジュラ戦役"
+  ]
+ ],
+ "names": {
+  "titan": "敵勢力側",
+  "efsf": "統合軍・船団側",
+  "none": "決着なし"
+ },
+ "order": [
+  "titan",
+  "efsf",
+  "none"
+ ],
+ "colors": {
+  "titan": [
+   "#9a5420",
+   "#e0a070"
+  ],
+  "efsf": [
+   "#2d68be",
+   "#79abee"
+  ]
+ }
+}

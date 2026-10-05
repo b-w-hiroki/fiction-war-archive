@@ -22,7 +22,7 @@ const PH=[
 const RESULT={title:'ジャクーの戦いの戦果',when:'5 ABY、惑星ジャクー',prev:'エンドアの戦い',next:'スターキラー基地の戦い',
  factors:['帝国はエンドア後に統一指揮を失っていた。'],winner:'A',outcome:'新共和国の勝利',
  summary:'銀河内戦の最後の大きな戦い。帝国は降伏した。',
- sides:[{name:'銀河帝国（残存軍）',side:'E',cmdr:'ガリアス・ラックス元帥（推定）',flag:'—',others:'—',before:'不明',loss:'不明',rate:null,deaths:'不明',dead:[]},{name:'新共和国',side:'A',cmdr:'不明',flag:'—',others:'—',before:'不明',loss:'不明',rate:null,deaths:'不明',dead:[]}],
+ sides:[{name:'銀河帝国（残存軍）',side:'E',cmdr:'ガリアス・ラックス顧問',flag:'—',others:'—',before:'不明',loss:'不明',rate:null,deaths:'不明',dead:[]},{name:'新共和国',side:'A',cmdr:'アクバー提督',flag:'—',others:'—',before:'不明',loss:'不明',rate:null,deaths:'不明',dead:[]}],
  after:['帝国の一部は未知領域へ逃れ、後のファースト・オーダーとなる。'],
- note:'年は記憶にもとづく（Wookieepedia年表では未確認）。兵力・損害の数値は確認できず「不明」とした。映画では戦場跡のみが描かれ、戦闘の内容は小説・コミック等の設定に拠る（推定）。'};
+ note:'年はWookieepedia（https://starwars.fandom.com/wiki/Battle_of_Jakku）で5 ABYと確認。兵力・損害の数値は確認できず「不明」とした。映画では戦場跡のみが描かれ、戦闘の内容は小説・コミック等の設定に拠る。指揮官はWookieepediaによる。'};
 """

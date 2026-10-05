@@ -1,0 +1,66 @@
+{
+ "title": "宇宙世紀戦史 0096-0153",
+ "short": "ガンダム UC〜V",
+ "span": "U.C.0096〜0153年",
+ "unit": "戦い",
+ "date": "uc",
+ "yl": "U.C.",
+ "lead": "<span class=\"nb\">U.C.0096年のラプラス事変から</span><span class=\"nb\">0153年のザンスカール戦争まで、</span><span class=\"nb\">10の戦いを</span><span class=\"nb\">時代順に並べた年表です。</span><br><span class=\"nb\">ガンダムUC・閃光のハサウェイ（小説基準）・</span><span class=\"nb\">F91・Vガンダムを</span><span class=\"nb\">対象にしています。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>陣営の色</dt><dd><span class=\"nb\">ジオン残党・袖付きは赤、</span><span class=\"nb\">クロスボーン・バンガードは桃、</span><span class=\"nb\">ザンスカールは灰紫、</span><span class=\"nb\">連邦・ロンド・ベルは青、</span><span class=\"nb\">マフティーとリガ・ミリティアは緑です。</span><span class=\"nb\">マフティー動乱では連邦を「E」側に置いています。</span></dd>\n<dt>数値の典拠</dt><dd><span class=\"nb\">作中の描写と公式設定に拠ります。</span><span class=\"nb\">確かめられなかった値は「不明」です。</span></dd>\n<dt>日付・話数</dt><dd><span class=\"nb\">作中で日付が示されない戦いや、</span><span class=\"nb\">話数を確かめきれなかったものは</span><span class=\"nb\">「推定」と書いています。</span></dd>\n<dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>",
+ "eras": [
+  [
+   "ラプラス事変",
+   "0096 ガンダムUC"
+  ],
+  [
+   "マフティー動乱",
+   "0105 閃光のハサウェイ"
+  ],
+  [
+   "コスモ・バビロニア建国戦争",
+   "0123 F91"
+  ],
+  [
+   "ザンスカール戦争",
+   "0153 Vガンダム"
+  ]
+ ],
+ "names": {
+  "zeon": "ジオン残党／袖付き",
+  "efsf": "地球連邦軍・ロンド・ベル",
+  "hilmes": "クロスボーン・バンガード",
+  "serpent": "ザンスカール帝国",
+  "scout": "マフティー／リガ・ミリティア",
+  "none": "決着なし"
+ },
+ "order": [
+  "zeon",
+  "efsf",
+  "hilmes",
+  "serpent",
+  "scout",
+  "none"
+ ],
+ "colors": {
+  "zeon": [
+   "#b4452b",
+   "#ec7c5f"
+  ],
+  "efsf": [
+   "#2d68be",
+   "#79abee"
+  ],
+  "hilmes": [
+   "#8a3b6e",
+   "#d081ad"
+  ],
+  "serpent": [
+   "#5a4a6a",
+   "#a596b8"
+  ],
+  "scout": [
+   "#22703c",
+   "#6cc488"
+  ]
+ }
+}

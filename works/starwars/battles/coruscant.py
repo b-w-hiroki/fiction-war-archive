@@ -26,5 +26,5 @@ const RESULT={title:'コルサントの戦いの戦果',when:'19 BBY、首都惑
  summary:'議長は救われたが、それはシスの計画の一歩だった。',
  sides:[{name:'独立星系連合',side:'E',cmdr:'グリーヴァス将軍',flag:'—',others:'ドゥークー伯爵',before:'不明',loss:'不明',rate:null,deaths:'不明',dead:['ドゥークー伯爵']},{name:'銀河共和国',side:'A',cmdr:'—',flag:'—',others:'オビ＝ワン、アナキン',before:'不明',loss:'不明',rate:null,deaths:'不明',dead:[]}],
  after:['まもなくジェダイ粛清（オーダー66）が起き、共和国は帝国になる。'],
- note:'年は記憶にもとづく（Wookieepedia年表では未確認）。兵力・損害の数値は確認できず「不明」とした。'};
+ note:'年はWookieepedia（https://starwars.fandom.com/wiki/Battle_of_Coruscant）で19 BBYと確認。兵力・損害の数値は確認できず「不明」とした。'};
 """

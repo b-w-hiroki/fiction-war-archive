@@ -25,5 +25,5 @@ const RESULT={title:'ジオノーシスの戦いの戦果',when:'22 BBY、惑星
  summary:'クローン戦争の最初の戦い。共和国が勝ったが、全面戦争の始まりとなった。',
  sides:[{name:'独立星系連合',side:'E',cmdr:'ドゥークー伯爵',flag:'—',others:'—',before:'不明',loss:'不明',rate:null,deaths:'不明',dead:[]},{name:'銀河共和国',side:'A',cmdr:'ヨーダ',flag:'—',others:'メイス・ウィンドゥ',before:'不明',loss:'不明（ジェダイ多数）',rate:null,deaths:'不明',dead:[]}],
  after:['共和国は軍隊を持つ国になった。','アナキンが片腕を失う。'],
- note:'年はWookieepedia（英語版ファンWiki）の正史年表に拠る。兵力・損害の数値は確認できず「不明」とした。'};
+ note:'年はWookieepedia（https://starwars.fandom.com/wiki/First_Battle_of_Geonosis）で22 BBYと確認。兵力・損害の数値は確認できず「不明」とした。'};
 """

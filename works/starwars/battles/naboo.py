@@ -26,5 +26,5 @@ const RESULT={title:'ナブーの戦いの戦果',when:'32 BBY、惑星ナブー
  summary:'通商連合の封鎖は終わり、ナブーは解放された。',
  sides:[{name:'通商連合',side:'E',cmdr:'ヌート・ガンレイ総督',flag:'—',others:'ダース・モール',before:'不明',loss:'不明（司令船を失う）',rate:null,deaths:'不明',dead:['ダース・モール（とされた）']},{name:'ナブー・グンガン',side:'A',cmdr:'アミダラ女王',flag:'—',others:'ボス・ナス、クワイ＝ガン・ジン',before:'不明',loss:'不明',rate:null,deaths:'不明',dead:['クワイ＝ガン・ジン']}],
  after:['パルパティーンが最高議長に選ばれる。','アナキンがジェダイの訓練を受け始める。'],
- note:'年はWookieepedia（英語版ファンWiki）の正史年表に拠る。兵力・損害の数値は確認できず「不明」とした。モールはのちの作品で生存が描かれる。'};
+ note:'年はWookieepedia（https://starwars.fandom.com/wiki/Battle_of_Naboo）でクローン戦争開戦の10年前＝32 BBYと確認。兵力・損害の数値は確認できず「不明」とした。モールはのちの作品で生存が描かれる。'};
 """

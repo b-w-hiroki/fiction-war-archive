@@ -26,5 +26,5 @@ const RESULT={title:'ホスの戦いの戦果',when:'3 ABY、氷の惑星ホス'
  summary:'帝国は基地を奪ったが、反乱同盟の主力は逃れた。',
  sides:[{name:'銀河帝国',side:'E',cmdr:'ダース・ベイダー',flag:'—',others:'ヴィアーズ将軍',before:'不明',loss:'不明',rate:null,deaths:'不明',dead:[]},{name:'反乱同盟',side:'A',cmdr:'リーコン将軍',flag:'—',others:'レイア、ルーク',before:'不明',loss:'不明',rate:null,deaths:'不明',dead:[]}],
  after:['ルークはダゴバへ、ハンたちはベスピンへ向かう。'],
- note:'年は記憶にもとづく（Wookieepedia年表では未確認）。兵力・損害の数値は確認できず「不明」とした。'};
+ note:'年はWookieepedia（https://starwars.fandom.com/wiki/Battle_of_Hoth）で3 ABYと確認。兵力・損害の数値は確認できず「不明」とした。'};
 """
