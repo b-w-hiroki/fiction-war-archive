@@ -1,0 +1,54 @@
+{
+ "title": "宇宙世紀戦史 0083-0093",
+ "short": "ガンダム 0083〜逆シャア",
+ "span": "U.C.0083〜0093年",
+ "unit": "戦い",
+ "date": "uc",
+ "yl": "U.C.",
+ "lead": "<span class=\"nb\">U.C.0083年の星の屑作戦から</span><span class=\"nb\">0093年のアクシズ・ショックまで、</span><span class=\"nb\">12の戦いを</span><span class=\"nb\">時代順に並べた年表です。</span><br><span class=\"nb\">0083・Ζ・ΖΖ・逆襲のシャアを</span><span class=\"nb\">対象にしています。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>陣営の色</dt><dd><span class=\"nb\">ジオン系（デラーズ・フリート、アクシズ／ネオ・ジオン）は赤、</span><span class=\"nb\">連邦・エゥーゴ・カラバは青です。</span><span class=\"nb\">グリプス戦役ではティターンズを灰紫で示します。</span></dd>\n<dt>数値の典拠</dt><dd><span class=\"nb\">作中の描写と公式設定に拠ります。</span><span class=\"nb\">兵力・損害の公式数値は少なく、</span><span class=\"nb\">確かめられなかった値は「不明」です。</span></dd>\n<dt>日付・話数</dt><dd><span class=\"nb\">作中で日付が示されない戦いや、</span><span class=\"nb\">話数を確かめきれなかったものは</span><span class=\"nb\">「推定」と書いています。</span></dd>\n<dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>",
+ "eras": [
+  [
+   "星の屑",
+   "0083 デラーズ紛争"
+  ],
+  [
+   "グリプス戦役",
+   "ティターンズとエゥーゴ"
+  ],
+  [
+   "第一次ネオ・ジオン抗争",
+   "ハマーンのネオ・ジオン"
+  ],
+  [
+   "第二次ネオ・ジオン抗争",
+   "シャアの反乱"
+  ]
+ ],
+ "names": {
+  "zeon": "ジオン系（デラーズ・フリート／アクシズ／ネオ・ジオン）",
+  "efsf": "連邦・エゥーゴ側",
+  "serpent": "ティターンズ",
+  "none": "決着なし"
+ },
+ "order": [
+  "zeon",
+  "efsf",
+  "serpent",
+  "none"
+ ],
+ "colors": {
+  "zeon": [
+   "#b4452b",
+   "#ec7c5f"
+  ],
+  "efsf": [
+   "#2d68be",
+   "#79abee"
+  ],
+  "serpent": [
+   "#5a4a6a",
+   "#a596b8"
+  ]
+ }
+}

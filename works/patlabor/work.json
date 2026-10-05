@@ -1,0 +1,48 @@
+{
+ "title": "特車二課事件簿",
+ "short": "パトレイバー",
+ "span": "1998〜2002年",
+ "unit": "事件",
+ "lead": "<span class=\"nb\">劇場版2作と</span><span class=\"nb\">OVA初期シリーズを軸に、</span><span class=\"nb\">『機動警察パトレイバー』の</span><span class=\"nb\">5つの事件を年代順に並べました。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>基準</dt><dd><span class=\"nb\">劇場版（1989・1993）と</span><span class=\"nb\">OVA初期シリーズを基準とし、</span><span class=\"nb\">漫画・TV版は補足です。</span></dd><dt>年</dt><dd><span class=\"nb\">第2作の2002年以外は</span><span class=\"nb\">推定を含みます。</span></dd><dt>陣営の色</dt><dd><span class=\"nb\">灰紫は犯人側、</span><span class=\"nb\">青は特車二課です。</span></dd>",
+ "eras": [
+  [
+   "OVA期",
+   "二課の一番長い日"
+  ],
+  [
+   "劇場版第1作",
+   "HOS事件"
+  ],
+  [
+   "グリフォン事件",
+   "漫画・TV版"
+  ],
+  [
+   "劇場版第2作",
+   "柘植事件"
+  ]
+ ],
+ "names": {
+  "serpent": "犯人側",
+  "efsf": "特車二課",
+  "none": "決着なし"
+ },
+ "order": [
+  "efsf",
+  "serpent",
+  "none"
+ ],
+ "colors": {
+  "serpent": [
+   "#5a4a6a",
+   "#a596b8"
+  ],
+  "efsf": [
+   "#2d68be",
+   "#79abee"
+  ]
+ },
+ "date": "uc",
+ "yl": ""
+}

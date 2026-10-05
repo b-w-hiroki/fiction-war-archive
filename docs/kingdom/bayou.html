@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>馬陽の戦い 3D俯瞰</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#05070c;--panel:rgba(236,240,246,.92);--ink:#10151f;--sub:#4d5668;--line:rgba(16,21,31,.16);--emp:#b0303a;--all:#1f7a8c;--acc:#b0303a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--panel:rgba(9,13,22,.8);--ink:#e6ecf5;--sub:#9aa6ba;--line:rgba(230,236,245,.16);--emp:#e8707a;--all:#5cc4d6;--acc:#e8707a}}
+:root[data-theme="dark"]{--panel:rgba(9,13,22,.8);--ink:#e6ecf5;--sub:#9aa6ba;--line:rgba(230,236,245,.16);--emp:#e8707a;--all:#5cc4d6;--acc:#e8707a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Zen Kaku Gothic New",system-ui,sans-serif;overflow:hidden;-webkit-font-smoothing:antialiased}
+#app{position:relative;height:100%;overflow:hidden}
+#stage{position:absolute;inset:0}
+#stage canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+.hud{position:absolute;inset:0;pointer-events:none}
+.hud .ui{pointer-events:auto}
+.back{display:inline-block;margin:2px 0 0;font-size:12px;font-weight:700;color:var(--sub);text-decoration:none}
+.title{position:absolute;top:10px;right:12px;writing-mode:vertical-rl;color:#f3f6fb;text-shadow:0 0 14px rgba(120,170,255,.45);display:flex;gap:6px}
+.title b{font-size:30px;font-weight:900;letter-spacing:.18em;line-height:1}
+.title span{font-size:11px;letter-spacing:.2em;font-weight:700;color:#b9c6da}
+.force{position:absolute;top:10px;left:10px;width:min(68vw,330px);background:var(--panel);padding:8px 10px 7px;border-radius:4px;font-size:11.5px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:0 0 0 1px var(--line)}
+.row{display:grid;grid-template-columns:max-content 1fr 7.6em;align-items:center;gap:6px;margin:2px 0}
+.row .side{font-weight:900;font-size:12.5px;white-space:nowrap}
+.row.e .side{color:var(--emp)}.row.a .side{color:var(--all)}
+.bar{position:relative;height:6px;background:var(--line);overflow:hidden}
+.bar i{position:absolute;left:0;top:0;bottom:0;transition:width .9s ease}
+.row.e .dep{background:var(--emp);opacity:.33}.row.e .fig{background:var(--emp)}
+.row.a .dep{background:var(--all);opacity:.33}.row.a .fig{background:var(--all)}
+.num{font-variant-numeric:tabular-nums;text-align:right;color:var(--sub);white-space:nowrap}
+.num b{color:var(--ink)}
+.note{color:var(--sub);font-size:10.5px;margin-top:3px;line-height:1.5}
+.cap{position:absolute;left:0;right:0;margin:0 auto;bottom:66px;width:calc(100% - 20px);max-width:620px;box-sizing:border-box;background:var(--panel);border-radius:4px;padding:10px 14px 12px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 0 0 1px var(--line)}
+.cap.in{animation:capIn .6s ease}
+@keyframes capIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.time{display:flex;gap:10px;align-items:baseline;color:var(--acc);font-weight:700;font-size:12px}
+.time b{font-size:14px;font-weight:900;letter-spacing:.08em}
+.cap h2{font-weight:900;font-size:20px;margin:1px 0 4px;letter-spacing:.1em}
+.cap p{margin:0;font-size:13.5px;line-height:1.72}
+.tl{position:absolute;left:0;right:0;margin:0 auto;bottom:10px;width:calc(100% - 20px);max-width:620px;display:flex;gap:4px;align-items:center}
+.play{flex:none;width:46px;height:46px;border-radius:50%;border:none;background:var(--acc);color:#0b0f18;font-size:15px;cursor:pointer}
+.steps{flex:1;display:flex;gap:2px;background:var(--panel);border-radius:23px;padding:4px;height:46px;box-sizing:border-box;box-shadow:0 0 0 1px var(--line)}
+.steps button{flex:1;min-width:0;border:none;background:transparent;border-radius:19px;font:700 11px "Zen Kaku Gothic New",sans-serif;color:var(--sub);padding:0;cursor:pointer;white-space:nowrap}
+.steps button.done{color:var(--ink)}
+.steps button.on{background:var(--ink);color:var(--panel)}
+.cam{flex:none;height:46px;padding:0 11px;border-radius:23px;border:none;background:var(--panel);color:var(--ink);font:700 11px "Zen Kaku Gothic New",sans-serif;cursor:pointer;box-shadow:0 0 0 1px var(--line);line-height:1.25}
+.cam.off{color:var(--sub)}
+.resbtn{display:block;margin-top:5px;width:100%;border:none;background:transparent;color:var(--acc);font:700 11.5px "Zen Kaku Gothic New",sans-serif;text-align:right;padding:2px 0;cursor:pointer}
+.res{position:absolute;inset:0;z-index:5;background:var(--panel);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);overflow-y:auto;padding:calc(14px + env(safe-area-inset-top,0px)) 16px 24px;display:none}
+.res.on{display:block;animation:capIn .4s ease}
+.res .in{max-width:620px;margin:0 auto}
+.res h3{margin:0 0 2px;font-size:20px;font-weight:900;letter-spacing:.08em}
+.res .oc{font-size:13.5px;line-height:1.7;margin:4px 0 12px}
+.res .x{position:sticky;top:0;float:right;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--ink);font-size:16px;cursor:pointer}
+.res table{width:100%;border-collapse:collapse;font-size:12.5px;margin-bottom:12px;font-variant-numeric:tabular-nums}
+.res th,.res td{padding:6px 4px;border-bottom:1px solid var(--line);text-align:right;vertical-align:top}
+.res th:first-child,.res td:first-child{text-align:left;color:var(--sub);font-weight:700;white-space:nowrap}
+.res thead th{font-size:13px}
+.res .rate{height:5px;background:var(--line);margin-top:3px}
+.res .rate i{display:block;height:100%}
+.res h4{font-size:12px;font-weight:900;color:var(--sub);letter-spacing:.08em;margin:12px 0 4px}
+.res ul{margin:0;padding-left:1.2em;font-size:13px;line-height:1.75}
+.res .src{font-size:11px;color:var(--sub);margin-top:12px;line-height:1.6}
+.spd{flex:none;height:46px;min-width:46px;padding:0 8px;border-radius:23px;border:none;background:var(--panel);color:var(--ink);font:700 12px "Zen Kaku Gothic New",sans-serif;font-variant-numeric:tabular-nums;cursor:pointer;box-shadow:0 0 0 1px var(--line)}
+.spd.fast{color:var(--acc)}
+button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+@media (max-width:420px){.cap h2{font-size:18px}.cap p{font-size:13px}.title b{font-size:26px}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="stage"></div>
+  <div class="hud">
+    <div class="title"><b>馬陽</b><span>紀元前244年（秦王政3年）</span></div>
+    <div class="force ui" aria-label="戦力">
+      <div class="row e"><span class="side">趙軍</span><div class="bar"><i class="dep" id="eDep"></i><i class="fig" id="eFig"></i></div><span class="num" id="eNum"></span></div>
+      <div class="row a"><span class="side">秦軍</span><div class="bar"><i class="dep" id="aDep"></i><i class="fig" id="aFig"></i></div><span class="num" id="aNum"></span></div>
+      <div class="note">交戦中／健在の部隊。配置は原作漫画にもとづく概略。部隊の大きさは兵力の目安</div>
+      <button class="resbtn" id="resOpen">戦果・損害を見る ›</button><a class="back" href="index.html#kingdom">‹ 年表へ戻る</a>
+    </div>
+    <div class="res ui" id="res" role="dialog" aria-label="戦果"><div class="in" id="resIn"></div></div>
+    <div class="cap ui" id="cap" aria-live="polite">
+      <div class="time"><b id="cTime"></b><span id="cClock"></span></div>
+      <h2 id="cTitle"></h2>
+      <p id="cText"></p>
+    </div>
+    <div class="tl ui">
+      <button class="play" id="play" aria-label="再生">▶</button>
+      <div class="steps" id="steps"></div>
+      <button class="spd" id="spd" aria-label="再生速度">1.0×</button>
+      <button class="cam" id="cam" aria-label="カメラ自動追従の切替">自動<br>カメラ</button>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const hs=(a,b)=>{const n=Math.sin(a*127.1+b*311.7)*43758.5453;return n-Math.floor(n)};
+const ease=p=>p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+$('stage').appendChild(renderer.domElement);
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x03050a);
+const cam=new THREE.PerspectiveCamera(42,1,.5,3000);
+
+/* ---------- 宇宙 ---------- */
+(function(){const n=4000,p=new Float32Array(n*3),c=new Float32Array(n*3);
+ for(let i=0;i<n;i++){const u=hs(i,1)*2-1,t=hs(2,i)*6.283,r=900,s=Math.sqrt(1-u*u);p.set([r*s*Math.cos(t),r*u,r*s*Math.sin(t)],i*3);
+  const b=.35+hs(i,5)*.65,w=hs(i,9);c.set([b*(w<.2?1:.8),b*.85,b*(w>.8?1:.8)],i*3)}
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(p,3));g.setAttribute('color',new THREE.BufferAttribute(c,3));
+ scene.add(new THREE.Points(g,new THREE.PointsMaterial({size:1.6,sizeAttenuation:false,vertexColors:true})))})();
+
+const gc=document.createElement('canvas');gc.width=gc.height=128;
+{const x=gc.getContext('2d'),g=x.createRadialGradient(64,64,0,64,64,64);g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.35,'rgba(255,255,255,.45)');g.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=g;x.fillRect(0,0,128,128)}
+const glowTex=new THREE.CanvasTexture(gc);
+
+const SUNL=new THREE.DirectionalLight(0xfff2dc,1.0);SUNL.position.set(80,120,40);scene.add(SUNL);
+scene.add(new THREE.HemisphereLight(0xcfe0f0,0x4a4a3a,.75));
+
+(function(){const S=260,N=110,g=new THREE.PlaneGeometry(S,S,N,N);g.rotateX(-Math.PI/2);const p=g.attributes.position,c=new Float32Array(p.count*3),lo=new THREE.Color(0x5a6a40),hi=new THREE.Color(0x9a9468),t=new THREE.Color();
+ for(let i=0;i<p.count;i++){const x=p.getX(i),z=p.getZ(i);let h=0,f=.012,a=1;for(let o=0;o<4;o++){h+=a*(Math.sin(x*f+6*1.7+o)*Math.cos(z*f*1.3+6+o*2.1));f*=2.1;a*=.48}
+  h=h*5+(-4);p.setY(i,h);t.copy(lo).lerp(hi,Math.min(1,Math.max(0,(h-(-4)+5)/(5*2))));c.set([t.r,t.g,t.b],i*3)}
+ g.setAttribute('color',new THREE.BufferAttribute(c,3));g.computeVertexNormals();
+ const m=new THREE.Mesh(g,new THREE.MeshLambertMaterial({vertexColors:true}));scene.add(m);
+ scene.background=new THREE.Color(0x6f8297);scene.fog=new THREE.Fog(0x6f8297,320,1100);})();
+
+const SPECIAL={P:[{done:false,reset(){if(!this.done){this.done=true;{const l=sprite('馬陽','',CSS.A,3*1.6);l.position.set(0,10,0);scene.add(l)}}}}],reset(i){this.P.forEach(p=>p.reset&&p.reset(i))},update(now,dt){this.P.forEach(p=>p.update&&p.update(now,dt));typeof beamsUpdate==="function"&&beamsUpdate(dt);}};
+
+
+/* ---------- ラベル ---------- */
+function makeTex(main,sub,col,fs){
+ const dpr=2,c=document.createElement('canvas'),x=c.getContext('2d');
+ const f1=`900 ${fs}px "Zen Kaku Gothic New", sans-serif`,f2=`700 ${Math.round(fs*.56)}px "Zen Kaku Gothic New", sans-serif`;
+ x.font=f1;const w1=x.measureText(main).width;x.font=f2;const w2=sub?x.measureText(sub).width:0;
+ const W=Math.ceil(Math.max(w1,w2)+26),Hh=Math.ceil(sub?fs*1.95:fs*1.4);
+ c.width=W*dpr;c.height=Hh*dpr;x.scale(dpr,dpr);
+ x.fillStyle='rgba(6,10,18,.78)';x.fillRect(0,0,W,Hh);x.fillStyle=col;x.fillRect(0,0,3,Hh);
+ x.textAlign='center';x.textBaseline='top';x.font=f1;x.fillStyle='#f2f5fa';x.fillText(main,W/2+1,fs*.16);
+ if(sub){x.font=f2;x.fillStyle=col;x.fillText(sub,W/2+1,fs*1.22)}
+ const t=new THREE.CanvasTexture(c);t.minFilter=THREE.LinearFilter;return {t,a:W/Hh};
+}
+function sprite(main,sub,col,scale){const {t,a}=makeTex(main,sub,col,30);const s=new THREE.Sprite(new THREE.SpriteMaterial({map:t,depthTest:false,transparent:true}));s.center.set(.5,0);s.scale.set(scale*a,scale,1);s.userData.a=a;s.renderOrder=10;s.userData.scale=scale;return s}
+function reSprite(s,main,sub,col){const {t,a}=makeTex(main,sub,col,30);s.material.map.dispose();s.material.map=t;s.material.needsUpdate=true;s.userData.a=a;s.scale.set(s.userData.scale*a,s.userData.scale,1)}
+
+
+const U=[
+{name:'趙軍本軍',cmd:'龐煖・李牧',side:'E',n:60,k:{0:{p:[0,7,-30],s:'ready',f:'line',l:'約10万（推定）'},1:{p:[0,7,-12],s:'fight'},2:{p:[0,7,-8],s:'charge'},3:{p:[0,7,-24],s:'ready'}}},
+{name:'李牧軍',cmd:'李牧',side:'E',n:36,k:{0:{p:[-30,7,-60],s:'hidden',f:'line',l:'伏兵'},1:{p:[-30,7,-60],s:'hidden'},2:{p:[-30,7,6],s:'charge'},3:{p:[-30,7,6],s:'fight'}}},
+{name:'王騎軍',cmd:'王騎',side:'A',n:60,k:{0:{p:[0,7,30],s:'ready',f:'concave',l:'約10万（推定）'},1:{p:[0,7,12],s:'fight'},2:{p:[0,7,0],s:'charge'},3:{p:[0,7,24],s:'withdraw'}}}
+];
+const PH=[
+{time:'紀元前244年',clock:'',step:'布陣',title:'趙の侵攻',text:'趙軍が馬陽へ攻め込み、秦は王騎を総大将に立てた。',cam:{fit:1,th:0.4,ph:.9},arrows:[]},
+{time:'',clock:'',step:'激戦',title:'両軍の押し合い',text:'王騎軍が趙の将を討ち、優勢に進めた。',cam:{fit:1,th:0.8,ph:.9},arrows:[]},
+{time:'',clock:'',step:'伏兵',title:'李牧の伏兵',text:'王騎が龐煖と一騎打ちのさなか、李牧の伏兵が背後から現れ包囲した。',cam:{fit:1,th:0.3,ph:.9},arrows:[]},
+{time:'',clock:'',step:'撤退',title:'王騎の死',text:'王騎は討たれ、秦軍は退いた。',cam:{fit:1,th:0.6,ph:.9},arrows:[]}
+];
+const RESULT={title:'馬陽の戦いの結果',when:'紀元前244年（秦王政3年）、馬陽',prev:'蛇甘平原の戦い',next:'山陽攻略',factors:["李牧が隠していた別働隊で背後を取った。", "総大将同士の一騎打ちの最中に包囲が成った。"],winner:'E',outcome:'趙軍の勝利',summary:'秦の六大将軍王騎が討たれた戦い。李牧が初めて表に出る。',sides:[{name:'趙軍',side:'E',cmdr:'龐煖・李牧',flag:'—',others:'—',before:'約10万（推定）',loss:'不明',rate:null,deaths:'不明',dead:["馮忌", "趙荘（推定）"]},{name:'秦軍',side:'A',cmdr:'王騎',flag:'—',others:'—',before:'約10万（推定）',loss:'不明',rate:null,deaths:'不明',dead:["王騎"]}],after:['秦の六大将軍王騎が討たれた戦い。李牧が初めて表に出る。'],note:'第108〜173話。兵力は記憶にもとづく推定で、資料で未確認。'};
+
+RESULT.refs=[{"k": "漫画", "v": "第108〜173話（11〜16巻ごろ、巻は推定）"}, {"k": "アニメ", "v": "第1シリーズ 第25〜38話（推定）"}];
+
+
+const u0=(o,i)=>(U.find(u=>u.name===o.name).k[i]||{});
+ let VT=performance.now()/1000,SPEED=1;
+/* ---------- 艦隊生成 ---------- */
+const EC=new THREE.Color(0xd2505a),AC=new THREE.Color(0x3aa6b8),BK=new THREE.Color(0x5a5e66);
+const CSS={E:'#e8707a',A:'#5cc4d6'};
+const shipGeo=new THREE.ConeGeometry(.3,1.9,4);shipGeo.rotateX(Math.PI/2);
+const WORD={fight:'交戦',charge:'突撃',broken:'崩壊',withdraw:'撤退',move:'移動中',wait:'停止'};
+const colOf=s=>s.s==='broken'||s.s==='gone'?BK:s.side==='E'?EC:AC;
+const opOf=s=>s.s==='gone'||s.s==='hidden'?0:s.s==='broken'?.5:1;
+const subOf=(o,s)=>{const w=s.l||WORD[s.s]||'';return o.cmd+(w?'　'+w:'')};
+const dummy=new THREE.Object3D();
+const units=U.map((u,ui)=>{
+ const st=[];let cur={p:null,s:'ready',side:u.side,l:''};
+ for(let i=0;i<PH.length;i++){const k=u.k[i]||{};cur={p:k.p||cur.p,s:k.s||cur.s,side:u.side,l:k.l!==undefined?k.l:(k.s?'':cur.l),nf:!!k.nf,b:!!k.b,fm:k.f!==undefined?k.f:(k.p||k.s?null:cur.fm),h:k.h!==undefined?k.h:(k.p||k.s?null:cur.h)};st.push(cur)}
+ const n=u.n,L=3,per=Math.ceil(n/L),cols=Math.ceil(Math.sqrt(per*1.6)),rows=Math.ceil(per/cols),offs=[];
+ for(let i=0;i<n;i++){const l=Math.floor(i/per),j=i%per,c=j%cols,r=Math.floor(j/cols);
+  offs.push([(c-(cols-1)/2)*1.5+(hs(i,ui)-.5)*.5,(l-(L-1)/2)*1.4+(hs(ui,i)-.5)*.5,(r-(rows-1)/2)*2.2,(hs(i*3,ui)-.5),(hs(ui,i*3)-.5),(hs(i,ui*7)-.5)])}
+ const mat=new THREE.MeshLambertMaterial({color:colOf(st[0]),emissive:colOf(st[0]).clone().multiplyScalar(.35),transparent:true});
+ const mesh=new THREE.InstancedMesh(shipGeo,mat,n);mesh.frustumCulled=false;scene.add(mesh);
+ const p=st[0].p,yaw=u.side==='E'?0:Math.PI;
+ return {name:u.name,cmd:u.cmd,side:u.side,n,st,mesh,mat,offs,sp:null,sy:new Float32Array(n),fmT0:0,x:p[0],y:p[1],z:p[2],f:p.slice(),t:p.slice(),t0:0,dur:1,spread:1,yaw,lab:null,labKey:'',wp:new Float32Array(n*3)};
+});
+
+
+/* ---------- 陣形 ---------- */
+// 局所座標: +z が進行方向。戻り値 [x,y,z]
+function formOff(f,i,n,q){
+ const jy=q[1]*.6;
+ if(f==='wedge'){const r=Math.floor((Math.sqrt(8*i+1)-1)/2),j=i-r*(r+1)/2,R=Math.floor((Math.sqrt(8*n+1)-1)/2);return [(j-r/2)*1.5,jy,(R/2-r)*1.6]}
+ if(f==='concave'||f==='convex'){const rows=3,per=Math.ceil(n/rows),r=i%rows,j=Math.floor(i/rows),x=(j-(per-1)/2)*1.5,W=Math.max(1,(per-1)/2*1.5),d=Math.pow(x/W,2)*W*.55;return [x,jy,(f==='concave'?d:-d)-r*1.8]}
+ if(f==='line'){const rows=3,per=Math.ceil(n/rows),r=i%rows,j=Math.floor(i/rows);return [(j-(per-1)/2)*1.5,jy,-r*1.8]}
+ if(f==='column'){const w=3,len=Math.ceil(n/w);return [(i%w-1)*1.5,jy,((len-1)/2-Math.floor(i/w))*1.9]}
+ if(f==='spindle'){const w=5,len=Math.ceil(n/w),r=Math.floor(i/w),z=((len-1)/2-r)*1.7,k=Math.sin(Math.PI*(r+.5)/len);return [((i%w)-2)*1.7*k,jy*k,z]}
+ return [q[0],q[1],q[2]];
+}
+function defForm(s){return s.s==='charge'?'wedge':(s.s==='move'||s.s==='withdraw')?'column':'block'}
+/* ---------- 光線・爆発 ---------- */
+const BN=500,bPos=new Float32Array(BN*6),bCol=new Float32Array(BN*6),beams=[];
+for(let i=0;i<BN;i++)beams.push({life:0});
+const bGeo=new THREE.BufferGeometry();bGeo.setAttribute('position',new THREE.BufferAttribute(bPos,3));bGeo.setAttribute('color',new THREE.BufferAttribute(bCol,3));
+const bLines=new THREE.LineSegments(bGeo,new THREE.LineBasicMaterial({vertexColors:true,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));bLines.frustumCulled=false;scene.add(bLines);
+let bI=0;
+function beam(a,b,col){const k=bI=(bI+1)%BN,bm=beams[k];bm.life=bm.max=.28+Math.random()*.15;bm.c=col;bPos.set([a[0],a[1],a[2],b[0],b[1],b[2]],k*6)}
+const fx=[];for(let i=0;i<180;i++){const s=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,opacity:0}));s.visible=false;scene.add(s);fx.push({s,life:0})}
+let fI=0;
+function boom(p,big,col){const f=fx[fI=(fI+1)%fx.length];f.s.visible=true;f.s.position.set(p[0],p[1],p[2]);f.life=f.max=big?.9:.35;f.s0=big?1.5:.6;f.s1=big?7:2.6;f.s.material.color.set(col||0xffd08a)}
+
+/* ---------- 矢印（進路） ---------- */
+const ACOL={E:0xe8707a,A:0x5cc4d6};let arrows=[];
+function buildArrows(list,now){
+ arrows.forEach(a=>{scene.remove(a.line);scene.remove(a.head);a.line.geometry.dispose()});
+ arrows=list.map((a,i)=>{
+  const curve=new THREE.CatmullRomCurve3(a.p.map(q=>new THREE.Vector3(...q))),P=curve.getSpacedPoints(80);
+  const g=new THREE.BufferGeometry().setFromPoints(P);g.setDrawRange(0,0);
+  const mat=new THREE.LineBasicMaterial({color:ACOL[a.c],transparent:true,opacity:.9,depthTest:false});
+  const line=new THREE.Line(g,mat);line.renderOrder=6;scene.add(line);
+  const head=new THREE.Mesh(new THREE.ConeGeometry(1.1,3,8),new THREE.MeshBasicMaterial({color:ACOL[a.c],depthTest:false}));
+  const e=P[80],d=e.clone().sub(P[76]).normalize();head.position.copy(e);head.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d);head.visible=false;head.renderOrder=6;scene.add(head);
+  return {line,head,t0:now+.5+i*.3};
+ });
+}
+
+/* ---------- カメラ ---------- */
+const C={tx:0,ty:0,tz:0,r:360,th:-.4,ph:.6},T={tx:4,ty:0,tz:0,r:175,th:.75,ph:1.12};
+let auto=true;
+function setAuto(v){auto=v;$('cam').classList.toggle('off',!v);$('cam').innerHTML=v?'自動<br>カメラ':'手動<br>操作中'}
+function camTo(c){[T.tx,T.ty,T.tz]=c.t;T.r=c.r;T.ph=c.ph;let th=c.th;while(th-C.th>Math.PI)th-=Math.PI*2;while(C.th-th>Math.PI)th+=Math.PI*2;T.th=th}
+$('cam').onclick=()=>{setAuto(!auto);if(auto)camTo(PH[phase].cam)};
+const cv=renderer.domElement,ptrs=new Map();let pinch=null;
+cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,[e.clientX,e.clientY]);if(auto)setAuto(false);pinch=null});
+cv.addEventListener('pointermove',e=>{
+ if(!ptrs.has(e.pointerId))return;const pr=ptrs.get(e.pointerId),dx=e.clientX-pr[0],dy=e.clientY-pr[1];ptrs.set(e.pointerId,[e.clientX,e.clientY]);
+ if(ptrs.size===1&&!e.shiftKey&&e.buttons!==2){T.th-=dx*.006;T.ph=Math.min(2.8,Math.max(.25,T.ph-dy*.005))}
+ else if(ptrs.size===1)pan(dx,dy);
+ else if(ptrs.size===2){const v=[...ptrs.values()],d=Math.hypot(v[0][0]-v[1][0],v[0][1]-v[1][1]),mx=(v[0][0]+v[1][0])/2,my=(v[0][1]+v[1][1])/2;
+  if(pinch){T.r=Math.min(420,Math.max(25,T.r*pinch.d/d));pan(mx-pinch.mx,my-pinch.my)}pinch={d,mx,my}}
+});
+const up=e=>{ptrs.delete(e.pointerId);pinch=null};
+cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);cv.addEventListener('contextmenu',e=>e.preventDefault());
+cv.addEventListener('wheel',e=>{e.preventDefault();if(auto)setAuto(false);T.r=Math.min(420,Math.max(25,T.r*(1+e.deltaY*.001)))},{passive:false});
+function pan(dx,dy){const s=T.r*.0016,c=Math.cos(T.th),n=Math.sin(T.th);T.tx+=-dx*c*s;T.tz+=dx*n*s;T.ty+=dy*s}
+
+/* ---------- UI ---------- */
+const stepsEl=$('steps');
+PH.forEach((p,i)=>{const b=document.createElement('button');b.textContent=p.step;b.setAttribute('aria-label',p.time+' '+p.title);b.onclick=()=>{playing=false;updPlay();setPhase(i)};stepsEl.appendChild(b)});
+let playing=false,phase=0,phaseT=0,phaseStart=0;
+function updPlay(){$('play').textContent=playing?'❚❚':'▶';$('play').setAttribute('aria-label',playing?'一時停止':'再生')}
+$('play').onclick=()=>{if(!playing&&phase===PH.length-1&&phaseT>1)setPhase(0);playing=!playing;updPlay()};
+function forces(i){
+ const r={E:[0,0,0],A:[0,0,0]};
+ units.forEach(o=>{const s=o.st[i];r[o.side][2]++;if(['gone','broken','hidden'].includes(s.s))return;r[o.side][0]++;if(['fight','charge'].includes(s.s)||s.l==='殿')r[o.side][1]++});
+ [['e','E'],['a','A']].forEach(([k,K])=>{$(k+'Dep').style.width=(r[K][0]/r[K][2]*100)+'%';$(k+'Fig').style.width=(r[K][1]/r[K][2]*100)+'%';$(k+'Num').innerHTML=`交戦 <b>${r[K][1]}</b> ／ 健在 ${r[K][0]}`});
+}
+function setPhase(i){
+ const now=VT;phase=i;phaseT=0;phaseStart=now;const P=PH[i];SPECIAL.reset&&SPECIAL.reset(i);
+ units.forEach(o=>{const s=o.st[i];o.f=[o.x,o.y,o.z];o.t=s.p.slice();
+  o.t0=now+(u0(o,i).dl||0);
+  o.dur=Math.min(7,Math.max(2.4,Math.hypot(o.t[0]-o.x,o.t[1]-o.y,o.t[2]-o.z)*.09));
+  const key=subOf(o,s)+s.s;if(key!==o.labKey&&o.lab){reSprite(o.lab,o.name,subOf(o,s),CSS[o.side]);o.labKey=key}});
+ buildArrows(P.arrows,now);
+ if(P.cam.fit){const pts=units.filter(o=>!['gone','hidden'].includes(o.st[i].s)).map(o=>o.st[i].p);
+  const xs=pts.map(p=>p[0]),zs=pts.map(p=>p[2]),cx=(Math.min(...xs)+Math.max(...xs))/2,cz=(Math.min(...zs)+Math.max(...zs))/2,cy=pts.reduce((a,p)=>a+p[1],0)/pts.length;
+  let ext=0;pts.forEach(p=>{ext=Math.max(ext,Math.hypot(p[0]-cx,p[2]-cz))});
+  const hf=Math.atan(Math.tan(21*Math.PI/180)*Math.min(cam.aspect,1.6)),pr=Math.min(1.5,Math.max(1,1/Math.sqrt(cam.aspect*1.3)));
+  P.cam.t=[cx,cy,cz];P.cam.r=Math.max(90,(ext+10)*.8/Math.tan(hf)/pr)*(P.cam.k||1)}
+ if(auto)camTo(P.cam);
+ $('cTime').textContent=P.time;$('cClock').textContent=P.clock;$('cTitle').textContent=P.title;$('cText').textContent=P.text;
+ const cap=$('cap');cap.classList.remove('in');void cap.offsetWidth;cap.classList.add('in');
+ [...stepsEl.children].forEach((b,j)=>{b.classList.toggle('on',j===i);b.classList.toggle('done',j<i)});
+ forces(i);
+}
+
+
+const SPEEDS=[1,1.5,2,3];
+$('spd').onclick=()=>{SPEED=SPEEDS[(SPEEDS.indexOf(SPEED)+1)%SPEEDS.length];$('spd').textContent=SPEED.toFixed(1)+'×';$('spd').classList.toggle('fast',SPEED>1);$('spd').setAttribute('aria-label','再生速度 '+SPEED+'倍')};
+/* ---------- 戦果パネル ---------- */
+function renderResult(){const R=RESULT,cE=CSS.E,cA=CSS.A;
+ const sd=R.sides,cell=(f)=>sd.map(x=>`<td>${f(x)}</td>`).join('');
+ $('resIn').innerHTML=`<button class="x" id="resClose" aria-label="閉じる">✕</button><h3>${R.title}</h3><div class="oc"><b style="color:${CSS[R.winner]||'inherit'}">${R.outcome}</b><br>${R.summary}</div>
+ <table><thead><tr><th></th>${sd.map(x=>`<th style="color:${CSS[x.side]}">${x.name}</th>`).join('')}</tr></thead><tbody>
+ ${sd[0].cmdr?`<tr><td>総司令官</td>${cell(x=>x.cmdr||'—')}</tr>`:''}
+ ${sd[0].flag?`<tr><td>旗艦</td>${cell(x=>x.flag||'—')}</tr>`:''}
+ ${sd[0].others?`<tr><td>主な指揮官</td>${cell(x=>x.others||'—')}</tr>`:''}
+ <tr><td>参加兵力</td>${cell(x=>x.before)}</tr>
+ <tr><td>損害</td>${cell(x=>x.loss)}</tr>
+ <tr><td>損耗率</td>${cell(x=>`${x.rate!=null?x.rate+'%':'不明'}<div class="rate"><i style="width:${x.rate||0}%;background:${CSS[x.side]}"></i></div>`)}</tr>
+ <tr><td>戦死者</td>${cell(x=>x.deaths||'不明')}</tr>
+ <tr><td>主な戦死者</td>${cell(x=>x.dead.length?x.dead.join('<br>'):'—')}</tr></tbody></table>
+ ${R.when?`<h4>日時・場所</h4><ul><li>${R.when}</li></ul>`:''}
+ ${R.factors?`<h4>勝敗を分けた要因</h4><ul>${R.factors.map(a=>`<li>${a}</li>`).join('')}</ul>`:''}
+ <h4>その後の勢力への影響</h4><ul>${R.after.map(a=>`<li>${a}</li>`).join('')}</ul>${R.refs&&R.refs.length?`<h4>原作・アニメの該当箇所</h4><ul>${R.refs.map(r=>`<li><b>${r.k}</b>　${r.v}</li>`).join('')}</ul>`:''}${R.prev||R.next?`<h4>前後の流れ</h4><ul>${R.prev?`<li>前：${R.prev}</li>`:''}${R.next?`<li>次：${R.next}</li>`:''}</ul>`:''}<div class="src">${R.note}</div>`;
+ $('resClose').onclick=()=>$('res').classList.remove('on');}
+$('resOpen').onclick=()=>{renderResult();$('res').classList.add('on')};
+/* ---------- ループ ---------- */
+function resize(){const w=$('stage').clientWidth,h=$('stage').clientHeight;renderer.setSize(w,h,false);cam.aspect=w/h;const f=w<h?.24:.12;cam.setViewOffset(w,h*(1+f),0,h*f,w,h);cam.updateProjectionMatrix()}
+new ResizeObserver(resize).observe($('stage'));resize();
+let last=performance.now()/1000,fireT=0;
+const ok=s=>!['gone','wait','move','hidden'].includes(s.s);
+function loop(){
+ requestAnimationFrame(loop);
+ const real=performance.now()/1000,dt=Math.min(.05,real-last)*SPEED;last=real;VT+=dt;const now=VT;
+ if(playing){phaseT+=dt;if(phaseT>(phase===PH.length-1?12:10.5)){if(phase<PH.length-1)setPhase(phase+1);else{playing=false;updPlay();renderResult();$('res').classList.add('on')}}}
+ // 艦隊
+ units.forEach(o=>{
+  const s=o.st[phase],p=Math.max(0,Math.min(1,(now-o.t0)/o.dur)),e=ease(p);
+  const nx=o.f[0]+(o.t[0]-o.f[0])*e,ny=o.f[1]+(o.t[1]-o.f[1])*e,nz=o.f[2]+(o.t[2]-o.f[2])*e;
+  const vx=nx-o.x,vz=nz-o.z;o.x=nx;o.y=ny;o.z=nz;
+  let ty=s.h!=null?s.h*Math.PI/180:(o.side==='E'?0:Math.PI);if(Math.hypot(vx,vz)>.02)ty=Math.atan2(vx,vz);
+  let dy=ty-o.yaw;while(dy>Math.PI)dy-=Math.PI*2;while(dy<-Math.PI)dy+=Math.PI*2;o.yaw+=dy*Math.min(1,dt*2);
+  const tsp=s.s==='broken'?2.4:s.s==='charge'?.85:1;o.spread+=(tsp-o.spread)*dt*1.2;
+  const col=colOf(s);o.mat.color.lerp(col,dt*2);o.mat.emissive.copy(o.mat.color).multiplyScalar(.35);
+  o.mat.opacity+=(opOf(s)-o.mat.opacity)*dt*1.4;o.mesh.visible=o.mat.opacity>.02;
+  const br=Math.max(0,o.spread-1),c=Math.cos(o.yaw),sn=Math.sin(o.yaw),f=s.fm||defForm(s),ring=f&&f.ring;
+  if(!o.sp){o.sp=new Float32Array(o.n*3);o.init=true}
+  const kk2=o.init?1:1-Math.exp(-dt*2.2);let ax=0,az=0;
+  for(let i=0;i<o.n;i++){const q=o.offs[i];let X,Y,Z,hy;
+   if(ring){const [cx,cz,rr,a0,a1,w]=ring,row=i%3,j=Math.floor(i/3),m=Math.ceil(o.n/3),th=a0+(a1-a0)*(j/Math.max(1,m-1))+(reduce?0:w*(now-phaseStart)),R=rr+(row-1)*1.6;
+    X=cx+Math.cos(th)*R;Z=cz+Math.sin(th)*R;Y=o.y+q[1]*.8;const sg=Math.sign(w||1);hy=Math.atan2(-Math.sin(th)*sg,Math.cos(th)*sg)}
+   else{const fo=formOff(f,i,o.n,q),ox=fo[0]*o.spread+q[3]*br*6,oy=fo[1]*o.spread+q[4]*br*6,oz=fo[2]*o.spread+q[5]*br*6;
+    X=o.x+ox*c+oz*sn;Y=o.y+oy;Z=o.z-ox*sn+oz*c;hy=o.yaw}
+   if(!reduce){Y+=Math.sin(now*.8+i)*.12;if(s.s==='fight'){X+=Math.sin(now*1.3+i)*.15;Z+=Math.cos(now*1.1+i*2)*.15}}
+   const k3=i*3,px=o.sp[k3],pz=o.sp[k3+2];o.sp[k3]+= (X-o.sp[k3])*kk2;o.sp[k3+1]+=(Y-o.sp[k3+1])*kk2;o.sp[k3+2]+=(Z-o.sp[k3+2])*kk2;
+   const mvx=o.sp[k3]-px,mvz=o.sp[k3+2]-pz;if(!o.init&&Math.hypot(mvx,mvz)>.04)hy=Math.atan2(mvx,mvz);
+   let d=hy-o.sy[i];while(d>Math.PI)d-=Math.PI*2;while(d<-Math.PI)d+=Math.PI*2;o.sy[i]=o.init?hy:o.sy[i]+d*Math.min(1,dt*3);
+   dummy.position.set(o.sp[k3],o.sp[k3+1],o.sp[k3+2]);dummy.rotation.set(br?q[3]*br*2:0,o.sy[i],br?q[5]*br*2:0);dummy.updateMatrix();o.mesh.setMatrixAt(i,dummy.matrix);
+   o.wp[k3]=o.sp[k3];o.wp[k3+1]=o.sp[k3+1];o.wp[k3+2]=o.sp[k3+2];ax+=X;az+=Z}
+  o.init=false;
+  if(ring){o.x=ax/o.n;o.z=az/o.n}
+  o.mesh.instanceMatrix.needsUpdate=true;
+  if(o.lab){const kd=Math.min(2.8,Math.max(.85,cam.position.distanceTo(o.lab.position)/110)),sc=o.lab.userData.scale*kd;o.lab.scale.set(sc*o.lab.userData.a,sc,1);o.lab.position.set(o.x,o.y+3.5+2*kd,o.z);o.lab.material.opacity=Math.min(1,o.mat.opacity*1.5);o.lab.visible=o.lab.material.opacity>.05}
+ });
+ // 砲火
+ fireT-=dt;
+ if(fireT<=0){fireT=.06;
+  units.forEach(a=>{const sa=a.st[phase];if(!(sa.s==='fight'||sa.s==='charge'||sa.l==='殿')||a.mat.opacity<.4)return;
+   if(sa.nf)return;
+   let best=null,bd=52;units.forEach(b=>{if(b.side===a.side||b.mat.opacity<.2||!ok(b.st[phase]))return;const d=Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z);if(d<bd){bd=d;best=b}});
+   if(!best)return;const shots=sa.b?5:2;
+   for(let k=0;k<shots;k++){const i=Math.floor(Math.random()*a.n)*3,j=Math.floor(Math.random()*best.n)*3;
+    const A=[a.wp[i],a.wp[i+1],a.wp[i+2]],B=[best.wp[j]+(Math.random()-.5)*2,best.wp[j+1]+(Math.random()-.5)*2,best.wp[j+2]+(Math.random()-.5)*2];
+    beam(A,B,a.side==='E'?EC:AC);if(Math.random()<.35)boom(B,best.st[phase].s==='broken'&&Math.random()<.4)}
+  });
+ }
+ for(let k=0;k<BN;k++){const b=beams[k];let r=0,g=0,bl=0;if(b.life>0){b.life-=dt;const f=Math.max(0,b.life/b.max);r=b.c.r*f*1.4;g=b.c.g*f*1.4;bl=b.c.b*f*1.4}bCol.set([r,g,bl,r*.3,g*.3,bl*.3],k*6)}
+ bGeo.attributes.position.needsUpdate=true;bGeo.attributes.color.needsUpdate=true;
+ fx.forEach(f=>{if(!f.s.visible)return;f.life-=dt;if(f.life<=0){f.s.visible=false;return}const k=1-f.life/f.max,sc=f.s0+(f.s1-f.s0)*k;f.s.scale.set(sc,sc,1);f.s.material.opacity=1-k});
+ SPECIAL.update(now,dt);
+ // 矢印
+ arrows.forEach(a=>{const p=Math.max(0,Math.min(1,(now-a.t0)/1.8));a.line.geometry.setDrawRange(0,Math.floor(ease(p)*81));a.head.visible=p>=1});
+ // カメラ
+ if(auto&&playing&&!reduce)T.th+=dt*.015;
+ const kk=1-Math.exp(-dt*(auto?.8:9));for(const key in T)C[key]+=(T[key]-C[key])*kk;
+ const pr=Math.min(1.5,Math.max(1,1/Math.sqrt(cam.aspect*1.3))),r=C.r*pr;
+ cam.position.set(C.tx+r*Math.sin(C.ph)*Math.sin(C.th),C.ty+r*Math.cos(C.ph),C.tz+r*Math.sin(C.ph)*Math.cos(C.th));
+ cam.lookAt(C.tx,C.ty,C.tz);
+ renderer.render(scene,cam);
+}
+
+/* ---------- 起動 ---------- */
+const allText=U.map(u=>u.name+u.cmd).join('')+PH.map(p=>p.title).join('')+U.map(u=>Object.values(u.k).map(k=>k.l||'').join('')).join('')+'交戦突撃崩壊撤退移動中停止';
+Promise.race([document.fonts.load('900 30px "Zen Kaku Gothic New"',allText).then(()=>document.fonts.load('700 17px "Zen Kaku Gothic New"',allText)).catch(()=>{}),new Promise(r=>setTimeout(r,2500))]).then(()=>{
+ units.forEach(o=>{const s=o.st[0];o.lab=sprite(o.name,subOf(o,s),CSS[o.side],2.7);o.labKey=subOf(o,s)+s.s;scene.add(o.lab)});
+ setPhase(0);if(reduce)Object.assign(C,T);
+ setTimeout(()=>{playing=true;updPlay()},2800);
+});
+setAuto(true);updPlay();loop();
+})();
+</script>
+</body>
+</html>

@@ -15,7 +15,7 @@ const U=[
  {name:'艦載機隊',cmd:'古代進ほか',side:'A',n:8,k:{0:{p:[10,0,24],s:'hidden'},1:{p:[10,0,24],s:'move',l:'反射衛星を探す'},2:{p:[8,0,-20],s:'charge',l:'基地を叩く'},3:{p:[6,0,10],s:'ready'}}}
 ];
 const PH=[
-{time:'2199年',clock:'第8話ごろ（推定）',step:'接近',title:'冥王星へ',text:'イスカンダルへ旅立ったヤマトは、地球を焼く遊星爆弾の発射基地がある冥王星に向かった。',cam:{fit:1,th:.4,ph:.9},arrows:[{p:[[0,0,30],[0,0,14]],c:'A'}]},
+{time:'2199年',clock:'第7〜8話',step:'接近',title:'冥王星へ',text:'イスカンダルへ旅立ったヤマトは、地球を焼く遊星爆弾の発射基地がある冥王星に向かった。',cam:{fit:1,th:.4,ph:.9},arrows:[{p:[[0,0,30],[0,0,14]],c:'A'}]},
  {time:'',clock:'',step:'反射衛星砲',title:'見えない砲撃',text:'ガミラスは衛星で光線を反射させ、死角からヤマトを撃った。ヤマトは被弾して冥王星の海に沈む。',cam:{fit:1,th:.8,ph:.9},arrows:[]},
  {time:'',clock:'',step:'反撃',title:'基地への反撃',text:'艦載機隊が反射衛星の仕組みを突き止め、浮上したヤマトとともに基地を叩いた。',cam:{fit:1,th:.3,ph:.9},arrows:[{p:[[0,0,-8],[0,0,-26]],c:'A'}]},
  {time:'',clock:'',step:'壊滅',title:'前線基地の壊滅',text:'冥王星前線基地は壊滅し、遊星爆弾の攻撃は止まった。ヤマトは太陽系の外へ向かう。',cam:{fit:1,th:.5,ph:1.0},arrows:[]}
@@ -26,5 +26,5 @@ const RESULT={title:'冥王星前線基地攻略の結果',when:'2199年、冥�
  sides:[{name:'冥王星前線基地',side:'E',cmdr:'シュルツ',flag:'—',others:'ガンツ',before:'不明',loss:'基地壊滅',rate:null,deaths:'不明',dead:[]},
         {name:'ヤマト',side:'A',cmdr:'沖田十三',flag:'ヤマト',others:'古代進、島大介',before:'ヤマト1隻と艦載機',loss:'損傷',rate:null,deaths:'不明',dead:[]}],
  after:['遊星爆弾の攻撃が止まる。','ヤマトは太陽系を出て、イスカンダルへの旅を続ける。'],
- note:'展開は1974年版TVにもとづく。話数は推定。'};
+ note:'展開は1974年版TVにもとづく。話数は英語版Wikipedia「List of Space Battleship Yamato episodes」の各話題名（第7話「運命の要塞攻略戦」・第8話「反射衛星砲撃破」）で確認。'};
 """

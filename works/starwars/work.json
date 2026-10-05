@@ -1,0 +1,58 @@
+{
+ "title": "銀河戦記（スター・ウォーズ）",
+ "short": "スター・ウォーズ",
+ "span": "32 BBY〜35 ABY",
+ "unit": "戦い",
+ "date": "uc",
+ "yl": "",
+ "lead": "<span class=\"nb\">32 BBYのナブーの戦いから</span><span class=\"nb\">35 ABYのエクセゴルの戦いまで、</span><span class=\"nb\">スター・ウォーズ正史の</span><span class=\"nb\">11の戦いを時代順に並べた年表です。</span><br><span class=\"nb\">年はヤヴィンの戦いを基点とする</span><span class=\"nb\">BBY（前）／ABY（後）で表します。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>年の典拠</dt><dd><span class=\"nb\">年は英語版ファンWiki</span><span class=\"nb\">Wookieepediaの正史年表に拠ります。</span></dd>\n   <dt>数値</dt><dd><span class=\"nb\">兵力・損害はほとんど示されず、</span><span class=\"nb\">多くは「不明」です。</span></dd>\n   <dt>陣営の色</dt><dd><span class=\"nb\">赤・灰紫は帝国／分離主義／ファースト・オーダー側、</span><span class=\"nb\">青は共和国／反乱同盟／レジスタンス側です。</span></dd>\n   <dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>",
+ "eras": [
+  [
+   "共和国の黄昏",
+   "ナブーの危機"
+  ],
+  [
+   "クローン戦争",
+   "共和国と分離主義"
+  ],
+  [
+   "帝国と反乱",
+   "銀河内戦"
+  ],
+  [
+   "新共和国",
+   "帝国の降伏"
+  ],
+  [
+   "続三部作",
+   "ファースト・オーダーとの戦い"
+  ]
+ ],
+ "names": {
+  "zeon": "帝国側",
+  "serpent": "分離主義側",
+  "efsf": "共和国・反乱側",
+  "none": "決着なし"
+ },
+ "order": [
+  "efsf",
+  "zeon",
+  "serpent",
+  "none"
+ ],
+ "colors": {
+  "zeon": [
+   "#b4452b",
+   "#ec7c5f"
+  ],
+  "efsf": [
+   "#2d68be",
+   "#79abee"
+  ],
+  "serpent": [
+   "#5a4a6a",
+   "#a596b8"
+  ]
+ }
+}

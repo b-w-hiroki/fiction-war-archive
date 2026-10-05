@@ -1,0 +1,46 @@
+{
+ "title": "公安9課事件簿",
+ "short": "攻殻機動隊 S.A.C.",
+ "span": "2030〜2032年",
+ "unit": "事件",
+ "lead": "<span class=\"nb\">『攻殻機動隊 STAND ALONE COMPLEX』</span><span class=\"nb\">1st GIG・2nd GIGの</span><span class=\"nb\">5つの事件を年代順に並べました。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>基準</dt><dd><span class=\"nb\">TVシリーズ1st GIG・2nd GIGを</span><span class=\"nb\">基準とします。</span></dd><dt>年・話数</dt><dd><span class=\"nb\">年は推定を含み、</span><span class=\"nb\">話数は英語版Wikipediaで</span><span class=\"nb\">確認できたものだけです。</span></dd><dt>陣営の色</dt><dd><span class=\"nb\">灰紫・赤は事件側、</span><span class=\"nb\">青は公安9課です。</span></dd>",
+ "eras": [
+  [
+   "1st GIG",
+   "笑い男事件"
+  ],
+  [
+   "2nd GIG",
+   "個別の11人事件"
+  ]
+ ],
+ "names": {
+  "serpent": "事件側",
+  "zeon": "事件側",
+  "efsf": "公安9課",
+  "none": "決着なし"
+ },
+ "order": [
+  "efsf",
+  "serpent",
+  "zeon",
+  "none"
+ ],
+ "colors": {
+  "serpent": [
+   "#5a4a6a",
+   "#a596b8"
+  ],
+  "zeon": [
+   "#b4452b",
+   "#ec7c5f"
+  ],
+  "efsf": [
+   "#2d68be",
+   "#79abee"
+  ]
+ },
+ "date": "uc",
+ "yl": ""
+}

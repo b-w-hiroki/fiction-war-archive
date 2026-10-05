@@ -156,7 +156,8 @@ def build_work(work, artifact):
     if artifact:
         urls = json.loads((work_dir / 'artifacts.json').read_text())
         metas = [build_battle(p, work_dir, R, out_dir) for p in battles]
-        link, strategy = (lambda k: urls.get(k, '#')), urls.get('_strategy', '')
+        pages = SITE.get('pages_url', '').rstrip('/')  # claude.ai に未公開の会戦は GitHub Pages 版へリンク
+        link, strategy = (lambda k: urls.get(k) or (f'{pages}/{work}/{k}.html' if pages else '#')), urls.get('_strategy', '')
     else:
         metas = [build_battle(p, work_dir, R, out_dir, ga=True, back=f'index.html#{work}') for p in battles]
         link, strategy = (lambda k: f'../{work}/{k}.html'), f'../{work}/strategy.html'

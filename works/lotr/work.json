@@ -1,0 +1,56 @@
+{
+ "title": "中つ国戦史",
+ "short": "指輪物語",
+ "span": "第二紀3434年〜第三紀3019年",
+ "unit": "戦い",
+ "date": "uc",
+ "yl": "第三紀",
+ "lead": "<span class=\"nb\">第二紀末の最後の同盟から</span><span class=\"nb\">第三紀3019年のホビット庄の戦いまで、</span><span class=\"nb\">トールキン『指輪物語』『ホビットの冒険』の</span><span class=\"nb\">8つの戦いを時代順に並べた年表です。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>日付</dt><dd><span class=\"nb\">追補編Bの年表に拠ります。</span><span class=\"nb\">最後の同盟は第二紀の年です。</span></dd>\n<dt>数値の典拠</dt><dd><span class=\"nb\">原作・追補編で確認できた兵力のみ載せ、</span><span class=\"nb\">映画の設定と異なる場合は原作を優先しました。</span><span class=\"nb\">一部は英語版Wikipediaの整理を経由し、</span><span class=\"nb\">原文との照合は済んでいません。</span></dd>\n<dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>",
+ "eras": [
+  [
+   "前史",
+   "第二紀末の最後の同盟"
+  ],
+  [
+   "ホビットの冒険",
+   "はなれ山と五軍の合戦"
+  ],
+  [
+   "指輪戦争",
+   "第三紀3019年の戦い"
+  ]
+ ],
+ "names": {
+  "serpent": "サウロン側",
+  "titan": "サルマン側",
+  "allied": "西方側",
+  "scout": "自由の民側",
+  "none": "相討ち"
+ },
+ "order": [
+  "allied",
+  "scout",
+  "serpent",
+  "titan",
+  "none"
+ ],
+ "colors": {
+  "serpent": [
+   "#5a4a6a",
+   "#a596b8"
+  ],
+  "titan": [
+   "#9a5420",
+   "#e0a070"
+  ],
+  "scout": [
+   "#22703c",
+   "#6cc488"
+  ],
+  "allied": [
+   "#2d68be",
+   "#79abee"
+  ]
+ }
+}
