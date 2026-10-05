@@ -1,0 +1,40 @@
+{
+ "title": "ヤマト航海記録",
+ "short": "宇宙戦艦ヤマト",
+ "span": "2199年",
+ "unit": "戦い",
+ "date": "uc",
+ "yl": "",
+ "lead": "<span class=\"nb\">2199年、</span><span class=\"nb\">イスカンダルへの往復29万6千光年の旅で</span><span class=\"nb\">ヤマトが戦った5つの戦いを</span><span class=\"nb\">順に並べた年表です。</span><span class=\"nb\">1974年版TVシリーズを基準にしています。</span>",
+ "notes": "<dt>基準</dt><dd><span class=\"nb\">1974年版TVシリーズの展開に拠ります。</span><span class=\"nb\">リメイク『2199』は展開が異なります。</span></dd>\n   <dt>数値と話数</dt><dd><span class=\"nb\">兵力の数値はほぼなく「—」です。</span><span class=\"nb\">話数には推定を含みます。</span></dd>\n   <dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>",
+ "eras": [
+  [
+   "旅立ち",
+   "冥王星まで"
+  ],
+  [
+   "決戦",
+   "七色星団からガミラス本星、帰路"
+  ]
+ ],
+ "names": {
+  "gamilas": "ガミラス側",
+  "earth": "地球側",
+  "none": "決着なし"
+ },
+ "order": [
+  "earth",
+  "gamilas",
+  "none"
+ ],
+ "colors": {
+  "gamilas": [
+   "#2d74be",
+   "#7ab8ee"
+  ],
+  "earth": [
+   "#b8641a",
+   "#eda15a"
+  ]
+ }
+}
