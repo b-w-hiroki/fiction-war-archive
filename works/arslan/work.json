@@ -1,0 +1,78 @@
+{
+ "title": "パルス戦史アーカイブ",
+ "short": "アルスラーン戦記",
+ "span": "パルス暦320〜326年",
+ "unit": "戦い",
+ "date": "uc",
+ "yl": "パルス暦",
+ "lead": "<span class=\"nb\">パルス暦320年のアトロパテネから</span><span class=\"nb\">326年の最終決戦まで、</span><span class=\"nb\">田中芳樹『アルスラーン戦記』の</span><span class=\"nb\">15の戦いを時代順に並べた年表です。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>数値の典拠</dt><dd><span class=\"nb\">原作小説の記述を整理した</span><span class=\"nb\">書評・年表サイトに拠ります。</span><span class=\"nb\">原作本文との照合は済んでいません。</span></dd>\n   <dt>第二部</dt><dd><span class=\"nb\">8〜16巻は資料が少なく、</span><span class=\"nb\">主な戦いだけを収録しています。</span><span class=\"nb\">日付には推定を含みます。</span></dd>\n   <dt>話数</dt><dd><span class=\"nb\">アニメは2015年版（全25話）と</span><span class=\"nb\">2016年『風塵乱舞』（全8話）です。</span><span class=\"nb\">多くは各話タイトルからの推定です。</span></dd>\n   <dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>",
+ "eras": [
+  [
+   "王都炎上",
+   "アトロパテネの敗戦と王都陥落"
+  ],
+  [
+   "流浪",
+   "ペシャワールとシンドゥラ"
+  ],
+  [
+   "王都奪還",
+   "解放の戦いと王位争奪"
+  ],
+  [
+   "第二部",
+   "即位後の外敵と蛇王"
+  ]
+ ],
+ "names": {
+  "lusi": "ルシタニア側",
+  "sind": "シンドゥラ側",
+  "turan": "トゥラーン・チュルク側",
+  "misr": "ミスル側",
+  "hilmes": "ヒルメス側",
+  "serpent": "蛇王側",
+  "parse": "パルス側",
+  "none": "相討ち"
+ },
+ "order": [
+  "parse",
+  "lusi",
+  "sind",
+  "turan",
+  "misr",
+  "hilmes",
+  "serpent",
+  "none"
+ ],
+ "colors": {
+  "parse": [
+   "#1f7a8c",
+   "#5cc4d6"
+  ],
+  "lusi": [
+   "#b0303a",
+   "#e8707a"
+  ],
+  "sind": [
+   "#b8641a",
+   "#eda15a"
+  ],
+  "turan": [
+   "#6d47ad",
+   "#ad8ae6"
+  ],
+  "misr": [
+   "#9a7a12",
+   "#d9b84a"
+  ],
+  "hilmes": [
+   "#8a3b6e",
+   "#d081ad"
+  ],
+  "serpent": [
+   "#5a4a6a",
+   "#a596b8"
+  ]
+ }
+}

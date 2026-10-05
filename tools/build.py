@@ -15,8 +15,10 @@ sys.path.insert(0, str(ENGINE))
 PALS = {'noble': ('0x9b6fe0', '#b28cf0', '#7a4fc0'), 'coup': ('0xe0603f', '#ef7a5c', '#c0452a'),
         'iser': ('0x4cc38a', '#5fd39a', '#1f8a58'), 'rebel': ('0xd8505c', '#ec6e78', '#b83a46'),
         'ally': ('0x3fbccf', '#58c7d8', '#1b8ea2'),
-        'zeon': ('0xd25a3e', '#ec7c5f', '#b4452b'), 'efsf': ('0x4a86d8', '#79abee', '#2d68be')}
-COL = {'': None, 'noble': 'nob', 'coup': 'coup', 'iser': 'iser', 'rebel': 'reb', 'ally': 'all', 'zeon': 'zeon', 'efsf': 'efsf'}
+        'zeon': ('0xd25a3e', '#ec7c5f', '#b4452b'), 'efsf': ('0x4a86d8', '#79abee', '#2d68be'),
+        'parse': ('0x3aa6b8', '#5cc4d6', '#1f7a8c'), 'lusi': ('0xd2505a', '#e8707a', '#b0303a'), 'sind': ('0xe08a3a', '#eda15a', '#b8641a'),
+        'turan': ('0x9a6fe0', '#ad8ae6', '#6d47ad'), 'misr': ('0xd0aa30', '#d9b84a', '#9a7a12'), 'hilmes': ('0xc06a9a', '#d081ad', '#8a3b6e'), 'serpent': ('0x8a7a9a', '#a596b8', '#5a4a6a')}
+COL = {'': None, 'noble': 'nob', 'coup': 'coup', 'iser': 'iser', 'rebel': 'reb', 'ally': 'all', 'zeon': 'zeon', 'efsf': 'efsf', 'parse': 'parse', 'lusi': 'lusi', 'sind': 'sind', 'turan': 'turan', 'misr': 'misr', 'hilmes': 'hilmes', 'serpent': 'serpent'}
 
 
 SITE = json.loads((ROOT / 'site.json').read_text()) if (ROOT / 'site.json').exists() else {}
