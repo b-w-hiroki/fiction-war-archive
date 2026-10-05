@@ -24,5 +24,5 @@ const RESULT={title:'プロトデビルン最終決戦の戦果',when:'2046年�
  factors:["歌がプロトデビルン自身にスピリチアを生ませた"],winner:'A',outcome:'和解による終結',summary:'敵を倒すのではなく、歌で説得して戦いを終わらせた。',
  sides:[{name:'プロトデビルン',side:'E',cmdr:'ゲペルニッチ',flag:'不明',others:'—',before:'不明',loss:'不明',rate:null,deaths:'不明',dead:[]},
         {name:'マクロス7船団',side:'A',cmdr:'マクシミリアン・ジーナス艦長',flag:'不明',others:'—',before:'不明',loss:'不明',rate:null,deaths:'不明',dead:[]}],
- after:["プロトデビルンは銀河の外へ去る"],note:'2046年と結末は英語版Wikipedia（Macross 7）による。話数の割り振りは推定。'};
+ after:["プロトデビルンは銀河の外へ去る"],note:'2046年と結末は英語版Wikipedia（Macross 7）による。最終決戦が第45〜49話であることはhttps://en.wikipedia.org/wiki/List_of_Macross_7_episodes で確認。第47・48話への場面の割り振りは記憶にもとづく。'};
 """

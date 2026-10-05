@@ -1,0 +1,14 @@
+{
+ "title": "P.D.戦史（鉄血のオルフェンズ）",
+ "short": "鉄血のオルフェンズ",
+ "span": "P.D.323〜325年",
+ "unit": "戦い",
+ "date": "uc",
+ "yl": "P.D.",
+ "lead": "<span class=\"nb\">P.D.323年のCGS襲撃から</span><span class=\"nb\">鉄華団最後の戦いまで、</span><span class=\"nb\">6つの戦いを</span><span class=\"nb\">時代順に並べた年表です。</span><br><span class=\"nb\">『鉄血のオルフェンズ』TV版を扱います。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>陣営の色</dt><dd><span class=\"nb\">赤がギャラルホルン側、</span><span class=\"nb\">橙が鉄華団側です。</span></dd>\n   <dt>日付</dt><dd><span class=\"nb\">第1期をP.D.323年、</span><span class=\"nb\">第2期をP.D.325年としています。</span><span class=\"nb\">月日は確かめられず「月日不明」です。</span></dd>\n   <dt>数値</dt><dd><span class=\"nb\">兵力・損害は公式数値が少なく、</span><span class=\"nb\">確かめられない値は「不明」です。</span></dd>\n   <dt>話数</dt><dd><span class=\"nb\">TV版の番号です。</span><span class=\"nb\">題名から位置づけたものは「推定」と書いています。</span></dd>\n   <dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>",
+ "eras": [["火星","鉄華団の誕生"],["地球への旅","クーデリア護衛"],["第2期","P.D.325年の鉄華団"]],
+ "names": {"zeon":"ギャラルホルン側","sind":"鉄華団側","none":"決着なし"},
+ "order": ["zeon","sind","none"],
+ "colors": {"zeon":["#b4452b","#ec7c5f"],"sind":["#b8641a","#eda15a"]}
+}

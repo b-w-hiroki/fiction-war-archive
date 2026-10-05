@@ -16,7 +16,7 @@ const U=[
  {name:'SMS VF隊',cmd:'早乙女アルト',side:'A',n:12,k:{0:{p:[12,0,30],s:'ready',l:''},1:{p:[10,0,0],s:'fight',l:''},2:{p:[10,0,-14],s:'charge',l:'シェリルとランカの歌'},3:{p:[12,0,-20],s:'charge',l:''},4:{p:[10,0,0],s:'ready',l:''}}}
 ];
 const PH=[
- {time:'不明',clock:'TV第24話（推定）',step:'到着',title:'本星へ',text:'住む星を失いかけた船団は、バジュラの本星へ向かった。',cam:{fit:1,th:0.30,ph:.9},arrows:[]},
+ {time:'不明',clock:'TV第24話',step:'到着',title:'本星へ',text:'住む星を失いかけた船団は、バジュラの本星へ向かった。',cam:{fit:1,th:0.30,ph:.9},arrows:[]},
  {time:'不明',clock:'TV第25話',step:'交戦',title:'本星での決戦',text:'バジュラとの総力戦になる。',cam:{fit:1,th:0.45,ph:.9},arrows:[]},
  {time:'不明',clock:'TV第25話',step:'歌',title:'二人の歌',text:'シェリルとランカの歌がバジュラに届く。',cam:{fit:1,th:0.60,ph:.9},arrows:[]},
  {time:'不明',clock:'TV第25話',step:'黒幕',title:'ギャラクシー残党の敗北',text:'バジュラを操っていたグレイスたちが倒された。',cam:{fit:1,th:0.75,ph:.9},arrows:[]},
@@ -26,5 +26,5 @@ const RESULT={title:'バジュラ本星決戦の戦果',when:'2059年（月日�
  factors:["歌がバジュラとの意思疎通を可能にした"],winner:'A',outcome:'フロンティア船団の勝利・バジュラとの和解',summary:'黒幕を倒し、歌でバジュラとの戦いを終わらせた。',
  sides:[{name:'バジュラ／ギャラクシー残党',side:'E',cmdr:'クイーン',flag:'不明',others:'—',before:'不明',loss:'不明',rate:null,deaths:'不明',dead:[]},
         {name:'マクロス・フロンティア船団',side:'A',cmdr:'ワイルダー艦長',flag:'不明',others:'—',before:'不明',loss:'不明',rate:null,deaths:'不明',dead:[]}],
- after:["船団は本星に移り住む（推定）"],note:'全25話（英語版Wikipedia）。年代と細部は記憶にもとづく推定。'};
+ after:["船団は本星に移り住む（推定）"],note:'本星決戦は第24〜25話（https://en.wikipedia.org/wiki/List_of_Macross_Frontier_episodes ）。年代と細部は記憶にもとづく推定。'};
 """

@@ -16,11 +16,11 @@ const U=[
  {name:'ストライクフリーダム',cmd:'キラ・ヤマト',side:'A',n:2,k:{0:{"p": [20, 30, 40], "s": "hidden"},1:{"p": [20, 30, 40], "s": "hidden"},2:{"p": [16, 7, 8], "s": "charge", "l": "宇宙から参戦"},3:{"p": [14, 7, 4], "s": "fight"},4:{"p": [16, 7, 20], "s": "ready"}}}
 ];
 const PH=[
- {"time": "C.E.73年", "clock": "DESTINY第39話（推定）", "step": "進攻", "title": "ザフトのオーブ攻撃", "text": "ジブリールの引き渡しを拒んだオーブに、ザフトが攻め込んだ。", "cam": {"fit": 1, "th": 0.4, "ph": 0.95}, "arrows": [{"p": [[0, 7, -50], [0, 7, -20]], "c": "E"}]},
+ {"time": "C.E.73年", "clock": "DESTINY第40話", "step": "進攻", "title": "ザフトのオーブ攻撃", "text": "ジブリールの引き渡しを拒んだオーブに、ザフトが攻め込んだ。", "cam": {"fit": 1, "th": 0.4, "ph": 0.95}, "arrows": [{"p": [[0, 7, -50], [0, 7, -20]], "c": "E"}]},
  {"time": "同", "clock": "", "step": "防戦", "title": "オーブの防戦", "text": "オーブ軍はアカツキなどで防いだ。", "cam": {"fit": 1, "th": 0.8, "ph": 0.95}, "arrows": []},
- {"time": "同", "clock": "DESTINY第40話（推定）", "step": "参戦", "title": "キラの参戦", "text": "キラが新しい機体で戦場に現れた。", "cam": {"fit": 1, "th": 0.3, "ph": 0.95}, "arrows": []},
+ {"time": "同", "clock": "DESTINY第42話", "step": "参戦", "title": "キラの参戦", "text": "キラが新しい機体で戦場に現れた。", "cam": {"fit": 1, "th": 0.3, "ph": 0.95}, "arrows": []},
  {"time": "同", "clock": "", "step": "復帰", "title": "カガリの復帰", "text": "カガリが国の指揮を取り戻し、オーブは反撃した。", "cam": {"fit": 1, "th": 0.5, "ph": 0.95}, "arrows": []},
  {"time": "同", "clock": "", "step": "撤退", "title": "ザフトの撤退", "text": "ザフトは退いた。ジブリールは宇宙へ逃れた。", "cam": {"fit": 1, "th": 0.4, "ph": 0.95}, "arrows": []}
 ];
-const RESULT={"title": "オーブ攻防の結果", "when": "C.E.73年、オーブ連合首長国", "prev": "ヘブンズベース攻防戦", "next": "ダイダロス基地攻略（レクイエム）", "factors": ["キラらの参戦で戦況が変わった。", "カガリの復帰でオーブ軍がまとまった。"], "winner": "A", "outcome": "オーブの防衛成功", "summary": "ジブリールを追ったザフトがオーブを攻め、退けられた戦い。", "sides": [{"name": "ザフト", "side": "E", "cmdr": "不明", "flag": "不明", "others": "シン・アスカ", "before": "不明", "loss": "不明", "rate": null, "deaths": "不明", "dead": []}, {"name": "オーブ軍", "side": "A", "cmdr": "カガリ・ユラ・アスハ", "flag": "不明", "others": "キラ・ヤマト", "before": "不明", "loss": "不明", "rate": null, "deaths": "不明", "dead": []}], "after": ["オーブとデュランダルの対立が決定的になる。"], "note": "月日は確認できず不明。話数は推定。この戦いではオーブ側をA枠（緑）に置いた。"};
+const RESULT={"title": "オーブ攻防の結果", "when": "C.E.73年、オーブ連合首長国", "prev": "ヘブンズベース攻防戦", "next": "ダイダロス基地攻略（レクイエム）", "factors": ["キラらの参戦で戦況が変わった。", "カガリの復帰でオーブ軍がまとまった。"], "winner": "A", "outcome": "オーブの防衛成功", "summary": "ジブリールを追ったザフトがオーブを攻め、退けられた戦い。", "sides": [{"name": "ザフト", "side": "E", "cmdr": "不明", "flag": "不明", "others": "シン・アスカ", "before": "不明", "loss": "不明", "rate": null, "deaths": "不明", "dead": []}, {"name": "オーブ軍", "side": "A", "cmdr": "カガリ・ユラ・アスハ", "flag": "不明", "others": "キラ・ヤマト", "before": "不明", "loss": "不明", "rate": null, "deaths": "不明", "dead": []}], "after": ["オーブとデュランダルの対立が決定的になる。"], "note": "月日は確認できず不明。話数はPHASE-40「黄金の意志」〜PHASE-42「自由と正義と」（第41話は総集編。https://en.wikipedia.org/wiki/List_of_Mobile_Suit_Gundam_SEED_Destiny_episodes ）。この戦いではオーブ側をA枠（緑）に置いた。"};
 """
