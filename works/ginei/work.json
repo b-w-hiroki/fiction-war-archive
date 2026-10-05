@@ -1,0 +1,84 @@
+{
+ "title": "銀河戦史アーカイブ",
+ "short": "銀河英雄伝説",
+ "span": "宇宙暦640〜801年",
+ "unit": "会戦",
+ "date": "ginei",
+ "yl": "宇宙暦",
+ "lead": "<span class=\"nb\">宇宙暦640年のダゴンから</span><span class=\"nb\">801年のシヴァまで、</span><span class=\"nb\">28の会戦を</span><span class=\"nb\">時代順に並べた年表です。</span><br><span class=\"nb\">大きな菱形の会戦が、</span><span class=\"nb\">その後の歴史を決めた戦いです。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>勢力図</dt><dd><span class=\"nb\">帝国暦487〜488年の勢力と艦隊の動きは、</span><span class=\"nb\"><a href=\"@@STRATEGY@@\">銀河戦略図</a>で見られます。</span></dd>\n   <dt>損耗率</dt><dd><span class=\"nb\">敗れた側、</span><span class=\"nb\">または損害の大きい側の値です。</span></dd>\n   <dt>数値の典拠</dt><dd><span class=\"nb\">原作小説の記述に拠ります。</span><span class=\"nb\">確かめられなかった値は「—」です。</span></dd>\n   <dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>\n   <dt>アニメ話数</dt><dd><span class=\"nb\">石黒昇監督版OVA（全110話）の番号です。</span><span class=\"nb\">「推定」は、</span><span class=\"nb\">範囲を確かめきれていない箇所です。</span></dd>",
+ "eras": [
+  [
+   "前史",
+   "帝国と同盟の出会い"
+  ],
+  [
+   "若き日",
+   "外伝の時代"
+  ],
+  [
+   "黎明",
+   "アスターテからアムリッツァ"
+  ],
+  [
+   "内乱",
+   "リップシュタット戦役と救国軍事会議"
+  ],
+  [
+   "雌伏",
+   "移動要塞の来襲"
+  ],
+  [
+   "神々の黄昏",
+   "ラグナロック作戦"
+  ],
+  [
+   "新帝国",
+   "同盟の滅亡からシヴァまで"
+  ]
+ ],
+ "names": {
+  "emp": "帝国軍",
+  "all": "同盟軍",
+  "nob": "貴族連合軍",
+  "coup": "救国軍事会議",
+  "iser": "ヤン一党・共和政府",
+  "reb": "ロイエンタール軍",
+  "none": "決着なし・講和"
+ },
+ "order": [
+  "emp",
+  "all",
+  "iser",
+  "nob",
+  "coup",
+  "reb",
+  "none"
+ ],
+ "colors": {
+  "emp": [
+   "#a4761a",
+   "#e0ae4a"
+  ],
+  "all": [
+   "#17808f",
+   "#56c0cf"
+  ],
+  "nob": [
+   "#6d47ad",
+   "#ad8ae6"
+  ],
+  "coup": [
+   "#b03f27",
+   "#e8795c"
+  ],
+  "iser": [
+   "#1d7c50",
+   "#5ccd96"
+  ],
+  "reb": [
+   "#a8343f",
+   "#e66f79"
+  ]
+ }
+}

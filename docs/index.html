@@ -7,13 +7,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@700;800&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/budoux@0.9.3/bundle/budoux-ja.min.js"></script>
 <style>
 :root{--paper:#e9ecef;--ink:#151a22;--sub:#566070;--rule:#c3cad3;--f-m:"Shippori Mincho","Hiragino Mincho ProN",serif;--f-g:"Zen Kaku Gothic New","Hiragino Sans",system-ui,sans-serif}
 @media (prefers-color-scheme:dark){:root{--paper:#10141b;--ink:#e3e7ed;--sub:#97a1b0;--rule:#2f3743;color-scheme:dark}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-g);font-size:15px;line-height:1.8;padding-top:env(safe-area-inset-top,0px)}
+body{word-break:auto-phrase;margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-g);font-size:15px;line-height:1.8;padding-top:env(safe-area-inset-top,0px)}
 .wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:40px 56px}
-h1{font-family:var(--f-m);font-weight:800;font-size:clamp(26px,6vw,36px);letter-spacing:.1em;margin:0;border-bottom:2px solid var(--ink);padding-bottom:12px}
+h1{font-family:var(--f-m);font-weight:800;font-size:clamp(22px,6.2vw,36px);letter-spacing:.06em;word-break:keep-all;margin:0;border-bottom:2px solid var(--ink);padding-bottom:12px}
 p.lead{color:var(--sub);font-size:14px;margin:10px 0 28px}
 ul{list-style:none;margin:0;padding:0}
 li{border-bottom:1px solid var(--rule)}
@@ -28,10 +29,10 @@ a:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 <body>
 <div class="wrap">
  <h1>フィクション戦史アーカイブ</h1>
- <p class="lead">物語に描かれた戦いを、作中の暦で並べた年表と、原作・アニメの該当箇所の索引です。</p>
+ <p class="lead"><budoux-ja>物語に描かれた戦いを作中の暦で並べた年表と、原作・アニメの該当箇所の索引です。作品を選ぶと年表が開きます。年表の上部から、いつでも別の作品に切り替えられます。</budoux-ja></p>
  <ul>
-  <li><a class="w" href="ginei/index.html"><b>銀河英雄伝説</b><span>宇宙暦640〜801年　28会戦</span><em>年表を開く</em></a></li>
-  <li class="soon">機動戦士ガンダム（宇宙世紀）　準備中</li>
+  <li><a class="w" href="ginei/index.html#ginei"><b>銀河英雄伝説</b><span>宇宙暦640〜801年　28の会戦</span><em>年表を開く</em></a></li>
+  <li><a class="w" href="gundam-uc0079/index.html#gundam-uc0079"><b>一年戦争</b><span>U.C.0077〜0080年　18の戦い</span><em>年表を開く</em></a></li>
   <li class="soon">アルスラーン戦記　準備中</li>
  </ul>
 </div>
