@@ -3,7 +3,7 @@
 使い方:
   python3 tools/build.py all                # 全作品と作品一覧（トップ）を docs/ に出力（GitHub Pages 用・相対リンク）
   python3 tools/build.py all --artifact     # 同じものを build/artifact/ に出力（claude.ai 用・絶対URL）
-  python3 tools/build.py ginei [--artifact] # 1作品だけ
+年表は全作品を1ページに収め、見出しのメニューでページ内を切り替える。
 """
 import sys, json, re, os, subprocess, importlib.util, glob, tempfile
 from pathlib import Path
@@ -80,19 +80,7 @@ def load_work(work):
     return json.loads((ROOT / 'works' / work / 'work.json').read_text())
 
 
-def nav_html(cur, link_hub, link_portal, target):
-    t = ' target="_blank" rel="noopener"' if target else ''
-    items = [f'<a class="home" href="{link_hub}"{t}>{SITE.get("name", "")}</a>']
-    for w in SITE.get('works', []):
-        cfg = load_work(w)
-        cur_attr = ' aria-current="page"' if w == cur else ''
-        href = '#' if w == cur else link_portal(w)
-        items.append(f'<a href="{href}"{cur_attr}{"" if w == cur else t}>{cfg["short"]}</a>')
-    return ''.join(items)
-
-
-def build_portal(work, work_dir, metas, impact, link, strategy_url, out_file, nav, standalone=False):
-    cfg = load_work(work)
+def make_rows(metas, impact, link):
     rows = []
     for m in metas:
         k, r = m['key'], m['res']
@@ -106,22 +94,31 @@ def build_portal(work, work_dir, metas, impact, link, strategy_url, out_file, na
                      'win': win['n'] if win else '', 'wc': win['c'] if win else 'none', 'ph': m['phases'],
                      'refs': r.get('refs', []), 'im': impact[k][0], 'imt': impact[k][1]})
     rows.sort(key=lambda x: x['uc'])
-    js_cfg = {k: cfg[k] for k in ('eras', 'names', 'order', 'unit', 'date', 'yl')}
+    return rows
+
+
+def build_portal(default, works, hub, out_file, artifact):
+    """全作品の年表を1ページに収め、見出しのメニューでページ内を切り替える。default は最初に表示する作品"""
+    colors = {}
+    for w in works.values():
+        colors.update(w.pop('colors', {}) or {})
+    for w in works.values():
+        w.pop('colors', None)
+    js = ('const WORKS=' + json.dumps(works, ensure_ascii=False) + ';\n'
+          + f'const DEF={json.dumps(default)},HUB={json.dumps(hub)},HUBT={json.dumps(" target=\"_blank\" rel=\"noopener\"" if artifact else "")},'
+          + f'SITE={json.dumps(SITE.get("name", ""), ensure_ascii=False)};')
     html = (ENGINE / 'portal.html').read_text()
-    html = (html.replace('/*@@DATA@@*/', 'const B=' + json.dumps(rows, ensure_ascii=False) + ';')
-            .replace('/*@@CFG@@*/', 'const CFG=' + json.dumps(js_cfg, ensure_ascii=False) + ';')
-            .replace('/*@@VARS_L@@*/', ''.join(f'--{k}:{v[0]};' for k, v in cfg['colors'].items()))
-            .replace('/*@@VARS_D@@*/', ''.join(f'--{k}:{v[1]};' for k, v in cfg['colors'].items()))
-            .replace('@@TITLE@@', cfg['title']).replace('@@LEAD@@', cfg['lead']).replace('@@NOTES@@', cfg['notes'])
-            .replace('@@NAV@@', nav).replace('@@STRATEGY@@', strategy_url))
-    if standalone:  # GitHub Pages 用。アーティファクトは公開時に枠が付くので不要
+    html = (html.replace('/*@@DATA@@*/', js)
+            .replace('/*@@VARS_L@@*/', ''.join(f'--{k}:{v[0]};' for k, v in colors.items()))
+            .replace('/*@@VARS_D@@*/', ''.join(f'--{k}:{v[1]};' for k, v in colors.items()))
+            .replace('@@TITLE@@', works[default]['title']))
+    if not artifact:  # GitHub Pages 用。アーティファクトは公開時に枠が付くので不要
         html = ('<!doctype html>\n<html lang="ja">\n<head>\n<meta charset="utf-8">\n'
                 '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
                 + html.replace('<style>', '<style>\nbody{margin:0;padding-top:env(safe-area-inset-top,0px)}', 1)
                 .replace('<div class="wrap">', '</head>\n<body>\n<div class="wrap">', 1) + '\n</body>\n</html>\n')
     out_file.parent.mkdir(parents=True, exist_ok=True)
-    out_file.write_text(with_ga(html) if standalone else html)
-    return len(rows)
+    out_file.write_text(html if artifact else with_ga(html))
 
 
 def build_hub(counts, link_portal, out_file, artifact):
@@ -142,6 +139,7 @@ def build_hub(counts, link_portal, out_file, artifact):
 
 
 def build_work(work, artifact):
+    """会戦ページを出力し、年表用の作品データを返す"""
     work_dir = ROOT / 'works' / work
     for m in ('refs', 'impact'):
         sys.modules.pop(m, None)
@@ -150,34 +148,38 @@ def build_work(work, artifact):
     from impact import I
     sys.path.pop(0)
     out_dir = ROOT / ('build/artifact' if artifact else 'docs') / work
+    battles = sorted(glob.glob(str(work_dir / 'battles' / '*.py')))
     if artifact:
         urls = json.loads((work_dir / 'artifacts.json').read_text())
-        hub = json.loads((ROOT / 'artifacts.json').read_text()).get('_hub', '#')
-        metas = [build_battle(p, work_dir, R, out_dir) for p in sorted(glob.glob(str(work_dir / 'battles' / '*.py')))]
-        nav = nav_html(work, hub, lambda w: json.loads((ROOT / 'works' / w / 'artifacts.json').read_text()).get('_portal', '#'), True)
-        n = build_portal(work, work_dir, metas, I, lambda k: urls.get(k, '#'), urls.get('_strategy', ''), out_dir / 'index.html', nav)
+        metas = [build_battle(p, work_dir, R, out_dir) for p in battles]
+        link, strategy = (lambda k: urls.get(k, '#')), urls.get('_strategy', '')
     else:
-        metas = [build_battle(p, work_dir, R, out_dir, ga=True, back='index.html') for p in sorted(glob.glob(str(work_dir / 'battles' / '*.py')))]
-        nav = nav_html(work, '../index.html', lambda w: f'../{w}/index.html', False)
-        n = build_portal(work, work_dir, metas, I, lambda k: f'{k}.html', 'strategy.html', out_dir / 'index.html', nav, standalone=True)
+        metas = [build_battle(p, work_dir, R, out_dir, ga=True, back=f'index.html#{work}') for p in battles]
+        link, strategy = (lambda k: f'../{work}/{k}.html'), f'../{work}/strategy.html'
         for extra in out_dir.glob('strategy.html'):  # 手書きのページにも反映
             extra.write_text(with_ga(extra.read_text()))
-    print(f'{work}: {n}件とポータルを {out_dir.relative_to(ROOT)}/ に出力')
-    return n
+    cfg = load_work(work)
+    data = {k: cfg[k] for k in ('title', 'short', 'span', 'unit', 'date', 'yl', 'eras', 'names', 'order', 'colors')}
+    data['lead'] = cfg['lead'].replace('@@STRATEGY@@', strategy)
+    data['notes'] = cfg['notes'].replace('@@STRATEGY@@', strategy)
+    data['B'] = make_rows(metas, I, link)
+    print(f'{work}: {len(metas)}件の会戦ページを {out_dir.relative_to(ROOT)}/ に出力')
+    return data
 
 
 def main():
-    target = sys.argv[1]
     artifact = '--artifact' in sys.argv
-    works = SITE['works'] if target == 'all' else [target]
-    counts = {w: build_work(w, artifact) for w in works}
-    if target == 'all':
-        if artifact:
-            build_hub(counts, lambda w: json.loads((ROOT / 'works' / w / 'artifacts.json').read_text()).get('_portal', '#'),
-                      ROOT / 'build/artifact/index.html', True)
-        else:
-            build_hub(counts, lambda w: f'{w}/index.html', ROOT / 'docs/index.html', False)
-        print('作品一覧を出力')
+    works = {w: build_work(w, artifact) for w in SITE['works']}
+    base = ROOT / ('build/artifact' if artifact else 'docs')
+    if artifact:
+        hub = json.loads((ROOT / 'artifacts.json').read_text()).get('_hub', '#')
+        portal = lambda w: json.loads((ROOT / 'works' / w / 'artifacts.json').read_text()).get('_portal', '#')
+    else:
+        hub, portal = '../index.html', (lambda w: f'{w}/index.html#{w}')
+    for w in works:  # 作品ごとの入口。中身は同じで、最初に開く作品だけが違う
+        build_portal(w, json.loads(json.dumps(works)), hub, base / w / 'index.html', artifact)
+    build_hub({w: len(d['B']) for w, d in works.items()}, portal, base / 'index.html', artifact)
+    print(f'年表（{len(works)}作品を切り替え）と作品一覧を {base.relative_to(ROOT)}/ に出力')
 
 
 if __name__ == '__main__':
