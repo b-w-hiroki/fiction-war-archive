@@ -28,5 +28,5 @@ const RESULT={title:'トロスト区攻防戦の結果',when:'850年、ウォー
  sides:[{name:'巨人',side:'E',cmdr:'（超大型巨人）',flag:'—',others:'—',before:'不明',loss:'侵入した巨人は掃討',rate:null,deaths:'—',dead:[]},
         {name:'駐屯兵団・訓練兵団',side:'A',cmdr:'ドット・ピクシス司令',flag:'—',others:'エレン、ミカサ、アルミン',before:'不明',loss:'不明（多数の兵が戦死）',rate:null,deaths:'不明',dead:['トーマス・ワグナー','ミーナ・カロライナ','マルコ・ボット']}],
  after:['エレンは調査兵団に入る。','マルコの死の真相は、のちに明かされる。'],
- note:'展開は原作とアニメ第1期にもとづく。話数の区切りは推定。死傷者数は確認できなかった。'};
+ note:'展開は原作とアニメ第1期にもとづく。アニメ話数（第1期 第5〜13話「トロスト区攻防戦」）は英語版Wikipedia「List of Attack on Titan episodes」で確認。漫画の区切りは推定。死傷者数は確認できなかった。'};
 """

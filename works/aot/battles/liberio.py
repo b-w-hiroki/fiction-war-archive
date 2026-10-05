@@ -27,5 +27,5 @@ const RESULT={title:'レベリオ収容区襲撃の結果',when:'854年、マー
  sides:[{name:'マーレ軍',side:'E',cmdr:'テオ・マガト',flag:'—',others:'ヴィリー・タイバー、ラーラ・タイバー',before:'不明',loss:'戦鎚の巨人、軍港の艦隊',rate:null,deaths:'不明（民間人を含む多数）',dead:['ヴィリー・タイバー','ラーラ・タイバー']},
         {name:'エレン・調査兵団',side:'A',cmdr:'エレン・イェーガー（独断）',flag:'—',others:'ハンジ、リヴァイ',before:'不明',loss:'不明',rate:null,deaths:'不明',dead:['サシャ・ブラウス']}],
  after:['世界はパラディ島への敵意を強める。','エレンは独断で動き、兵団の中にエレン派が生まれる。'],
- note:'展開は原作とアニメFinal Season第5〜8話にもとづく（話数は推定）。'};
+ note:'展開は原作とアニメFinal Season第5〜8話にもとづく。アニメ話数（通算第64〜67話）は英語版Wikipedia「List of Attack on Titan episodes」で確認。漫画の話数は推定。'};
 """

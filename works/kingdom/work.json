@@ -1,0 +1,54 @@
+{
+ "title": "キングダム戦史",
+ "short": "キングダム",
+ "span": "紀元前245〜前232年",
+ "unit": "戦い",
+ "date": "uc",
+ "yl": "",
+ "lead": "<span class=\"nb\">紀元前245年の蛇甘平原から</span><span class=\"nb\">前232年の番吾まで、</span><span class=\"nb\">原泰久『キングダム』の</span><span class=\"nb\">11の戦いを時代順に並べた年表です。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>年</dt><dd><span class=\"nb\">年は史実の紀元前の年です。</span><span class=\"nb\">月は推定です。</span></dd>\n<dt>数値の典拠</dt><dd><span class=\"nb\">兵力は作中の数字を</span><span class=\"nb\">まとめたサイトに拠ります。</span><span class=\"nb\">確認できないものは不明・推定としました。</span></dd>\n<dt>話数</dt><dd><span class=\"nb\">漫画の話数は</span><span class=\"nb\">ファン向け一覧に拠ります。</span><span class=\"nb\">アニメのシリーズは推定です。</span></dd>\n<dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>",
+ "eras": [
+  [
+   "飛躍",
+   "信の初陣から王騎の死、山陽まで"
+  ],
+  [
+   "合従軍",
+   "五国連合の侵攻"
+  ],
+  [
+   "中華統一",
+   "著雍から趙との決戦まで"
+  ]
+ ],
+ "names": {
+  "misr": "魏側",
+  "lusi": "趙側",
+  "serpent": "合従軍側",
+  "parse": "秦側"
+ },
+ "order": [
+  "parse",
+  "lusi",
+  "misr",
+  "serpent"
+ ],
+ "colors": {
+  "parse": [
+   "#1f7a8c",
+   "#5cc4d6"
+  ],
+  "lusi": [
+   "#b0303a",
+   "#e8707a"
+  ],
+  "misr": [
+   "#9a7a12",
+   "#d9b84a"
+  ],
+  "serpent": [
+   "#5a4a6a",
+   "#a596b8"
+  ]
+ }
+}
