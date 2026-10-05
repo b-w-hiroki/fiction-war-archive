@@ -130,7 +130,7 @@ const ph=t=>`<budoux-ja>${t}</budoux-ja>`;
 const c=k=>`var(--${k})`;
 const mk=(im,col)=>`<span class="mark m${im}" style="--c:${c(col)}"></span>`;
 let W,CFG,B,ERAS,NAME,BIG,cur='すべて';
-const Y=b=>{if(CFG.date==='uc'){const m=b.era.match(/U\.C\.(\d{4})/);return m?m[1]:''}return Math.floor(b.uc)};
+const Y=b=>{if(CFG.date==='uc'){const m=b.era.match(/(\d{3,4})年/);return m?m[1]:''}return Math.floor(b.uc)};
 function menu(){
  $('menu').innerHTML=Object.entries(WORKS).map(([k,w])=>`<button type="button" data-w="${k}"${k===W?' aria-current="page"':''}><b>${w.short}</b><span>${w.span}　${w.B.length}の${w.unit}</span><em>${k===W?'表示中':'切り替え ›'}</em></button>`).join('')
   +`<a class="all" href="${HUB}"${HUBT}><b>${SITE}（作品一覧）</b></a>`;
