@@ -1,0 +1,44 @@
+{
+ "title": "後世戦史（旭日の艦隊）",
+ "short": "旭日の艦隊",
+ "span": "1945〜1950年（照和20〜25年・一部推定）",
+ "unit": "戦い",
+ "date": "uc",
+ "yl": "",
+ "lead": "<span class=\"nb\">荒巻義雄『旭日の艦隊』で、</span><span class=\"nb\">大石蔵良の旭日艦隊が</span><span class=\"nb\">英国とともに</span><span class=\"nb\">ドイツ第三帝国と戦った</span><span class=\"nb\">8つの戦いを並べた年表です。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>暦</dt><dd><span class=\"nb\">作中の「照和」は西暦と同じ年数で読みかえています</span><span class=\"nb\">（照和20年＝1945年）。</span><span class=\"nb\">月や年が示されない戦いは、</span><span class=\"nb\">OVAの話順から推定しています。</span></dd>\n   <dt>数値の典拠</dt><dd><span class=\"nb\">日本語版Wikipediaの作品・艦の記事と、</span><span class=\"nb\">OVA各話のあらすじに拠ります。</span><span class=\"nb\">兵力・損害の数値はほとんど確認できず「不明」です。</span></dd>\n   <dt>話数</dt><dd><span class=\"nb\">OVAは1997〜2002年の全15話です。</span><span class=\"nb\">小説の巻は多くが未確認です。</span></dd>\n   <dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>",
+ "eras": [
+  [
+   "大西洋派遣",
+   "カナリア諸島からジブラルタルまで"
+  ],
+  [
+   "英本土防衛",
+   "北海・ベルリン空襲・トド作戦"
+  ],
+  [
+   "反攻",
+   "ブレストからヒトラー襲撃まで"
+  ]
+ ],
+ "names": {
+  "zeon": "ドイツ第三帝国側",
+  "scout": "旭日艦隊・英国側",
+  "none": "決着なし"
+ },
+ "order": [
+  "scout",
+  "zeon",
+  "none"
+ ],
+ "colors": {
+  "zeon": [
+   "#b4452b",
+   "#ec7c5f"
+  ],
+  "scout": [
+   "#22703c",
+   "#6cc488"
+  ]
+ }
+}

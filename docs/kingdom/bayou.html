@@ -181,6 +181,7 @@ const dummy=new THREE.Object3D();
 const units=U.map((u,ui)=>{
  const st=[];let cur={p:null,s:'ready',side:u.side,l:''};
  for(let i=0;i<PH.length;i++){const k=u.k[i]||{};cur={p:k.p||cur.p,s:k.s||cur.s,side:u.side,l:k.l!==undefined?k.l:(k.s?'':cur.l),nf:!!k.nf,b:!!k.b,fm:k.f!==undefined?k.f:(k.p||k.s?null:cur.fm),h:k.h!==undefined?k.h:(k.p||k.s?null:cur.h)};st.push(cur)}
+ {const fp=(Object.values(u.k).find(k=>k.p)||{p:[0,0,0]}).p;st.forEach(x=>{if(!x.p)x.p=fp})}
  const n=u.n,L=3,per=Math.ceil(n/L),cols=Math.ceil(Math.sqrt(per*1.6)),rows=Math.ceil(per/cols),offs=[];
  for(let i=0;i<n;i++){const l=Math.floor(i/per),j=i%per,c=j%cols,r=Math.floor(j/cols);
   offs.push([(c-(cols-1)/2)*1.5+(hs(i,ui)-.5)*.5,(l-(L-1)/2)*1.4+(hs(ui,i)-.5)*.5,(r-(rows-1)/2)*2.2,(hs(i*3,ui)-.5),(hs(ui,i*3)-.5),(hs(i,ui*7)-.5)])}

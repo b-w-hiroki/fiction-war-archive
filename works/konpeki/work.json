@@ -1,0 +1,50 @@
+{
+ "title": "後世戦史（紺碧の艦隊）",
+ "short": "紺碧の艦隊",
+ "span": "1941〜1945年（推定）",
+ "unit": "戦い",
+ "date": "uc",
+ "yl": "",
+ "lead": "<span class=\"nb\">後世世界の真珠湾攻撃から</span><span class=\"nb\">大西洋の赤道大海戦まで、</span><span class=\"nb\">荒巻義雄『紺碧の艦隊』（小説・OVA）の</span><span class=\"nb\">9の戦いを並べた年表です。</span>",
+ "notes": "<dt>数値の典拠</dt><dd><span class=\"nb\">兵力・損害は確認できず「不明」です。</span><span class=\"nb\">1941年以外の年は推定です。</span></dd>\n<dt>話数</dt><dd><span class=\"nb\">OVA話数は話数一覧で確認。</span><span class=\"nb\">小説の巻は未確認です。</span></dd>\n<dt>陣営の色</dt><dd><span class=\"nb\">緑は後世の日本、</span><span class=\"nb\">青は米国、</span><span class=\"nb\">赤はドイツ第三帝国です。</span></dd>",
+ "eras": [
+  [
+   "対米戦",
+   "太平洋での米国との戦い"
+  ],
+  [
+   "インド洋・対独戦",
+   "ドイツ第三帝国との戦いの始まり"
+  ],
+  [
+   "大西洋・対独戦",
+   "大西洋での決戦"
+  ]
+ ],
+ "names": {
+  "scout": "日本（後世）側",
+  "efsf": "米国側",
+  "zeon": "ドイツ側",
+  "none": "決着なし"
+ },
+ "order": [
+  "scout",
+  "efsf",
+  "zeon",
+  "none"
+ ],
+ "colors": {
+  "scout": [
+   "#22703c",
+   "#6cc488"
+  ],
+  "efsf": [
+   "#2d68be",
+   "#79abee"
+  ],
+  "zeon": [
+   "#b4452b",
+   "#ec7c5f"
+  ]
+ }
+}

@@ -1,0 +1,54 @@
+{
+ "title": "みらい航海記（ジパング）",
+ "short": "ジパング",
+ "span": "1942〜1944年",
+ "unit": "戦い",
+ "date": "uc",
+ "yl": "",
+ "lead": "<span class=\"nb\">1942年6月のミッドウェー沖から</span><span class=\"nb\">1944年のサイパン沖まで、</span><span class=\"nb\">かわぐちかいじ『ジパング』で</span><span class=\"nb\">イージス艦みらいが関わった</span><span class=\"nb\">7つの戦いを時代順に並べた年表です。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>数値の典拠</dt><dd><span class=\"nb\">作中の数はほとんど確認できず、</span><span class=\"nb\">多くは「不明」です。</span><span class=\"nb\">あらすじは英語版Wikipediaと</span><span class=\"nb\">ネタバレ解説サイトに拠り、</span><span class=\"nb\">原作本文とは照合していません。</span></dd>\n   <dt>年月</dt><dd><span class=\"nb\">作中の年月が確認できないものは、</span><span class=\"nb\">対応する史実の戦いから</span><span class=\"nb\">推定しています。</span></dd>\n   <dt>話数</dt><dd><span class=\"nb\">アニメ（全26話）はワスプ撃沈までです。</span><span class=\"nb\">漫画の巻数はほぼ推定か不明です。</span></dd>\n   <dt>陣営の色</dt><dd><span class=\"nb\">緑はみらい（とその側に立つ日本軍）、</span><span class=\"nb\">青は米軍、</span><span class=\"nb\">赤は草加の大和です。</span><span class=\"nb\">どちらを相手とするかは戦いごとに決めています。</span></dd>\n   <dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>",
+ "eras": [
+  [
+   "漂流",
+   "ミッドウェー沖への漂着"
+  ],
+  [
+   "ソロモン",
+   "ガダルカナルとワスプ"
+  ],
+  [
+   "北と南",
+   "1943年の撤退戦"
+  ],
+  [
+   "大和と原爆",
+   "最終決戦"
+  ]
+ ],
+ "names": {
+  "scout": "みらい側",
+  "efsf": "米軍側",
+  "zeon": "大和（草加）側",
+  "none": "決着なし・相討ち"
+ },
+ "order": [
+  "scout",
+  "efsf",
+  "zeon",
+  "none"
+ ],
+ "colors": {
+  "scout": [
+   "#22703c",
+   "#6cc488"
+  ],
+  "efsf": [
+   "#2d68be",
+   "#79abee"
+  ],
+  "zeon": [
+   "#b4452b",
+   "#ec7c5f"
+  ]
+ }
+}
