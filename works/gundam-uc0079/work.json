@@ -1,0 +1,56 @@
+{
+ "title": "一年戦争アーカイブ",
+ "short": "一年戦争",
+ "span": "U.C.0077〜0080年",
+ "unit": "戦い",
+ "date": "uc",
+ "yl": "U.C.",
+ "lead": "<span class=\"nb\">U.C.0077年の暁の蜂起から</span><span class=\"nb\">0080年1月の終戦まで、</span><span class=\"nb\">18の戦いを</span><span class=\"nb\">時代順に並べた年表です。</span><br><span class=\"nb\">TV版に加え、</span><span class=\"nb\">THE ORIGIN・08小隊・0080・サンダーボルトなどを含みます。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>損耗率</dt><dd><span class=\"nb\">敗れた側、</span><span class=\"nb\">または損害の大きい側の値です。</span></dd>\n   <dt>数値の典拠</dt><dd><span class=\"nb\">作中の描写と公式の設定に拠ります。</span><span class=\"nb\">一年戦争は兵力・損害の公式数値が少なく、</span><span class=\"nb\">確かめられなかった値は「—」です。</span></dd>\n   <dt>日付</dt><dd><span class=\"nb\">作中で日付が示されない戦いは、</span><span class=\"nb\">前後の出来事から推定し、</span><span class=\"nb\">「推定」と書いています。</span></dd>\n   <dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>\n   <dt>話数</dt><dd><span class=\"nb\">TV版は1979年放送の全43話の番号です。</span><span class=\"nb\">作品ごとに描写が食い違う場合は、</span><span class=\"nb\">TV版を基準にしています。</span></dd>",
+ "eras": [
+  [
+   "前史",
+   "開戦の前"
+  ],
+  [
+   "開戦",
+   "一週間戦争からルウムまで"
+  ],
+  [
+   "地球降下",
+   "地上戦の始まり"
+  ],
+  [
+   "V作戦",
+   "ホワイトベースの航海"
+  ],
+  [
+   "反攻",
+   "連邦の地上での反攻"
+  ],
+  [
+   "宇宙決戦",
+   "ソロモンから終戦まで"
+  ]
+ ],
+ "names": {
+  "zeon": "ジオン側",
+  "efsf": "連邦側",
+  "none": "決着なし"
+ },
+ "order": [
+  "zeon",
+  "efsf",
+  "none"
+ ],
+ "colors": {
+  "zeon": [
+   "#b4452b",
+   "#ec7c5f"
+  ],
+  "efsf": [
+   "#2d68be",
+   "#79abee"
+  ]
+ }
+}

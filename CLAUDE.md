@@ -24,9 +24,16 @@
 
 場面のカメラは `cam:{fit:1, th, ph, k}` を使うと部隊の配置から画角を自動で決める。
 
+## 作品の設定（works/<作品>/work.json）
+
+- `title` 年表の見出し、`short` 切り替えメニューの表示名、`span` 作品一覧に出す期間、`unit` 数え方（会戦／戦い）
+- `date` 年の表記方式（ginei＝宇宙暦の整数、uc＝ERA中の「U.C.0079年1月3日」を読む）、`yl` 時代見出しの暦名
+- `eras` 時代区分（ARC と一致）、`names` 陣営の勝利表記、`order` 凡例の並び、`colors` 陣営色（明・暗）
+- `lead`・`notes` は HTML 断片（改行位置は span.nb で区切る）
+
 ## 確認
 
-- `python3 tools/build.py <作品>` は構文とデータの読み込みまで検査する
+- `python3 tools/build.py all` は構文とデータの読み込みまで検査する（作品一覧・各年表・会戦ページをまとめて出力）
 - 見た目は `python3 tools/shot.py docs/<作品>/<key>.html 1,3 res 6000` で撮影し `/tmp/cmp.png` を見る（three.js を /tmp に npm i しておく）
 
 ## 文章
