@@ -23,10 +23,22 @@ for(const file of files){
       steps:document.querySelectorAll('#steps button').length,
       title:document.querySelector('#cTitle')?.textContent||'',
       play:!!document.querySelector('#play'),
-      result:!!document.querySelector('#resOpen')
+      result:!!document.querySelector('#resOpen'),
+      seek:!!document.querySelector('#phaseSeek'),
+      seekMax:Number(document.querySelector('#phaseSeek')?.max||-1)
     }));
-    if(!state.three||!state.canvas||!state.steps||!state.play||!state.result) throw new Error('UI init failed '+JSON.stringify(state));
+    if(!state.three||!state.canvas||!state.steps||!state.play||!state.result||!state.seek||state.seekMax!==state.steps-1) throw new Error('UI init failed '+JSON.stringify(state));
     const steps=page.locator('#steps button');
+    if(await steps.count()>2){
+      const seek=page.locator('#phaseSeek');
+      await seek.fill(String((await steps.count())-1));
+      await seek.dispatchEvent('input');
+      await page.waitForTimeout(120);
+      const v=await seek.inputValue();
+      const now=await page.locator('#seekNow').textContent();
+      if(v!==String((await steps.count())-1)||!now?.startsWith(String(await steps.count()))) throw new Error('seekbar did not jump to final phase');
+      await seek.fill('0');await seek.dispatchEvent('input');await page.waitForTimeout(80);
+    }
     const initialTitle=await page.locator('#cTitle').textContent();
     await page.locator('#play').click();
     await page.waitForTimeout(350);

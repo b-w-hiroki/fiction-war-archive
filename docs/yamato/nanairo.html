@@ -35,13 +35,17 @@ body{background:var(--bg);color:var(--ink);font-family:"Zen Kaku Gothic New",sys
 .num{font-variant-numeric:tabular-nums;text-align:right;color:var(--sub);white-space:nowrap}
 .num b{color:var(--ink)}
 .note{color:var(--sub);font-size:10.5px;margin-top:3px;line-height:1.5}
-.cap{position:absolute;left:0;right:0;margin:0 auto;bottom:66px;width:calc(100% - 20px);max-width:620px;box-sizing:border-box;background:var(--panel);border-radius:4px;padding:10px 14px 12px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 0 0 1px var(--line)}
+.cap{position:absolute;left:0;right:0;margin:0 auto;bottom:102px;width:calc(100% - 20px);max-width:620px;box-sizing:border-box;background:var(--panel);border-radius:4px;padding:10px 14px 12px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 0 0 1px var(--line)}
 .cap.in{animation:capIn .6s ease}
 @keyframes capIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .time{display:flex;gap:10px;align-items:baseline;color:var(--acc);font-weight:700;font-size:12px}
 .time b{font-size:14px;font-weight:900;letter-spacing:.08em}
 .cap h2{font-weight:900;font-size:20px;margin:1px 0 4px;letter-spacing:.1em}
 .cap p{margin:0;font-size:13.5px;line-height:1.72}
+.seek{position:absolute;left:0;right:0;margin:0 auto;bottom:64px;width:calc(100% - 20px);max-width:620px;height:30px;display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:center;background:var(--panel);padding:0 10px;border-radius:15px;box-sizing:border-box;box-shadow:0 0 0 1px var(--line);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.seek span{font-size:10px;font-weight:700;color:var(--sub);white-space:nowrap;font-variant-numeric:tabular-nums}
+.seek input{width:100%;height:24px;margin:0;accent-color:var(--acc);cursor:pointer}
+.seek input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 .tl{position:absolute;left:0;right:0;margin:0 auto;bottom:10px;width:calc(100% - 20px);max-width:620px;display:flex;gap:4px;align-items:center}
 .play{flex:none;width:46px;height:46px;border-radius:50%;border:none;background:var(--acc);color:#0b0f18;font-size:15px;cursor:pointer}
 .steps{flex:1;display:flex;gap:2px;background:var(--panel);border-radius:23px;padding:4px;height:46px;box-sizing:border-box;box-shadow:0 0 0 1px var(--line)}
@@ -69,7 +73,7 @@ body{background:var(--bg);color:var(--ink);font-family:"Zen Kaku Gothic New",sys
 .spd{flex:none;height:46px;min-width:46px;padding:0 8px;border-radius:23px;border:none;background:var(--panel);color:var(--ink);font:700 12px "Zen Kaku Gothic New",sans-serif;font-variant-numeric:tabular-nums;cursor:pointer;box-shadow:0 0 0 1px var(--line)}
 .spd.fast{color:var(--acc)}
 button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
-@media (max-width:420px){.cap h2{font-size:18px}.cap p{font-size:13px}.title b{font-size:26px}}
+@media (max-width:420px){.cap h2{font-size:18px}.cap p{font-size:13px}.title b{font-size:26px}.seek{gap:6px;padding-inline:8px}.seek span{font-size:9px}}
 </style>
 </head>
 <body>
@@ -88,6 +92,11 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
       <div class="time"><b id="cTime"></b><span id="cClock"></span></div>
       <h2 id="cTitle"></h2>
       <p id="cText"></p>
+    </div>
+    <div class="seek ui" aria-label="バトルフェイズ移動">
+      <span id="seekNow">1 / 1</span>
+      <input id="phaseSeek" type="range" min="0" max="0" step="1" value="0" aria-label="バトルフェイズを移動">
+      <span id="seekLabel">—</span>
     </div>
     <div class="tl ui">
       <button class="play" id="play" aria-label="再生">▶</button>
@@ -255,9 +264,12 @@ cv.addEventListener('wheel',e=>{e.preventDefault();if(auto)setAuto(false);T.r=Ma
 function pan(dx,dy){const s=T.r*.0016,c=Math.cos(T.th),n=Math.sin(T.th);T.tx+=-dx*c*s;T.tz+=dx*n*s;T.ty+=dy*s}
 
 /* ---------- UI ---------- */
-const stepsEl=$('steps');
+const stepsEl=$('steps'),phaseSeek=$('phaseSeek');
+phaseSeek.max=Math.max(0,PH.length-1);
+phaseSeek.setAttribute('aria-valuemax',String(Math.max(0,PH.length-1)));
 PH.forEach((p,i)=>{const b=document.createElement('button');b.textContent=p.step;b.setAttribute('aria-label',p.time+' '+p.title);b.onclick=()=>{playing=false;updPlay();setPhase(i)};stepsEl.appendChild(b)});
 let playing=false,phase=0,phaseT=0,phaseStart=0;
+phaseSeek.oninput=()=>{playing=false;updPlay();setPhase(Number(phaseSeek.value))};
 function updPlay(){$('play').textContent=playing?'❚❚':'▶';$('play').setAttribute('aria-label',playing?'一時停止':'再生')}
 $('play').onclick=()=>{if(!playing){if(phase===PH.length-1&&phaseT>1)setPhase(0);else if(phase===0&&phaseT===0&&PH.length>1)setPhase(1);playing=true}else playing=false;updPlay()};
 function forces(i){
@@ -281,6 +293,8 @@ function setPhase(i){
  $('cTime').textContent=P.time;$('cClock').textContent=P.clock;$('cTitle').textContent=P.title;$('cText').textContent=P.text;
  const cap=$('cap');cap.classList.remove('in');void cap.offsetWidth;cap.classList.add('in');
  [...stepsEl.children].forEach((b,j)=>{b.classList.toggle('on',j===i);b.classList.toggle('done',j<i)});
+ phaseSeek.value=String(i);phaseSeek.setAttribute('aria-valuenow',String(i));phaseSeek.setAttribute('aria-valuetext',P.time+' '+P.title);
+ $('seekNow').textContent=(i+1)+' / '+PH.length;$('seekLabel').textContent=P.step||P.time;
  forces(i);
 }
 
