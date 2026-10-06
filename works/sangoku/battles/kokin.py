@@ -5,7 +5,7 @@ OUT='kokin.html'
 TITLE='黄巾の乱 3D俯瞰'
 HEAD='黄巾の乱'
 ERA='184年2月'
-SE='黄巾軍'; SA='官軍・義勇軍'; PALE='serpent'; PAL='scout'
+SE='黄巾軍'; SA='官軍・義勇軍'; PALE='serpent'; PAL='allied'
 NOTE='交戦中／健在の部隊。配置は『三国志演義』の記述にもとづく概略。部隊の大きさは兵力の目安'
 ENV=land_env('0x5f6a44','0xa89a70',amp=5,seed=3)+specials(labels([('冀州・潁川', '', 'A', (0, 12, 0), 3)]))
 DATA=r"""

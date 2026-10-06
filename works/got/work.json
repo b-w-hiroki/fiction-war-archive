@@ -1,0 +1,80 @@
+{
+ "title": "ウェスタロス戦史",
+ "short": "氷と炎の歌",
+ "span": "AC299〜305年",
+ "unit": "戦い",
+ "date": "uc",
+ "yl": "AC",
+ "lead": "<span class=\"nb\">AC299年の囁きの森から</span><span class=\"nb\">ドラマ版の王都の戦いまで、</span><span class=\"nb\">ジョージ・R・R・マーティン『氷と炎の歌』と</span><span class=\"nb\">ドラマ『ゲーム・オブ・スローンズ』の</span><span class=\"nb\">8つの戦いを時代順に並べた年表です。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>基準</dt><dd><span class=\"nb\">小説を基準にし、</span><span class=\"nb\">ドラマの話数を併記します。</span></dd>\n   <dt>ドラマ独自の戦い</dt><dd><span class=\"nb\">堅牢な家以降はドラマのみの展開です。</span><span class=\"nb\">AC年は作中で示されないため推定です。</span></dd>\n   <dt>数値の典拠</dt><dd><span class=\"nb\">兵力はA Wiki of Ice and Fireで</span><span class=\"nb\">確認できたものだけ載せ、</span><span class=\"nb\">ほかは「不明」です。</span></dd>\n   <dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>",
+ "eras": [
+  [
+   "五王の戦争",
+   "鉄の玉座をめぐる内戦"
+  ],
+  [
+   "北の脅威",
+   "壁をめぐる戦い"
+  ],
+  [
+   "ドラマ独自",
+   "ドラマ版の結末"
+  ]
+ ],
+ "names": {
+  "zeon": "ラニスター側",
+  "efsf": "スターク側",
+  "misr": "スタニス側",
+  "titan": "野人側",
+  "scout": "冥夜の守人側",
+  "serpent": "死者の軍側",
+  "marley": "ボルトン側",
+  "lusi": "ターガリエン側",
+  "none": "決着なし"
+ },
+ "order": [
+  "efsf",
+  "zeon",
+  "misr",
+  "scout",
+  "titan",
+  "marley",
+  "serpent",
+  "lusi",
+  "none"
+ ],
+ "colors": {
+  "zeon": [
+   "#b4452b",
+   "#ec7c5f"
+  ],
+  "efsf": [
+   "#2d68be",
+   "#79abee"
+  ],
+  "misr": [
+   "#9a7a12",
+   "#d9b84a"
+  ],
+  "titan": [
+   "#9a5420",
+   "#e0a070"
+  ],
+  "scout": [
+   "#22703c",
+   "#6cc488"
+  ],
+  "serpent": [
+   "#5a4a6a",
+   "#a596b8"
+  ],
+  "marley": [
+   "#8a2a2a",
+   "#d87a7a"
+  ],
+  "lusi": [
+   "#b0303a",
+   "#e8707a"
+  ]
+ }
+}
