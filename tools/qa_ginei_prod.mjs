@@ -1,6 +1,7 @@
 import { chromium } from 'playwright';
 const base='https://fiction-war-archive.birdman-studio.com';
-const files=['astarte.html','amritsar.html','fortress.html','vermilion.html'];
+import fs from 'node:fs';
+const files=fs.readdirSync('docs/ginei').filter(f=>f.endsWith('.html')&&f!=='index.html'&&f!=='strategy.html').sort();
 const browser=await chromium.launch({headless:true,args:['--use-gl=swiftshader','--enable-webgl','--ignore-gpu-blocklist']});
 const failures=[];
 for(const file of files){
