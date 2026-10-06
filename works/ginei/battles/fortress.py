@@ -5,7 +5,7 @@ OUT='fortress.html'
 TITLE='要塞対要塞 3D俯瞰'
 HEAD='要塞対要塞'
 ERA='宇宙暦798年／帝国暦489年'
-NOTE='交戦中／健在の部隊数。帝国はガイエスブルク要塞＋ケンプ・ミュラー艦隊。展開は概略。主砲名はDNT公式表記'
+NOTE='交戦中／健在の部隊数。帝国はガイエスブルク要塞＋ケンプ・ミュラー艦隊。展開は概略。主砲名は媒体差を併記'
 EXTRA=r"""
 // 回廊の壁（航行不能宙域）
 (function(){const n=2600,p=new Float32Array(n*3),c=new Float32Array(n*3);for(let i=0;i<n;i++){const sd=i%2?1:-1,x=sd*(62+hs(i,31)*30),y=(hs(32,i)-.5)*70,z=(hs(i,33)-.5)*260;p.set([x,y,z],i*3);const b=.25+hs(i,34)*.3;c.set([b,b*.35,b*.3],i*3)}
@@ -24,7 +24,7 @@ function cannon(a,b,col,w){const d=new THREE.Vector3().subVectors(b,a),L=d.lengt
 """
 SPECIAL=r"""
 const SPECIAL={beams:[],lab:null,shot:0,boom:false,
- reset(i){if(!this.lab){this.lab=[[ISER,'イゼルローン要塞','同盟'],[GAI,'ガイエスブルク要塞','帝国']].map(([o,n,s])=>{const sp=sprite(n,s==='同盟'?'トゥールハンマー':'ツヴァイヘンダー',s==='同盟'?CSS.A:CSS.E,3.2);scene.add(sp);return {o,sp}})}
+ reset(i){if(!this.lab){this.lab=[[ISER,'イゼルローン要塞','同盟'],[GAI,'ガイエスブルク要塞','帝国']].map(([o,n,s])=>{const sp=sprite(n,s==='同盟'?'雷神の鎚 / トゥールハンマー':'ガイエスハーケン / ツヴァイヘンダー',s==='同盟'?CSS.A:CSS.E,3.2);scene.add(sp);return {o,sp}})}
   this.shot=0;this.boom=false;GAI.visible=true;GAI.rotation.set(0,0,0);if(i<4)GAI.position.set(0,0,-62);if(i===4)GAI.position.set(0,0,-62)},
  update(now,dt){const t=now-phaseStart;
   if(phase===4){const k=Math.min(1,t/7);GAI.position.z=-62+26*ease(k);GAI.children.forEach(c=>{if(c.isSprite)c.material.opacity=.9})}
@@ -48,7 +48,7 @@ const U=[
 ];
 const PH=[
  {time:'4月10日',clock:'出現',step:'出現',title:'要塞がワープしてくる',text:'ヤンが首都で査問会に呼び出されている隙に、帝国軍はワープ機関を取り付けたガイエスブルク要塞をイゼルローン回廊へ送り込んだ。司令官はケンプ、副司令官はミュラー。要塞はキャゼルヌが代理で預かっていた。',cam:{t:[0,0,-10],r:170,th:.6,ph:1.1},arrows:[]},
- {time:'4月',clock:'序盤',step:'主砲',title:'主砲の撃ち合い',text:'ガイエスブルクの主砲「ツヴァイヘンダー」とイゼルローンの主砲「トゥールハンマー」が撃ち合い、両軍の艦隊が要塞の間でぶつかる。要塞同士の戦いは前例のないものだった。',cam:{t:[0,0,-12],r:170,th:.3,ph:.8},arrows:[]},
+ {time:'4月',clock:'序盤',step:'主砲',title:'主砲の撃ち合い',text:'ガイエスブルク要塞主砲（原作・旧OVA系「ガイエスハーケン」／DNT「ツヴァイヘンダー」）と、イゼルローン要塞主砲（原作・旧OVA系「雷神の鎚」／DNT「トゥールハンマー」）が撃ち合い、両軍の艦隊が要塞の間でぶつかる。要塞同士の戦いは前例のないものだった。',cam:{t:[0,0,-12],r:170,th:.3,ph:.8},arrows:[]},
  {time:'4月',clock:'中盤',step:'背後',title:'ミュラーの迂回',text:'ミュラーの艦隊が要塞の裏側へ回り込み、防御の隙を突く。正面だけを見ていた守備側は対応に追われた。',cam:{t:[10,4,20],r:150,th:-.5,ph:1.0},arrows:[{p:[[12,0,-30],[38,10,10],[18,8,62]],c:'E'}]},
  {time:'4月',clock:'中盤',step:'逆撃',title:'メルカッツの罠',text:'亡命してきたメルカッツが駐留艦隊を率い、囮で敵を誘い込んで逆撃を加える。ミュラー艦隊は挟まれて大きな損害を受けた。',cam:{t:[12,6,46],r:120,th:.9,ph:1.0},arrows:[{p:[[-10,0,30],[16,14,40],[28,12,50]],c:'A'}]},
  {time:'終盤',clock:'',step:'衝突',title:'要塞をぶつける',text:'攻め手を失ったケンプは、ガイエスブルクそのものをイゼルローンに衝突させる作戦に出る。巨大な要塞がゆっくりと前進を始めた。',cam:{t:[0,0,-8],r:170,th:.45,ph:.85},arrows:[{p:[[0,0,-62],[0,0,-46],[0,0,-30]],c:'E'}]},

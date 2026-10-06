@@ -13,9 +13,9 @@
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--panel:rgba(17,20,25,.88);--ink:#ece9e2;--sub:#a7adb7;--line:rgba(236,233,226,.16);--emp:#c7a35f;--all:#70a9b2;--acc:#c7a35f}}
 :root[data-theme="dark"]{--panel:rgba(9,13,22,.8);--ink:#e6ecf5;--sub:#9aa6ba;--line:rgba(230,236,245,.16);--emp:#e8b44c;--all:#58c7d8;--acc:#e8b44c}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
-html,body{height:100%;margin:0}
+html,body{height:100%;margin:0} @supports(height:100dvh){html,body{height:100dvh}}
 body{background:var(--bg);color:var(--ink);font-family:"Zen Kaku Gothic New",system-ui,sans-serif;overflow:hidden;-webkit-font-smoothing:antialiased}
-#app{position:relative;height:100%;overflow:hidden}
+#app{position:relative;height:100%;overflow:hidden} @supports(height:100dvh){#app{height:100dvh}}
 #stage{position:absolute;inset:0}
 #stage canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
 .hud{position:absolute;inset:0;pointer-events:none}
@@ -48,7 +48,7 @@ body{background:var(--bg);color:var(--ink);font-family:"Zen Kaku Gothic New",sys
 .seek input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 .tl{position:absolute;left:0;right:0;margin:0 auto;bottom:10px;width:calc(100% - 20px);max-width:620px;display:flex;gap:4px;align-items:center}
 .play{flex:none;width:46px;height:46px;border-radius:50%;border:none;background:var(--acc);color:#0b0f18;font-size:15px;cursor:pointer}
-.steps{flex:1;display:flex;gap:2px;background:var(--panel);border-radius:23px;padding:4px;height:46px;box-sizing:border-box;box-shadow:0 0 0 1px var(--line)}
+.steps{flex:1;min-width:0;display:flex;gap:2px;background:var(--panel);border-radius:23px;padding:4px;height:46px;box-sizing:border-box;box-shadow:0 0 0 1px var(--line);overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch}.steps::-webkit-scrollbar{display:none}
 .steps button{flex:1;min-width:0;border:none;background:transparent;border-radius:19px;font:700 11px "Zen Kaku Gothic New",sans-serif;color:var(--sub);padding:0;cursor:pointer;white-space:nowrap}
 .steps button.done{color:var(--ink)}
 .steps button.on{background:var(--ink);color:var(--panel)}
@@ -73,7 +73,24 @@ body{background:var(--bg);color:var(--ink);font-family:"Zen Kaku Gothic New",sys
 .spd{flex:none;height:46px;min-width:46px;padding:0 8px;border-radius:23px;border:none;background:var(--panel);color:var(--ink);font:700 12px "Zen Kaku Gothic New",sans-serif;font-variant-numeric:tabular-nums;cursor:pointer;box-shadow:0 0 0 1px var(--line)}
 .spd.fast{color:var(--acc)}
 button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
-@media (max-width:420px){.cap h2{font-size:18px}.cap p{font-size:13px}.title b{font-size:26px}.seek{gap:6px;padding-inline:8px}.seek span{font-size:9px}}
+@media (max-width:600px){
+ .force{top:max(6px,env(safe-area-inset-top,0px));left:6px;width:calc(100% - 58px);padding:7px 8px 6px;font-size:10.5px}
+ .row{grid-template-columns:max-content minmax(42px,1fr) auto;gap:4px}.row .side{font-size:11.5px}.num{font-size:10px}
+ .note{font-size:9.5px;line-height:1.35;max-height:2.7em;overflow:hidden}
+ .title{top:max(8px,env(safe-area-inset-top,0px));right:5px}.title b{font-size:23px;letter-spacing:.12em}.title span{font-size:9px;letter-spacing:.12em}
+ .cap{bottom:calc(104px + env(safe-area-inset-bottom,0px));width:calc(100% - 12px);padding:8px 10px 9px;max-height:min(34vh,240px);overflow-y:auto;overscroll-behavior:contain}
+ .cap h2{font-size:17px;letter-spacing:.04em}.cap p{font-size:12.5px;line-height:1.58}.time{font-size:10px;gap:7px}.time b{font-size:12px}
+ .seek{bottom:calc(66px + env(safe-area-inset-bottom,0px));width:calc(100% - 12px);gap:6px;padding-inline:8px}.seek span{font-size:9px}
+ .tl{bottom:calc(8px + env(safe-area-inset-bottom,0px));width:calc(100% - 12px);gap:3px}
+ .play{width:44px;height:44px}.steps{height:44px;border-radius:22px;padding:3px}.steps button{flex:0 0 42px;min-width:42px;font-size:10px;scroll-snap-align:center}
+ .spd{height:44px;min-width:42px;padding:0 6px;font-size:11px}.cam{height:44px;padding:0 7px;font-size:10px}
+ .res{padding-left:10px;padding-right:10px;padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
+ .res .in{overflow-x:hidden}.res table{font-size:11.5px}.res th,.res td{padding:6px 3px;overflow-wrap:anywhere}.res th:first-child,.res td:first-child{white-space:normal;min-width:4.5em}
+}
+@media (max-width:380px){
+ .force{width:calc(100% - 50px)}.title b{font-size:21px}.cap{max-height:30vh}
+ .cam{width:44px;padding:0;font-size:9px}.spd{width:42px;padding:0}
+}
 </style>
 </head>
 <body>
@@ -84,7 +101,7 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
     <div class="force ui" aria-label="戦力">
       <div class="row e"><span class="side">帝国軍</span><div class="bar"><i class="dep" id="eDep"></i><i class="fig" id="eFig"></i></div><span class="num" id="eNum"></span></div>
       <div class="row a"><span class="side">同盟軍</span><div class="bar"><i class="dep" id="aDep"></i><i class="fig" id="aFig"></i></div><span class="num" id="aNum"></span></div>
-      <div class="note">交戦中／健在の部隊数。帝国はガイエスブルク要塞＋ケンプ・ミュラー艦隊。展開は概略。主砲名はDNT公式表記</div>
+      <div class="note">交戦中／健在の部隊数。帝国はガイエスブルク要塞＋ケンプ・ミュラー艦隊。展開は概略。主砲名は媒体差を併記</div>
       <button class="resbtn" id="resOpen">戦果・損害を見る ›</button><a class="back" href="index.html#ginei">‹ 年表へ戻る</a>
     </div>
     <div class="res ui" id="res" role="dialog" aria-label="戦果"><div class="in" id="resIn"></div></div>
@@ -155,7 +172,7 @@ function cannon(a,b,col,w){const d=new THREE.Vector3().subVectors(b,a),L=d.lengt
 
 
 const SPECIAL={beams:[],lab:null,shot:0,boom:false,
- reset(i){if(!this.lab){this.lab=[[ISER,'イゼルローン要塞','同盟'],[GAI,'ガイエスブルク要塞','帝国']].map(([o,n,s])=>{const sp=sprite(n,s==='同盟'?'トゥールハンマー':'ツヴァイヘンダー',s==='同盟'?CSS.A:CSS.E,3.2);scene.add(sp);return {o,sp}})}
+ reset(i){if(!this.lab){this.lab=[[ISER,'イゼルローン要塞','同盟'],[GAI,'ガイエスブルク要塞','帝国']].map(([o,n,s])=>{const sp=sprite(n,s==='同盟'?'雷神の鎚 / トゥールハンマー':'ガイエスハーケン / ツヴァイヘンダー',s==='同盟'?CSS.A:CSS.E,3.2);scene.add(sp);return {o,sp}})}
   this.shot=0;this.boom=false;GAI.visible=true;GAI.rotation.set(0,0,0);if(i<4)GAI.position.set(0,0,-62);if(i===4)GAI.position.set(0,0,-62)},
  update(now,dt){const t=now-phaseStart;
   if(phase===4){const k=Math.min(1,t/7);GAI.position.z=-62+26*ease(k);GAI.children.forEach(c=>{if(c.isSprite)c.material.opacity=.9})}
@@ -174,12 +191,13 @@ const SPECIAL={beams:[],lab:null,shot:0,boom:false,
 function makeTex(main,sub,col,fs){
  const dpr=2,c=document.createElement('canvas'),x=c.getContext('2d');
  const f1=`900 ${fs}px "Zen Kaku Gothic New", sans-serif`,f2=`700 ${Math.round(fs*.56)}px "Zen Kaku Gothic New", sans-serif`;
- x.font=f1;const w1=x.measureText(main).width;x.font=f2;const w2=sub?x.measureText(sub).width:0;
- const W=Math.ceil(Math.max(w1,w2)+26),Hh=Math.ceil(sub?fs*1.95:fs*1.4);
+ const subLines=sub?sub.split(' / '):[];
+ x.font=f1;const widths=[x.measureText(main).width];x.font=f2;subLines.forEach(t=>widths.push(x.measureText(t).width));
+ const W=Math.ceil(Math.max(...widths)+26),Hh=Math.ceil(subLines.length?fs*(1.38+.62*subLines.length):fs*1.4);
  c.width=W*dpr;c.height=Hh*dpr;x.scale(dpr,dpr);
  x.fillStyle='rgba(6,10,18,.78)';x.fillRect(0,0,W,Hh);x.fillStyle=col;x.fillRect(0,0,3,Hh);
  x.textAlign='center';x.textBaseline='top';x.font=f1;x.fillStyle='#f2f5fa';x.fillText(main,W/2+1,fs*.16);
- if(sub){x.font=f2;x.fillStyle=col;x.fillText(sub,W/2+1,fs*1.22)}
+ if(subLines.length){x.font=f2;x.fillStyle=col;subLines.forEach((t,i)=>x.fillText(t,W/2+1,fs*(1.14+i*.62)))}
  const t=new THREE.CanvasTexture(c);t.minFilter=THREE.LinearFilter;return {t,a:W/Hh};
 }
 function sprite(main,sub,col,scale){const {t,a}=makeTex(main,sub,col,30);const s=new THREE.Sprite(new THREE.SpriteMaterial({map:t,depthTest:false,transparent:true}));s.center.set(.5,0);s.scale.set(scale*a,scale,1);s.userData.a=a;s.renderOrder=10;s.userData.scale=scale;return s}
@@ -195,7 +213,7 @@ const U=[
 ];
 const PH=[
  {time:'4月10日',clock:'出現',step:'出現',title:'要塞がワープしてくる',text:'ヤンが首都で査問会に呼び出されている隙に、帝国軍はワープ機関を取り付けたガイエスブルク要塞をイゼルローン回廊へ送り込んだ。司令官はケンプ、副司令官はミュラー。要塞はキャゼルヌが代理で預かっていた。',cam:{t:[0,0,-10],r:170,th:.6,ph:1.1},arrows:[]},
- {time:'4月',clock:'序盤',step:'主砲',title:'主砲の撃ち合い',text:'ガイエスブルクの主砲「ツヴァイヘンダー」とイゼルローンの主砲「トゥールハンマー」が撃ち合い、両軍の艦隊が要塞の間でぶつかる。要塞同士の戦いは前例のないものだった。',cam:{t:[0,0,-12],r:170,th:.3,ph:.8},arrows:[]},
+ {time:'4月',clock:'序盤',step:'主砲',title:'主砲の撃ち合い',text:'ガイエスブルク要塞主砲（原作・旧OVA系「ガイエスハーケン」／DNT「ツヴァイヘンダー」）と、イゼルローン要塞主砲（原作・旧OVA系「雷神の鎚」／DNT「トゥールハンマー」）が撃ち合い、両軍の艦隊が要塞の間でぶつかる。要塞同士の戦いは前例のないものだった。',cam:{t:[0,0,-12],r:170,th:.3,ph:.8},arrows:[]},
  {time:'4月',clock:'中盤',step:'背後',title:'ミュラーの迂回',text:'ミュラーの艦隊が要塞の裏側へ回り込み、防御の隙を突く。正面だけを見ていた守備側は対応に追われた。',cam:{t:[10,4,20],r:150,th:-.5,ph:1.0},arrows:[{p:[[12,0,-30],[38,10,10],[18,8,62]],c:'E'}]},
  {time:'4月',clock:'中盤',step:'逆撃',title:'メルカッツの罠',text:'亡命してきたメルカッツが駐留艦隊を率い、囮で敵を誘い込んで逆撃を加える。ミュラー艦隊は挟まれて大きな損害を受けた。',cam:{t:[12,6,46],r:120,th:.9,ph:1.0},arrows:[{p:[[-10,0,30],[16,14,40],[28,12,50]],c:'A'}]},
  {time:'終盤',clock:'',step:'衝突',title:'要塞をぶつける',text:'攻め手を失ったケンプは、ガイエスブルクそのものをイゼルローンに衝突させる作戦に出る。巨大な要塞がゆっくりと前進を始めた。',cam:{t:[0,0,-8],r:170,th:.45,ph:.85},arrows:[{p:[[0,0,-62],[0,0,-46],[0,0,-30]],c:'E'}]},
@@ -210,7 +228,7 @@ const RESULT={title:'第8次イゼルローン攻防戦の戦果',when:'宇宙�
  after:['ミュラーは重傷を負いながら生還し、以後の粘り強い戦いぶりにつながる。','回廊からの攻略は割に合わないことがはっきりし、帝国は次の大攻勢でフェザーン回廊を使う方針に傾く。','ヤンは査問会から前線に戻り、同盟の「要塞を守れる唯一の将」という評価がさらに固まる。','同盟政府とヤンの不信は解消されず、政治の足かせは残った。'],
  note:'帝国軍の兵力・損害は資料によって差がある（艦艇約8,000隻とする資料もある）。ここでは損害約15,000隻・将兵約180万名とする資料に拠った。損耗率は「遠征兵力の約9割を喪失」という記述による。'};
 
-RESULT.refs=[{"k": "小説", "v": "本伝3巻『雌伏篇』"}, {"k": "アニメ", "v": "OVA本伝 第31話「査問会」〜第34話「帰還」（中心は第33話「要塞対要塞」）"}, {"k": "新作アニメ", "v": "Die Neue These 第34話「要塞対要塞 AktI:巨砲、相撃つ」〜第37話「要塞対要塞 AktⅣ:決着」（公式サイトで確認）"}];
+RESULT.refs=[{"k": "小説", "v": "本伝3巻『雌伏篇』"}, {"k": "アニメ", "v": "OVA本伝 第31話「査問会」〜第34話「帰還」（中心は第33話「要塞対要塞」）"}, {"k": "新作アニメ", "v": "Die Neue These 第34話「要塞対要塞 AktI:巨砲、相撃つ」〜第37話「要塞対要塞 AktⅣ:決着」（公式サイトで確認。主砲名はイゼルローン側「トゥールハンマー」、ガイエスブルク側「ツヴァイヘンダー」）"}];
 
 
 const u0=(o,i)=>(U.find(u=>u.name===o.name).k[i]||{});

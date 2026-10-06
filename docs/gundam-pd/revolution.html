@@ -13,9 +13,9 @@
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--panel:rgba(17,20,25,.88);--ink:#ece9e2;--sub:#a7adb7;--line:rgba(236,233,226,.16);--emp:#c7a35f;--all:#70a9b2;--acc:#c7a35f}}
 :root[data-theme="dark"]{--panel:rgba(9,13,22,.8);--ink:#e6ecf5;--sub:#9aa6ba;--line:rgba(230,236,245,.16);--emp:#ec7c5f;--all:#eda15a;--acc:#ec7c5f}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
-html,body{height:100%;margin:0}
+html,body{height:100%;margin:0} @supports(height:100dvh){html,body{height:100dvh}}
 body{background:var(--bg);color:var(--ink);font-family:"Zen Kaku Gothic New",system-ui,sans-serif;overflow:hidden;-webkit-font-smoothing:antialiased}
-#app{position:relative;height:100%;overflow:hidden}
+#app{position:relative;height:100%;overflow:hidden} @supports(height:100dvh){#app{height:100dvh}}
 #stage{position:absolute;inset:0}
 #stage canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
 .hud{position:absolute;inset:0;pointer-events:none}
@@ -48,7 +48,7 @@ body{background:var(--bg);color:var(--ink);font-family:"Zen Kaku Gothic New",sys
 .seek input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 .tl{position:absolute;left:0;right:0;margin:0 auto;bottom:10px;width:calc(100% - 20px);max-width:620px;display:flex;gap:4px;align-items:center}
 .play{flex:none;width:46px;height:46px;border-radius:50%;border:none;background:var(--acc);color:#0b0f18;font-size:15px;cursor:pointer}
-.steps{flex:1;display:flex;gap:2px;background:var(--panel);border-radius:23px;padding:4px;height:46px;box-sizing:border-box;box-shadow:0 0 0 1px var(--line)}
+.steps{flex:1;min-width:0;display:flex;gap:2px;background:var(--panel);border-radius:23px;padding:4px;height:46px;box-sizing:border-box;box-shadow:0 0 0 1px var(--line);overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch}.steps::-webkit-scrollbar{display:none}
 .steps button{flex:1;min-width:0;border:none;background:transparent;border-radius:19px;font:700 11px "Zen Kaku Gothic New",sans-serif;color:var(--sub);padding:0;cursor:pointer;white-space:nowrap}
 .steps button.done{color:var(--ink)}
 .steps button.on{background:var(--ink);color:var(--panel)}
@@ -73,7 +73,24 @@ body{background:var(--bg);color:var(--ink);font-family:"Zen Kaku Gothic New",sys
 .spd{flex:none;height:46px;min-width:46px;padding:0 8px;border-radius:23px;border:none;background:var(--panel);color:var(--ink);font:700 12px "Zen Kaku Gothic New",sans-serif;font-variant-numeric:tabular-nums;cursor:pointer;box-shadow:0 0 0 1px var(--line)}
 .spd.fast{color:var(--acc)}
 button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
-@media (max-width:420px){.cap h2{font-size:18px}.cap p{font-size:13px}.title b{font-size:26px}.seek{gap:6px;padding-inline:8px}.seek span{font-size:9px}}
+@media (max-width:600px){
+ .force{top:max(6px,env(safe-area-inset-top,0px));left:6px;width:calc(100% - 58px);padding:7px 8px 6px;font-size:10.5px}
+ .row{grid-template-columns:max-content minmax(42px,1fr) auto;gap:4px}.row .side{font-size:11.5px}.num{font-size:10px}
+ .note{font-size:9.5px;line-height:1.35;max-height:2.7em;overflow:hidden}
+ .title{top:max(8px,env(safe-area-inset-top,0px));right:5px}.title b{font-size:23px;letter-spacing:.12em}.title span{font-size:9px;letter-spacing:.12em}
+ .cap{bottom:calc(104px + env(safe-area-inset-bottom,0px));width:calc(100% - 12px);padding:8px 10px 9px;max-height:min(34vh,240px);overflow-y:auto;overscroll-behavior:contain}
+ .cap h2{font-size:17px;letter-spacing:.04em}.cap p{font-size:12.5px;line-height:1.58}.time{font-size:10px;gap:7px}.time b{font-size:12px}
+ .seek{bottom:calc(66px + env(safe-area-inset-bottom,0px));width:calc(100% - 12px);gap:6px;padding-inline:8px}.seek span{font-size:9px}
+ .tl{bottom:calc(8px + env(safe-area-inset-bottom,0px));width:calc(100% - 12px);gap:3px}
+ .play{width:44px;height:44px}.steps{height:44px;border-radius:22px;padding:3px}.steps button{flex:0 0 42px;min-width:42px;font-size:10px;scroll-snap-align:center}
+ .spd{height:44px;min-width:42px;padding:0 6px;font-size:11px}.cam{height:44px;padding:0 7px;font-size:10px}
+ .res{padding-left:10px;padding-right:10px;padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
+ .res .in{overflow-x:hidden}.res table{font-size:11.5px}.res th,.res td{padding:6px 3px;overflow-wrap:anywhere}.res th:first-child,.res td:first-child{white-space:normal;min-width:4.5em}
+}
+@media (max-width:380px){
+ .force{width:calc(100% - 50px)}.title b{font-size:21px}.cap{max-height:30vh}
+ .cam{width:44px;padding:0;font-size:9px}.spd{width:42px;padding:0}
+}
 </style>
 </head>
 <body>
@@ -147,12 +164,13 @@ const SPECIAL={P:[{done:false,reset(){if(!this.done){this.done=true;{const l=spr
 function makeTex(main,sub,col,fs){
  const dpr=2,c=document.createElement('canvas'),x=c.getContext('2d');
  const f1=`900 ${fs}px "Zen Kaku Gothic New", sans-serif`,f2=`700 ${Math.round(fs*.56)}px "Zen Kaku Gothic New", sans-serif`;
- x.font=f1;const w1=x.measureText(main).width;x.font=f2;const w2=sub?x.measureText(sub).width:0;
- const W=Math.ceil(Math.max(w1,w2)+26),Hh=Math.ceil(sub?fs*1.95:fs*1.4);
+ const subLines=sub?sub.split(' / '):[];
+ x.font=f1;const widths=[x.measureText(main).width];x.font=f2;subLines.forEach(t=>widths.push(x.measureText(t).width));
+ const W=Math.ceil(Math.max(...widths)+26),Hh=Math.ceil(subLines.length?fs*(1.38+.62*subLines.length):fs*1.4);
  c.width=W*dpr;c.height=Hh*dpr;x.scale(dpr,dpr);
  x.fillStyle='rgba(6,10,18,.78)';x.fillRect(0,0,W,Hh);x.fillStyle=col;x.fillRect(0,0,3,Hh);
  x.textAlign='center';x.textBaseline='top';x.font=f1;x.fillStyle='#f2f5fa';x.fillText(main,W/2+1,fs*.16);
- if(sub){x.font=f2;x.fillStyle=col;x.fillText(sub,W/2+1,fs*1.22)}
+ if(subLines.length){x.font=f2;x.fillStyle=col;subLines.forEach((t,i)=>x.fillText(t,W/2+1,fs*(1.14+i*.62)))}
  const t=new THREE.CanvasTexture(c);t.minFilter=THREE.LinearFilter;return {t,a:W/Hh};
 }
 function sprite(main,sub,col,scale){const {t,a}=makeTex(main,sub,col,30);const s=new THREE.Sprite(new THREE.SpriteMaterial({map:t,depthTest:false,transparent:true}));s.center.set(.5,0);s.scale.set(scale*a,scale,1);s.userData.a=a;s.renderOrder=10;s.userData.scale=scale;return s}
