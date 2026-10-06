@@ -130,8 +130,10 @@ def build_hub(counts, link_portal, out_file, artifact):
     items = []
     for w in SITE['works']:
         cfg = load_work(w)
+        ab = cfg.get('about', {})
+        info = (f'<p class="by">{ab["creator"]}　／　{ab["form"]}</p><p class="sm"><budoux-ja>{ab["summary"]}</budoux-ja></p>' if ab else '')
         items.append(f'<li><a class="w" href="{link_portal(w)}"{t}><b>{cfg["short"]}</b>'
-                     f'<span>{cfg["span"]}　{counts[w]}の{cfg["unit"]}</span><em>年表を開く</em></a></li>')
+                     f'<span>{cfg["span"]}　{counts[w]}の{cfg["unit"]}</span><em>年表を開く</em>{info}</a></li>')
     items += [f'<li class="soon">{x}　準備中</li>' for x in SITE.get('soon', [])]
     html = ((ENGINE / 'hub.html').read_text().replace('@@NAME@@', SITE['name']).replace('@@LEAD@@', SITE['lead'])
             .replace('@@ITEMS@@', '\n  '.join(items)))

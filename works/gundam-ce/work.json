@@ -7,8 +7,57 @@
  "yl": "C.E.",
  "lead": "<span class=\"nb\">C.E.70年の血のバレンタインから</span><span class=\"nb\">C.E.74年のメサイア攻防戦まで、</span><span class=\"nb\">12の戦いを</span><span class=\"nb\">時代順に並べた年表です。</span><br><span class=\"nb\">『ガンダムSEED』と</span><span class=\"nb\">『SEED DESTINY』を扱います。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
  "notes": "<dt>陣営の色</dt><dd><span class=\"nb\">原則として赤がザフト、</span><span class=\"nb\">青が地球連合です。</span><span class=\"nb\">オーブや三隻同盟が主役の戦いは、</span><span class=\"nb\">緑や青に置き換えています。</span></dd>\n   <dt>日付</dt><dd><span class=\"nb\">ファンWikiの年表に拠ります。</span><span class=\"nb\">SEED DESTINYの戦いは月日が確かめられず、</span><span class=\"nb\">「月日不明」としています。</span></dd>\n   <dt>数値</dt><dd><span class=\"nb\">兵力・損害は公式数値が少なく、</span><span class=\"nb\">確かめられない値は「不明」です。</span></dd>\n   <dt>話数</dt><dd><span class=\"nb\">TV版の番号です。</span><span class=\"nb\">確かめられないものは「推定」と書いています。</span></dd>\n   <dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>",
- "eras": [["開戦","C.E.70年の開戦"],["ヘリオポリス","アークエンジェルの航海"],["地球の攻防","アラスカからオーブまで"],["ヤキン・ドゥーエ","第一次大戦の終結"],["第二次大戦","SEED DESTINY"]],
- "names": {"zeon":"ザフト側","efsf":"連合側","scout":"オーブ側","none":"決着なし"},
- "order": ["zeon","efsf","scout","none"],
- "colors": {"zeon":["#b4452b","#ec7c5f"],"efsf":["#2d68be","#79abee"],"scout":["#22703c","#6cc488"]}
+ "eras": [
+  [
+   "開戦",
+   "C.E.70年の開戦"
+  ],
+  [
+   "ヘリオポリス",
+   "アークエンジェルの航海"
+  ],
+  [
+   "地球の攻防",
+   "アラスカからオーブまで"
+  ],
+  [
+   "ヤキン・ドゥーエ",
+   "第一次大戦の終結"
+  ],
+  [
+   "第二次大戦",
+   "SEED DESTINY"
+  ]
+ ],
+ "names": {
+  "zeon": "ザフト側",
+  "efsf": "連合側",
+  "scout": "オーブ側",
+  "none": "決着なし"
+ },
+ "order": [
+  "zeon",
+  "efsf",
+  "scout",
+  "none"
+ ],
+ "colors": {
+  "zeon": [
+   "#b4452b",
+   "#ec7c5f"
+  ],
+  "efsf": [
+   "#2d68be",
+   "#79abee"
+  ],
+  "scout": [
+   "#22703c",
+   "#6cc488"
+  ]
+ },
+ "about": {
+  "creator": "福田己津央（サンライズ）",
+  "form": "TVアニメ『ガンダムSEED』（2002）",
+  "summary": "遺伝子操作で生まれた人々と、そうでない人々の対立が戦争に発展した世界。中立の国にいた少年が戦闘に巻き込まれ、かつての友と敵味方に分かれる。"
+ }
 }
