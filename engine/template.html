@@ -408,7 +408,7 @@ function loop(){
   const vx=nx-o.x,vz=nz-o.z;o.x=nx;o.y=ny;o.z=nz;
   let ty=s.h!=null?s.h*Math.PI/180:(o.side==='E'?0:Math.PI);if(Math.hypot(vx,vz)>.02)ty=Math.atan2(vx,vz);
   let dy=ty-o.yaw;while(dy>Math.PI)dy-=Math.PI*2;while(dy<-Math.PI)dy+=Math.PI*2;o.yaw+=dy*Math.min(1,dt*2);
-  const tsp=s.s==='broken'?2.4:s.s==='charge'?.85:1;o.spread+=(tsp-o.spread)*dt*1.2;
+  const baseSpread=s.r==='close'?.72:s.r==='far'?1.15:1,tsp=s.s==='broken'?2.4:s.s==='charge'?Math.min(.85,baseSpread):baseSpread;o.spread+=(tsp-o.spread)*dt*1.2;
   const col=colOf(s);o.mat.color.lerp(col,dt*2);o.mat.emissive.copy(o.mat.color).multiplyScalar(.35);
   o.mat.opacity+=(opOf(s)-o.mat.opacity)*dt*1.4;o.mesh.visible=o.mat.opacity>.02;
   const br=Math.max(0,o.spread-1),c=Math.cos(o.yaw),sn=Math.sin(o.yaw),f=s.fm||defForm(s),ring=f&&f.ring;
