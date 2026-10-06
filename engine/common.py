@@ -19,7 +19,12 @@ def fort(name='イゼルローン要塞',sub='',side='E',pos=(0,0,-55),color='0x
 CANNON=r"""
 function cannonFX(a,b,col,w){const d=new THREE.Vector3().subVectors(b,a),L=d.length();const m=new THREE.Mesh(new THREE.CylinderGeometry(w,w,L,12,1,true),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:1,blending:THREE.AdditiveBlending,depthWrite:false}));
  m.position.copy(a).addScaledVector(d,.5);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize());scene.add(m);return {m,life:1.2}}
-const BEAMS=[];function beamsUpdate(dt){for(let i=BEAMS.length-1;i>=0;i--){const b=BEAMS[i];b.life-=dt;b.m.material.opacity=Math.max(0,b.life);if(b.life<=0){scene.remove(b.m);b.m.geometry.dispose();BEAMS.splice(i,1)}}}
+const BEAMS=[],WAVES=[];
+function shockwaveFX(p,col=0xffd080,max=22){const m=new THREE.Mesh(new THREE.RingGeometry(1,1.25,64),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.9,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));m.position.copy(p);m.rotation.x=-Math.PI/2;scene.add(m);return {m,life:1,maxLife:1,max}}
+function beamsUpdate(dt){
+ for(let i=BEAMS.length-1;i>=0;i--){const b=BEAMS[i];b.life-=dt;b.m.material.opacity=Math.max(0,b.life);if(b.life<=0){scene.remove(b.m);b.m.geometry.dispose();BEAMS.splice(i,1)}}
+ for(let i=WAVES.length-1;i>=0;i--){const w=WAVES[i];w.life-=dt;const p=1-Math.max(0,w.life/w.maxLife),sc=1+(w.max-1)*p;w.m.scale.set(sc,sc,1);w.m.material.opacity=.9*(1-p);if(w.life<=0){scene.remove(w.m);w.m.geometry.dispose();WAVES.splice(i,1)}}
+}
 """
 def fort_cannon(name,sub,side,pos,target_unit,phase,delay=1.5,color='0xcfd6df',r=11,beam='0xbfe8ff'):
     """要塞＋指定場面で主砲を指定部隊へ撃つ"""
@@ -103,10 +108,11 @@ def move_obj(name, keys, secs=4):
                 f"update(now){{if(!this.b)return;const p=Math.min(1,(now-this.t0)/{secs});{name}.position.lerpVectors(this.a,this.b,ease(p))}}}}")
 
 
-def shot(src, target_unit, phase, delay=1.5, beam='0xbfe8ff', w=1.6, booms=10):
-    """指定場面で src（座標）から部隊へ太いビームを撃つ"""
+def shot(src, target_unit, phase, delay=1.5, beam='0xbfe8ff', w=1.6, booms=10, wave=False):
+    """指定場面で src（座標）から部隊へ太いビームを撃つ。wave=True で大規模着弾の衝撃波を追加"""
+    wave_js = "WAVES.push(shockwaveFX(b,0xffd080,28));" if wave else ""
     return CANNON, (f"{{fired:false,reset(){{this.fired=false}},update(now){{const t=now-phaseStart;if(phase==={phase}&&!this.fired&&t>{delay}){{this.fired=true;"
-                    f"const u=units.find(o=>o.name==='{target_unit}');const b=new THREE.Vector3(u.x,u.y,u.z);BEAMS.push(cannonFX(new THREE.Vector3({src[0]},{src[1]},{src[2]}),b,{beam},{w}));"
+                    f"const u=units.find(o=>o.name==='{target_unit}');const b=new THREE.Vector3(u.x,u.y,u.z);BEAMS.push(cannonFX(new THREE.Vector3({src[0]},{src[1]},{src[2]}),b,{beam},{w}));{wave_js}"
                     f"for(let k=0;k<{booms};k++)boom([u.x+(Math.random()-.5)*14,u.y+(Math.random()-.5)*6,u.z+(Math.random()-.5)*14],true,0xffc080)}}}}}}")
 
 
