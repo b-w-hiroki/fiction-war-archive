@@ -25,10 +25,9 @@ for(const file of files){
       play:!!document.querySelector('#play'),
       result:!!document.querySelector('#resOpen'),
       seek:!!document.querySelector('#phaseSeek'),
-      seekMax:Number(document.querySelector('#phaseSeek')?.max||-1),
-      shockwave:typeof shockwave==='function'
+      seekMax:Number(document.querySelector('#phaseSeek')?.max||-1)
     }));
-    if(!state.three||!state.canvas||!state.steps||!state.play||!state.result||!state.seek||!state.shockwave||state.seekMax!==state.steps-1) throw new Error('UI init failed '+JSON.stringify(state));
+    if(!state.three||!state.canvas||!state.steps||!state.play||!state.result||!state.seek||state.seekMax!==state.steps-1) throw new Error('UI init failed '+JSON.stringify(state));
     const steps=page.locator('#steps button');
     if(await steps.count()>2){
       const seek=page.locator('#phaseSeek');
@@ -46,6 +45,14 @@ for(const file of files){
     const advancedTitle=await page.locator('#cTitle').textContent();
     if(await steps.count()>1 && advancedTitle===initialTitle) throw new Error('first play did not advance from initial phase');
     await page.locator('#play').click();
+    const effectPhase={'fortress.html':5,'amritsar.html':4,'vermilion.html':5}[file];
+    if(effectPhase!==undefined){
+      const seek=page.locator('#phaseSeek');
+      await seek.fill(String(effectPhase));await seek.dispatchEvent('input');await page.waitForTimeout(80);
+      await page.locator('#spd').click();await page.locator('#spd').click();await page.locator('#spd').click();
+      await page.locator('#play').click();await page.waitForTimeout(2700);await page.locator('#play').click();
+      if(errors.length) throw new Error('effect phase failed: '+errors.join(' | '));
+    }
     await page.locator('#resOpen').click(); await page.waitForSelector('#res.on',{timeout:3000});
     await page.locator('#resClose').click(); await page.waitForTimeout(100);
     if(errors.length) throw new Error(errors.join(' | '));
