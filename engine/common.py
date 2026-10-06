@@ -26,11 +26,12 @@ function beamsUpdate(dt){
  for(let i=WAVES.length-1;i>=0;i--){const w=WAVES[i];w.life-=dt;const p=1-Math.max(0,w.life/w.maxLife),sc=1+(w.max-1)*p;w.m.scale.set(sc,sc,1);w.m.material.opacity=.9*(1-p);if(w.life<=0){scene.remove(w.m);w.m.geometry.dispose();WAVES.splice(i,1)}}
 }
 """
-def fort_cannon(name,sub,side,pos,target_unit,phase,delay=1.5,color='0xcfd6df',r=11,beam='0xbfe8ff'):
-    """要塞＋指定場面で主砲を指定部隊へ撃つ"""
+def fort_cannon(name,sub,side,pos,target_unit,phase,delay=1.5,color='0xcfd6df',r=11,beam='0xbfe8ff',wave=False):
+    """要塞＋指定場面で主砲を指定部隊へ撃つ。wave=True で大型着弾の衝撃波を追加"""
     ex,_=fort(name,sub,side,pos,color,r)
+    wave_js="shockwave([b.x,b.y,b.z],0xbfe8ff,30,1.2);" if wave else ""
     sp=f"""const SPECIAL={{lab:null,fired:false,reset(){{this.fired=false;if(!this.lab){{this.lab=sprite('{name}','{sub}',CSS.{side},3);this.lab.position.set({pos[0]},{pos[1]+r+2},{pos[2]});scene.add(this.lab)}}}},
- update(now,dt){{const t=now-phaseStart;if(phase==={phase}&&!this.fired&&t>{delay}){{this.fired=true;const u=units.find(o=>o.name==='{target_unit}');const b=new THREE.Vector3(u.x,u.y,u.z);BEAMS.push(cannonFX(FORT.position,b,{beam},1.6));for(let k=0;k<10;k++)boom([u.x+(Math.random()-.5)*14,u.y+(Math.random()-.5)*6,u.z+(Math.random()-.5)*14],true,0xffc080)}}beamsUpdate(dt)}}}};"""
+ update(now,dt){{const t=now-phaseStart;if(phase==={phase}&&!this.fired&&t>{delay}){{this.fired=true;const u=units.find(o=>o.name==='{target_unit}');const b=new THREE.Vector3(u.x,u.y,u.z);BEAMS.push(cannonFX(FORT.position,b,{beam},2.2));{wave_js}for(let k=0;k<16;k++)boom([u.x+(Math.random()-.5)*16,u.y+(Math.random()-.5)*7,u.z+(Math.random()-.5)*16],true,0xffc080)}}beamsUpdate(dt)}}}};"""
     return ex+CANNON,sp
 
 
