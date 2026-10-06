@@ -35,14 +35,14 @@ for(const file of files){
     if(await steps.count()>2){
       const seek=page.locator('#phaseSeek');
       const startNow=await page.locator('#seekNow').textContent();
-      await seek.fill('500');await seek.dispatchEvent('input');await page.waitForTimeout(120);
+      await seek.evaluate(el=>{el.value='500';el.dispatchEvent(new Event('input',{bubbles:true}))});await page.waitForTimeout(120);
       const mid=await seek.inputValue();
       const now=await page.locator('#seekNow').textContent();
       const aria=await seek.getAttribute('aria-valuenow');
       if(mid!=='500'||!now?.includes('.')||now===startNow||aria!=='50') throw new Error('seekbar did not scrub continuously: '+JSON.stringify({mid,now,startNow,aria}));
-      await seek.fill('1000');await seek.dispatchEvent('input');await page.waitForTimeout(80);
+      await seek.evaluate(el=>{el.value='1000';el.dispatchEvent(new Event('input',{bubbles:true}))});await page.waitForTimeout(80);
       if(await seek.inputValue()!=='1000') throw new Error('seekbar did not reach end');
-      await seek.fill('0');await seek.dispatchEvent('input');await seek.dispatchEvent('change');await page.waitForTimeout(80);
+      await seek.evaluate(el=>{el.value='0';el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}))});await page.waitForTimeout(80);
     }
     await page.locator('#capMore').click();
     if(!await page.locator('#cap').evaluate(el=>el.classList.contains('expanded'))) throw new Error('mobile caption did not expand');
