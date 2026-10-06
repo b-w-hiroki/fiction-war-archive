@@ -18,7 +18,7 @@ const AN=70,ast=new THREE.InstancedMesh(new THREE.DodecahedronGeometry(1,0),new 
 const AO=[];for(let i=0;i<AN;i++)AO.push({o:[(hs(i,21)-.5)*22,(hs(22,i)-.5)*10,(hs(i,23)-.5)*18],s:.7+hs(i,24)*1.8,d:hs(i,25)*1.2,hit:false});
 
 
-const SPECIAL={reset(){AO.forEach(a=>a.hit=false)},update(now,dt){
+const SPECIAL={asteroidWave:false,finalBarrage:false,reset(){AO.forEach(a=>a.hit=false);this.asteroidWave=false;this.finalBarrage=false},update(now,dt){
 // 隕石
  const mu=units.find(u=>u.name==='マリノ囮艦隊');
  ast.visible=(phase===2||phase===3)&&mu.mat.opacity>.05;
