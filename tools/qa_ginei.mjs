@@ -34,13 +34,12 @@ for(const file of files){
     const steps=page.locator('#steps button');
     if(await steps.count()>2){
       const seek=page.locator('#phaseSeek');
-      const startTitle=await page.locator('#cTitle').textContent();
+      const startNow=await page.locator('#seekNow').textContent();
       await seek.fill('500');await seek.dispatchEvent('input');await page.waitForTimeout(120);
       const mid=await seek.inputValue();
       const now=await page.locator('#seekNow').textContent();
-      const midTitle=await page.locator('#cTitle').textContent();
-      if(mid!=='500'||!now?.includes('.')) throw new Error('seekbar did not scrub continuously');
-      if(midTitle===startTitle) throw new Error('seekbar scrub did not advance battle state');
+      const aria=await seek.getAttribute('aria-valuenow');
+      if(mid!=='500'||!now?.includes('.')||now===startNow||aria!=='50') throw new Error('seekbar did not scrub continuously: '+JSON.stringify({mid,now,startNow,aria}));
       await seek.fill('1000');await seek.dispatchEvent('input');await page.waitForTimeout(80);
       if(await seek.inputValue()!=='1000') throw new Error('seekbar did not reach end');
       await seek.fill('0');await seek.dispatchEvent('input');await seek.dispatchEvent('change');await page.waitForTimeout(80);
