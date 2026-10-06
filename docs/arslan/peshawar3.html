@@ -308,7 +308,7 @@ function previewSeek(raw){
   o.x=p[0];o.y=p[1];o.z=p[2];o.f=p.slice();o.t=p.slice();o.t0=VT;o.dur=1;o.init=true;
   const st=o.st[ui],key=subOf(o,st)+st.s;if(key!==o.labKey&&o.lab){reSprite(o.lab,o.name,subOf(o,st),CSS[o.side]);o.labKey=key}
  });
- if(auto&&P.cam)camTo(P.cam);
+ if(auto&&P.cam&&P.cam.t)camTo(P.cam);
  $('cTime').textContent=P.time;$('cClock').textContent=P.clock;$('cTitle').textContent=P.title;$('cText').textContent=P.text;
  [...stepsEl.children].forEach((b,k)=>{b.classList.toggle('on',k===ui);b.classList.toggle('done',k<q)});
  $('seekNow').textContent=(q+1).toFixed(1)+' / '+PH.length;$('seekLabel').textContent=P.step||P.time;
