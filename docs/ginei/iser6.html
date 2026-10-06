@@ -141,7 +141,18 @@ const fill=new THREE.DirectionalLight(0x9fb6ff,.35);fill.position.set(60,80,-80)
 const ISER=new THREE.Mesh(new THREE.SphereGeometry(11,48,32),new THREE.MeshLambertMaterial({color:0xcfd6df,emissive:0x1a2430}));ISER.position.set(0,0,-55);scene.add(ISER);
 const RING=new THREE.Mesh(new THREE.TorusGeometry(46,.15,6,120),new THREE.MeshBasicMaterial({color:0xffd080,transparent:true,opacity:.35}));RING.rotation.x=Math.PI/2;RING.position.copy(ISER.position);scene.add(RING);
 
-const SPECIAL={lab:null,reset(){if(!this.lab){this.lab=sprite('イゼルローン要塞','帝国軍',CSS.E,3);this.lab.position.set(0,13,-55);scene.add(this.lab);const r=sprite('主砲の射程','雷神の槌',CSS.E,2.2);r.position.set(36,2,-20);scene.add(r)}},update(){}};
+
+function cannonFX(a,b,col,w){const d=new THREE.Vector3().subVectors(b,a),L=d.length();const m=new THREE.Mesh(new THREE.CylinderGeometry(w,w,L,12,1,true),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:1,blending:THREE.AdditiveBlending,depthWrite:false}));
+ m.position.copy(a).addScaledVector(d,.5);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize());scene.add(m);return {m,life:1.2}}
+const BEAMS=[],WAVES=[];
+function shockwaveFX(p,col=0xffd080,max=22){const m=new THREE.Mesh(new THREE.RingGeometry(1,1.25,64),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.9,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));m.position.copy(p);m.rotation.x=-Math.PI/2;scene.add(m);return {m,life:1,maxLife:1,max}}
+function beamsUpdate(dt){
+ for(let i=BEAMS.length-1;i>=0;i--){const b=BEAMS[i];b.life-=dt;b.m.material.opacity=Math.max(0,b.life);if(b.life<=0){scene.remove(b.m);b.m.geometry.dispose();BEAMS.splice(i,1)}}
+ for(let i=WAVES.length-1;i>=0;i--){const w=WAVES[i];w.life-=dt;const p=1-Math.max(0,w.life/w.maxLife),sc=1+(w.max-1)*p;w.m.scale.set(sc,sc,1);w.m.material.opacity=.9*(1-p);if(w.life<=0){scene.remove(w.m);w.m.geometry.dispose();WAVES.splice(i,1)}}
+}
+
+const SPECIAL={P:[{done:false,reset(){if(!this.done){this.done=true;{const l=sprite('イゼルローン要塞','帝国軍',CSS.E,1.8*1.6);l.position.set(0,13,-55);scene.add(l)}{const l=sprite('主砲の射程','雷神の鎚',CSS.E,1.35*1.6);l.position.set(36,2,-20);scene.add(l)}}}},{fired:false,reset(){this.fired=false},update(now){const t=now-phaseStart;if(phase===1&&!this.fired&&t>1.2){this.fired=true;const u=units.find(o=>o.name==='同盟軍主力');const b=new THREE.Vector3(u.x,u.y,u.z);BEAMS.push(cannonFX(new THREE.Vector3(0,0,-55),b,0xdff5ff,2.8));WAVES.push(shockwaveFX(b,0xffd080,28));for(let k=0;k<18;k++)boom([u.x+(Math.random()-.5)*14,u.y+(Math.random()-.5)*6,u.z+(Math.random()-.5)*14],true,0xffc080)}}}],reset(i){this.P.forEach(p=>p.reset&&p.reset(i))},update(now,dt){this.P.forEach(p=>p.update&&p.update(now,dt));typeof beamsUpdate==="function"&&beamsUpdate(dt);}};
+
 
 
 /* ---------- ラベル ---------- */
@@ -164,12 +175,12 @@ const U=[
  {name:'要塞駐留艦隊',cmd:'ミュッケンベルガー',side:'E',n:60,k:{0:{p:[0,0,-38],s:'ready',f:'convex'},1:{s:'fight'},3:{p:[0,0,-30],s:'fight'},4:{s:'wait',l:'要塞を守り切る'}}},
  {name:'ミューゼル少将の部隊',cmd:'ラインハルト',side:'E',n:25,k:{0:{p:[-30,4,-40],s:'wait',l:'約1000隻単位'},3:{p:[-40,4,30],s:'charge',l:'退路を断つそぶり',f:'wedge'},4:{p:[-38,4,26],s:'wait',l:''}}},
  {name:'同盟軍主力',cmd:'ロボス',side:'A',n:90,k:{0:{p:[0,0,40],s:'move',l:'51,400隻',f:'line',h:180},1:{p:[0,0,6],s:'fight',l:'射程の縁で攻撃'},2:{p:[0,0,-2],l:''},3:{p:[0,0,4],l:'後方が気になる'},4:{p:[0,0,60],s:'withdraw',l:'撤退'}}},
- {name:'ホーランド少将の部隊',cmd:'ホーランド',side:'A',n:35,k:{0:{p:[26,0,36],s:'ready',f:'line',h:180},1:{p:[30,0,-8],s:'fight',l:'射程の縁で踊る'},2:{f:{ring:[0,-55,47,-.2,1.1,.06]},l:'死線上のワルツ'},3:{p:[28,0,4],s:'fight',l:''},4:{p:[30,0,64],s:'withdraw'}}}
+ {name:'ホーランド少将の部隊',cmd:'ホーランド',side:'A',n:35,k:{0:{p:[26,0,36],s:'ready',f:'line',h:180},1:{p:[30,0,-8],s:'fight',l:'射程の縁で踊る'},2:{f:{ring:[0,-55,47,-.2,1.1,.06]},l:'D線上のワルツ作戦'},3:{p:[28,0,4],s:'fight',l:''},4:{p:[30,0,64],s:'withdraw'}}}
 ];
 const PH=[
  {time:'10月',clock:'',step:'来攻',title:'5万隻の攻勢',text:'同盟軍はロボス元帥のもと艦艇51,400隻、将兵600万人でイゼルローン要塞に押し寄せた。総参謀長はグリーンヒル、作戦参謀にはヤン大佐の名もあった。',cam:{fit:1,th:.5,ph:.95},arrows:[{p:[[0,0,40],[0,0,20],[0,0,6]],c:'A'}]},
- {time:'11月',clock:'',step:'攻防',title:'主砲の射程',text:'要塞主砲「雷神の槌」は一撃で艦隊を消し去る。同盟軍は射程の外縁ぎりぎりで攻撃を続けた。',cam:{fit:1,th:.0,ph:.35},arrows:[]},
- {time:'11月',clock:'',step:'ワルツ',title:'死線上のワルツ',text:'ホーランド少将は、主砲の射程の境界線上を出入りして狙いを外させる戦法を編み出した。「ワルツ・ダンス・オン・ザ・デッドライン」と呼ばれる。',cam:{fit:1,th:.6,ph:.7},arrows:[]},
+ {time:'11月',clock:'',step:'攻防',title:'主砲の射程',text:'要塞主砲「雷神の鎚」の射程は同盟軍に大きな脅威となった。同盟軍は射程の外縁ぎりぎりで攻撃を続けた。',cam:{fit:1,th:.0,ph:.35},arrows:[]},
+ {time:'11月',clock:'',step:'ワルツ',title:'D線上のワルツ作戦',text:'藤崎竜版では、主砲の射程境界を利用して攻防する一連の作戦が「D線上のワルツ作戦」と題されている。',cam:{fit:1,th:.6,ph:.7},arrows:[]},
  {time:'12月',clock:'',step:'牽制',title:'退路を断つそぶり',text:'最終盤、ラインハルトの部隊が同盟軍の後方へ回り込み、退路を断つかのように動いた。心理的な弱点を突かれた同盟軍は浮き足立つ。',cam:{fit:1,th:-.7,ph:1.0},arrows:[{p:[[-30,4,-40],[-48,4,-6],[-40,4,30]],c:'E'}]},
  {time:'12月10日',clock:'終結',step:'撤退',title:'要塞は落ちず',text:'同盟軍は攻略をあきらめて撤退した。イゼルローン要塞はまたも難攻不落を証明した。',cam:{fit:1,th:.4,ph:.9},arrows:[{p:[[0,0,4],[0,0,30],[0,0,60]],c:'A'}]}
 ];
@@ -180,9 +191,9 @@ const RESULT={title:'第6次イゼルローン攻防戦の結果',winner:'E',out
  sides:[{name:'帝国軍',side:'E',cmdr:'ミュッケンベルガー元帥',flag:'ヴィルヘルミナ',others:'ラインハルト少将',before:'イゼルローン要塞＋駐留艦隊',loss:'不明',rate:null,deaths:'不明',dead:[]},
         {name:'同盟軍',side:'A',cmdr:'ロボス元帥',flag:'アイアース',others:'グリーンヒル（総参謀長）、ヤン大佐（作戦参謀）、ホーランド少将',before:'51,400隻（将兵600万人）',loss:'不明',rate:null,deaths:'不明',dead:[]}],
  after:['要塞は健在で、回廊の出口は引き続き帝国が押さえる。','ホーランドは名を上げて中将となり、次の第3次ティアマト会戦に臨む。','ラインハルトは戦功を重ね、中将へ進む。'],
- note:'両軍旗艦名は記憶にもとづく。損害数値は確認できた資料になかった。'};
+ note:'兵力・損害など未照合の数値は今後の監査対象。藤崎竜版の章題「D線上のワルツ作戦」と「雷神の鎚」は集英社公式書誌で確認済み。'};
 
-RESULT.refs=[{"k": "小説", "v": "外伝1『星を砕く者』"}, {"k": "アニメ", "v": "OVA外伝「千億の星、千億の光」後半（推定）"}];
+RESULT.refs=[{"k": "小説", "v": "外伝1『星を砕く者』"}, {"k": "漫画", "v": "藤崎竜版 第3巻 #025〜#026・第4巻 #027「D線上のワルツ作戦」、#028「雷神の鎚」（集英社公式書誌で確認）"}];
 
 
 const u0=(o,i)=>(U.find(u=>u.name===o.name).k[i]||{});

@@ -143,7 +143,12 @@ scene.add(new THREE.HemisphereLight(0xcfe0f0,0x4a4a3a,.75));
 
 function cannonFX(a,b,col,w){const d=new THREE.Vector3().subVectors(b,a),L=d.length();const m=new THREE.Mesh(new THREE.CylinderGeometry(w,w,L,12,1,true),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:1,blending:THREE.AdditiveBlending,depthWrite:false}));
  m.position.copy(a).addScaledVector(d,.5);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize());scene.add(m);return {m,life:1.2}}
-const BEAMS=[];function beamsUpdate(dt){for(let i=BEAMS.length-1;i>=0;i--){const b=BEAMS[i];b.life-=dt;b.m.material.opacity=Math.max(0,b.life);if(b.life<=0){scene.remove(b.m);b.m.geometry.dispose();BEAMS.splice(i,1)}}}
+const BEAMS=[],WAVES=[];
+function shockwaveFX(p,col=0xffd080,max=22){const m=new THREE.Mesh(new THREE.RingGeometry(1,1.25,64),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.9,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));m.position.copy(p);m.rotation.x=-Math.PI/2;scene.add(m);return {m,life:1,maxLife:1,max}}
+function beamsUpdate(dt){
+ for(let i=BEAMS.length-1;i>=0;i--){const b=BEAMS[i];b.life-=dt;b.m.material.opacity=Math.max(0,b.life);if(b.life<=0){scene.remove(b.m);b.m.geometry.dispose();BEAMS.splice(i,1)}}
+ for(let i=WAVES.length-1;i>=0;i--){const w=WAVES[i];w.life-=dt;const p=1-Math.max(0,w.life/w.maxLife),sc=1+(w.max-1)*p;w.m.scale.set(sc,sc,1);w.m.material.opacity=.9*(1-p);if(w.life<=0){scene.remove(w.m);w.m.geometry.dispose();WAVES.splice(i,1)}}
+}
 
 const SPECIAL={P:[{done:false,reset(){if(!this.done){this.done=true;{const l=sprite('八幡原','',CSS.A,3*1.6);l.position.set(0,10,0);scene.add(l)}{const l=sprite('千曲川','',CSS.A,2.4*1.6);l.position.set(-40,8,20);scene.add(l)}}}},{fired:false,reset(){this.fired=false},update(now){const t=now-phaseStart;if(phase===2&&!this.fired&&t>1.5){this.fired=true;const u=units.find(o=>o.name==='武田本陣');const b=new THREE.Vector3(u.x,u.y,u.z);BEAMS.push(cannonFX(new THREE.Vector3(0,9,30),b,0xbfe8ff,1.6));for(let k=0;k<10;k++)boom([u.x+(Math.random()-.5)*14,u.y+(Math.random()-.5)*6,u.z+(Math.random()-.5)*14],true,0xffc080)}}}],reset(i){this.P.forEach(p=>p.reset&&p.reset(i))},update(now,dt){this.P.forEach(p=>p.update&&p.update(now,dt));typeof beamsUpdate==="function"&&beamsUpdate(dt);}};
 
