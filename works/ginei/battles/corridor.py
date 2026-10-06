@@ -15,8 +15,12 @@ EXTRA=r"""
 const ISER=new THREE.Mesh(new THREE.SphereGeometry(11,48,32),new THREE.MeshLambertMaterial({color:0xcfd6df,emissive:0x1a2430}));ISER.position.set(0,0,95);scene.add(ISER);
 """
 SPECIAL=r"""
-const SPECIAL={lab:null,reset(){if(!this.lab){this.lab=sprite('イゼルローン要塞','ヤン艦隊の拠点',CSS.A,3);this.lab.position.set(0,13,95);scene.add(this.lab);
- const w=sprite('航行不能宙域','回廊の壁',CSS.E,2.4);w.position.set(-52,10,-10);w.material.opacity=.7;scene.add(w);const w2=sprite('航行不能宙域','回廊の壁',CSS.E,2.4);w2.position.set(52,10,-10);w2.material.opacity=.7;scene.add(w2)}},update(){}};
+const SPECIAL={lab:null,burst:false,dual:false,reset(){this.burst=false;this.dual=false;if(!this.lab){this.lab=sprite('イゼルローン要塞','ヤン艦隊の拠点',CSS.A,3);this.lab.position.set(0,13,95);scene.add(this.lab);
+ const w=sprite('航行不能宙域','回廊の壁',CSS.E,2.4);w.position.set(-52,10,-10);w.material.opacity=.7;scene.add(w);const w2=sprite('航行不能宙域','回廊の壁',CSS.E,2.4);w2.position.set(52,10,-10);w2.material.opacity=.7;scene.add(w2)}},
+ update(now,dt){const t=now-phaseStart;
+  if(phase===1&&!this.burst&&t>1.7){this.burst=true;const u=units.find(x=>x.name==='ファーレンハイト艦隊');if(u){shockwave([u.x,u.y,u.z],0x70d7e6,24,1.0);for(let k=0;k<12;k++)boom([u.x+(Math.random()-.5)*12,u.y+(Math.random()-.5)*5,u.z+(Math.random()-.5)*12],true,0xffc080)}}
+  if(phase===3&&!this.dual&&t>2.2){this.dual=true;shockwave([0,4,8],0xffd080,30,1.1);for(let k=0;k<14;k++)boom([(Math.random()-.5)*28,4+(Math.random()-.5)*8,8+(Math.random()-.5)*18],k<5,0xffb070)}
+ }};
 """
 ENV=env(color='0xfff0d8',glow='0xffd8a0',pos=(180,70,260),extra=EXTRA,special=SPECIAL)
 DATA=r"""

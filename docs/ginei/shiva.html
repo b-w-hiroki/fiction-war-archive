@@ -155,7 +155,10 @@ const pl=new THREE.PointLight(0xfff0d8,1.2,0);pl.position.copy(STAR);scene.add(p
 scene.add(new THREE.AmbientLight(0x4a5a78,.6));
 const fill=new THREE.DirectionalLight(0x9fb6ff,.35);fill.position.set(60,80,-80);scene.add(fill);
 
-const SPECIAL={update(){}};
+const SPECIAL={breach:false,boarding:false,reset(){this.breach=false;this.boarding=false},update(now,dt){const t=now-phaseStart;
+ if(phase===2&&!this.breach&&t>1.7){this.breach=true;shockwave([3,0,-14],0x70d7e6,26,1.05);for(let k=0;k<10;k++)boom([3+(Math.random()-.5)*12,(Math.random()-.5)*5,-14+(Math.random()-.5)*12],k<4,0xffc080)}
+ if(phase===3&&!this.boarding&&t>1.4){this.boarding=true;shockwave([1,-2,-22],0xffd080,18,.85)}
+}};
 
 
 /* ---------- ラベル ---------- */

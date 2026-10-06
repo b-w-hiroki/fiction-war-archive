@@ -45,7 +45,7 @@ for(const file of files){
     const advancedTitle=await page.locator('#cTitle').textContent();
     if(await steps.count()>1 && advancedTitle===initialTitle) throw new Error('first play did not advance from initial phase');
     await page.locator('#play').click();
-    const effectPhase={'fortress.html':5,'amritsar.html':4,'vermilion.html':5}[file];
+    const effectPhase={'fortress.html':5,'amritsar.html':4,'vermilion.html':5,'corridor.html':3,'maradetta.html':4,'shiva.html':2,'iser7.html':4}[file];
     if(effectPhase!==undefined){
       const seek=page.locator('#phaseSeek');
       await seek.fill(String(effectPhase));await seek.dispatchEvent('input');await page.waitForTimeout(80);

@@ -4,7 +4,11 @@ OUT='shiva.html'
 TITLE='シヴァ星域会戦 3D俯瞰';HEAD='シヴァ';ERA='宇宙暦801年／新帝国暦3年'
 NOTE='帝国と共和主義者の最後の会戦。兵力・配置は概略'
 SA='イゼルローン共和政府軍';PAL='iser'
-ENV=env(color='0xffe8c8',glow='0xffb070',pos=(140,30,160))
+SPECIAL=r"""const SPECIAL={breach:false,boarding:false,reset(){this.breach=false;this.boarding=false},update(now,dt){const t=now-phaseStart;
+ if(phase===2&&!this.breach&&t>1.7){this.breach=true;shockwave([3,0,-14],0x70d7e6,26,1.05);for(let k=0;k<10;k++)boom([3+(Math.random()-.5)*12,(Math.random()-.5)*5,-14+(Math.random()-.5)*12],k<4,0xffc080)}
+ if(phase===3&&!this.boarding&&t>1.4){this.boarding=true;shockwave([1,-2,-22],0xffd080,18,.85)}
+}};"""
+ENV=env(color='0xffe8c8',glow='0xffb070',pos=(140,30,160),special=SPECIAL)
 DATA=r"""
 const U=[
  {name:'ブリュンヒルト',cmd:'皇帝ラインハルト',side:'E',n:20,k:{0:{p:[0,0,-30],s:'ready',l:'病を押して出陣'},2:{p:[0,0,-20],s:'fight',l:'包囲される'},3:{p:[0,0,-20],s:'fight',l:'接舷・艦内へ侵入される'},4:{s:'wait',l:'会見に応じる'},5:{s:'wait',l:'和平へ'}}},
