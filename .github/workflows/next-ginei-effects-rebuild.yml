@@ -1,0 +1,29 @@
+name: Next Ginei effects rebuild
+on:
+  push:
+    branches:
+      - feat/ginei-next-battle-effects
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: python3 tools/build.py all
+      - run: |
+          git diff --check
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Rebuild docs for next Ginei effects [skip ci]"
+          git push
