@@ -28,7 +28,7 @@ docs/                   公開用の出力（GitHub Pages を想定）
 site.json               サイト共通設定（サイト名、収録作品の並び、ga_id）
 artifacts.json          claude.ai に公開した作品一覧（トップ）のURL
 extras/                 本体に含めない試作（関ヶ原の3D再現）
-notes/                  設計メモ（作品の選定基準など）
+notes/                  設計メモ（作品の選定基準）と引き継ぎ資料（HANDOVER.md）
 ```
 
 ## ビルド
