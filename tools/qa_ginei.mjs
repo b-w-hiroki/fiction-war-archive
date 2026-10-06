@@ -25,9 +25,10 @@ for(const file of files){
       play:!!document.querySelector('#play'),
       result:!!document.querySelector('#resOpen'),
       seek:!!document.querySelector('#phaseSeek'),
-      seekMax:Number(document.querySelector('#phaseSeek')?.max||-1)
+      seekMax:Number(document.querySelector('#phaseSeek')?.max||-1),
+      shockwave:typeof shockwave==='function'
     }));
-    if(!state.three||!state.canvas||!state.steps||!state.play||!state.result||!state.seek||state.seekMax!==state.steps-1) throw new Error('UI init failed '+JSON.stringify(state));
+    if(!state.three||!state.canvas||!state.steps||!state.play||!state.result||!state.seek||!state.shockwave||state.seekMax!==state.steps-1) throw new Error('UI init failed '+JSON.stringify(state));
     const steps=page.locator('#steps button');
     if(await steps.count()>2){
       const seek=page.locator('#phaseSeek');
