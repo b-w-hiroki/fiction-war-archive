@@ -18,7 +18,7 @@ PALS = {'noble': ('0x9b6fe0', '#b28cf0', '#7a4fc0'), 'coup': ('0xe0603f', '#ef7a
         'zeon': ('0xd25a3e', '#ec7c5f', '#b4452b'), 'efsf': ('0x4a86d8', '#79abee', '#2d68be'),
         'parse': ('0x3aa6b8', '#5cc4d6', '#1f7a8c'), 'lusi': ('0xd2505a', '#e8707a', '#b0303a'), 'sind': ('0xe08a3a', '#eda15a', '#b8641a'),
         'turan': ('0x9a6fe0', '#ad8ae6', '#6d47ad'), 'misr': ('0xd0aa30', '#d9b84a', '#9a7a12'), 'hilmes': ('0xc06a9a', '#d081ad', '#8a3b6e'), 'serpent': ('0x8a7a9a', '#a596b8', '#5a4a6a'),
-        'titan': ('0xc87a3a', '#e0a070', '#9a5420'), 'scout': ('0x3e9a5a', '#6cc488', '#22703c'), 'marley': ('0xb04a4a', '#d87a7a', '#8a2a2a'), 'allied': ('0x4a86d8', '#79abee', '#2d68be'),
+        'titan': ('0xc87a3a', '#e0a070', '#9a5420'), 'scout': ('0x3e9a5a', '#6cc488', '#22703c'), 'marley': ('0xb04a4a', '#d87a7a', '#8a2a2a'), 'allied': ('0x3c8f88', '#69aaa4', '#2f746f'),
         'gamilas': ('0x4a9ad8', '#7ab8ee', '#2d74be'), 'earth': ('0xd8803a', '#eda15a', '#b8641a')}
 COL = {'': None, 'noble': 'nob', 'coup': 'coup', 'iser': 'iser', 'rebel': 'reb', 'ally': 'all', 'zeon': 'zeon', 'efsf': 'efsf', 'parse': 'parse', 'lusi': 'lusi', 'sind': 'sind', 'turan': 'turan', 'misr': 'misr', 'hilmes': 'hilmes', 'serpent': 'serpent', 'titan': 'titan', 'scout': 'scout', 'marley': 'marley', 'allied': 'allied', 'gamilas': 'gamilas', 'earth': 'earth'}
 
