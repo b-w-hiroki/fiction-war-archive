@@ -25,20 +25,28 @@ for(const file of files){
       play:!!document.querySelector('#play'),
       result:!!document.querySelector('#resOpen'),
       seek:!!document.querySelector('#phaseSeek'),
-      seekMax:Number(document.querySelector('#phaseSeek')?.max||-1)
+      seekMax:Number(document.querySelector('#phaseSeek')?.max||-1),
+      mobileStepsHidden:getComputedStyle(document.querySelector('#steps')).display==='none',
+      mobileTitleHorizontal:getComputedStyle(document.querySelector('.title')).writingMode==='horizontal-tb',
+      capMore:!!document.querySelector('#capMore')
     }));
-    if(!state.three||!state.canvas||!state.steps||!state.play||!state.result||!state.seek||state.seekMax!==state.steps-1) throw new Error('UI init failed '+JSON.stringify(state));
+    if(!state.three||!state.canvas||!state.steps||!state.play||!state.result||!state.seek||!state.capMore||!state.mobileStepsHidden||!state.mobileTitleHorizontal||state.seekMax!==1000) throw new Error('UI init failed '+JSON.stringify(state));
     const steps=page.locator('#steps button');
     if(await steps.count()>2){
       const seek=page.locator('#phaseSeek');
-      await seek.fill(String((await steps.count())-1));
-      await seek.dispatchEvent('input');
-      await page.waitForTimeout(120);
-      const v=await seek.inputValue();
+      const startNow=await page.locator('#seekNow').textContent();
+      await seek.evaluate(el=>{el.value='500';el.dispatchEvent(new Event('input',{bubbles:true}))});await page.waitForTimeout(120);
+      const mid=await seek.inputValue();
       const now=await page.locator('#seekNow').textContent();
-      if(v!==String((await steps.count())-1)||!now?.startsWith(String(await steps.count()))) throw new Error('seekbar did not jump to final phase');
-      await seek.fill('0');await seek.dispatchEvent('input');await page.waitForTimeout(80);
+      const aria=await seek.getAttribute('aria-valuenow');
+      if(mid!=='500'||!now?.includes('.')||now===startNow||aria!=='50') throw new Error('seekbar did not scrub continuously: '+JSON.stringify({mid,now,startNow,aria}));
+      await seek.evaluate(el=>{el.value='1000';el.dispatchEvent(new Event('input',{bubbles:true}))});await page.waitForTimeout(80);
+      if(await seek.inputValue()!=='1000') throw new Error('seekbar did not reach end');
+      await seek.evaluate(el=>{el.value='0';el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}))});await page.waitForTimeout(80);
     }
+    await page.locator('#capMore').click();
+    if(!await page.locator('#cap').evaluate(el=>el.classList.contains('expanded'))) throw new Error('mobile caption did not expand');
+    await page.locator('#capMore').click();
     const initialTitle=await page.locator('#cTitle').textContent();
     await page.locator('#play').click();
     await page.waitForTimeout(350);
