@@ -45,6 +45,14 @@ for(const file of files){
     const advancedTitle=await page.locator('#cTitle').textContent();
     if(await steps.count()>1 && advancedTitle===initialTitle) throw new Error('first play did not advance from initial phase');
     await page.locator('#play').click();
+    const effectPhase={'fortress.html':5,'amritsar.html':4,'vermilion.html':5}[file];
+    if(effectPhase!==undefined){
+      const seek=page.locator('#phaseSeek');
+      await seek.fill(String(effectPhase));await seek.dispatchEvent('input');await page.waitForTimeout(80);
+      await page.locator('#spd').click();await page.locator('#spd').click();await page.locator('#spd').click();
+      await page.locator('#play').click();await page.waitForTimeout(2700);await page.locator('#play').click();
+      if(errors.length) throw new Error('effect phase failed: '+errors.join(' | '));
+    }
     await page.locator('#resOpen').click(); await page.waitForSelector('#res.on',{timeout:3000});
     await page.locator('#resClose').click(); await page.waitForTimeout(100);
     if(errors.length) throw new Error(errors.join(' | '));

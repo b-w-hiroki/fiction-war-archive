@@ -29,11 +29,11 @@ const SPECIAL={beams:[],lab:null,shot:0,boom:false,
  update(now,dt){const t=now-phaseStart;
   if(phase===4){const k=Math.min(1,t/7);GAI.position.z=-62+26*ease(k);GAI.children.forEach(c=>{if(c.isSprite)c.material.opacity=.9})}
   else if(phase===5){GAI.position.z=-36;const spin=Math.min(4,t*.6);GAI.rotation.y+=dt*spin;GAI.rotation.z=Math.sin(now*3)*.2*Math.min(1,t/3);
-   if(t>6&&this.shot<1){this.shot=1;this.beams.push(cannon(ISER.position,GAI.position,0xbfe8ff,1.6))}
-   if(t>6.5&&!this.boom){this.boom=true;for(let k=0;k<14;k++)boom([GAI.position.x+(Math.random()-.5)*16,(Math.random()-.5)*10,GAI.position.z+(Math.random()-.5)*16],true,0xffb070);GAI.visible=false}}
+   if(t>6&&this.shot<1){this.shot=1;this.beams.push(cannon(ISER.position,GAI.position,0xbfe8ff,2.2));shockwave([GAI.position.x,GAI.position.y,GAI.position.z],0xbfe8ff,22,1.0)}
+   if(t>6.5&&!this.boom){this.boom=true;shockwave([GAI.position.x,GAI.position.y,GAI.position.z],0xffb070,42,1.6);for(let k=0;k<24;k++)boom([GAI.position.x+(Math.random()-.5)*20,(Math.random()-.5)*12,GAI.position.z+(Math.random()-.5)*20],true,0xffb070);GAI.visible=false}}
   else if(phase===6){GAI.visible=false}
   else{GAI.children.forEach(c=>{if(c.isSprite)c.material.opacity=0})}
-  if(phase===1&&t>1.2){const n=Math.floor((t-1.2)/3.2);if(n>=this.shot&&n<3){this.shot=n+1;const a=n%2?ISER.position:GAI.position,b=n%2?GAI.position:ISER.position;this.beams.push(cannon(a,b,n%2?0xbfe8ff:0xffd080,1.3));boom([b.x,b.y,b.z],true)}}
+  if(phase===1&&t>1.2){const n=Math.floor((t-1.2)/3.2);if(n>=this.shot&&n<3){this.shot=n+1;const a=n%2?ISER.position:GAI.position,b=n%2?GAI.position:ISER.position;this.beams.push(cannon(a,b,n%2?0xbfe8ff:0xffd080,1.55));boom([b.x,b.y,b.z],true);shockwave([b.x,b.y,b.z],n%2?0xbfe8ff:0xffd080,16,.8)}}
   this.beams=this.beams.filter(b=>{b.life-=dt;b.m.material.opacity=Math.max(0,b.life);if(b.life<=0){scene.remove(b.m);b.m.geometry.dispose();return false}return true});
   if(this.lab)this.lab.forEach(l=>{l.sp.position.set(l.o.position.x,l.o.position.y+13,l.o.position.z);l.sp.visible=l.o.visible})}};
 """

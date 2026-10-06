@@ -23,8 +23,12 @@ const mGeo=new THREE.BufferGeometry();mGeo.setAttribute('position',new THREE.Buf
 scene.add(new THREE.Points(mGeo,new THREE.PointsMaterial({size:.55,vertexColors:true,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false})));
 
 
-const SPECIAL={update(now,dt){
-// 機雷原の焼却
+const SPECIAL={lancerBurst:false,burnWave:false,reset(){this.lancerBurst=false;this.burnWave=false},update(now,dt){
+// 黒色槍騎兵艦隊への集中砲火
+ if(phase===3&&!this.lancerBurst&&now-phaseStart>1.7){this.lancerBurst=true;const u=units.find(x=>x.name==='黒色槍騎兵艦隊');if(u){shockwave([u.x,u.y,u.z],0x70d7e6,26,1.05);for(let k=0;k<14;k++)boom([u.x+(Math.random()-.5)*12,u.y+(Math.random()-.5)*6,u.z+(Math.random()-.5)*12],true,0xffc080)}}
+ // 機雷原突破の視覚強調
+ if(phase===4&&!this.burnWave&&now-phaseStart>2.5){this.burnWave=true;shockwave([2,6,33],0xff9a40,34,1.25);for(let k=0;k<10;k++)boom([(Math.random()-.5)*18,6+(Math.random()-.5)*8,30+Math.random()*16],true,0xff9a40)}
+ // 機雷原の焼却
  const burn=phase>=4?(phase>4?9:(now-phaseStart)):-1,colA=mGeo.attributes.color;
  for(let i=0;i<MN;i++){const m=mInfo[i];if(!m.c)continue;let r=mBase[i*3],g=mBase[i*3+1],b=mBase[i*3+2];
   if(burn>=0){const t=burn-(40-m.z)*.08-.2;if(t>0){const h=Math.max(0,1-t*1.4);r=1.6*h;g=.8*h;b=.2*h;if(t<.05&&Math.random()<.004)boom([mPos[i*3],mPos[i*3+1],mPos[i*3+2]],true,0xff9a40)}}

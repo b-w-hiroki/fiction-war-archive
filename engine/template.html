@@ -215,6 +215,11 @@ function beam(a,b,col){const k=bI=(bI+1)%BN,bm=beams[k];bm.life=bm.max=.28+Math.
 const fx=[];for(let i=0;i<180;i++){const s=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,opacity:0}));s.visible=false;scene.add(s);fx.push({s,life:0})}
 let fI=0;
 function boom(p,big,col){const f=fx[fI=(fI+1)%fx.length];f.s.visible=true;f.s.position.set(p[0],p[1],p[2]);f.life=f.max=big?.9:.35;f.s0=big?1.5:.6;f.s1=big?7:2.6;f.s.material.color.set(col||0xffd08a)}
+const waves=[];
+function shockwave(p,col=0xffd080,max=24,life=1.15){
+ const m=new THREE.Mesh(new THREE.RingGeometry(1,1.22,64),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.9,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));
+ m.position.set(p[0],p[1],p[2]);m.rotation.x=-Math.PI/2;m.renderOrder=7;scene.add(m);waves.push({m,life,maxLife:life,max})
+}
 
 /* ---------- 矢印（進路） ---------- */
 const ACOL={E:0xe8b44c,A:0x58c7d8};let arrows=[];
@@ -360,6 +365,7 @@ function loop(){
  for(let k=0;k<BN;k++){const b=beams[k];let r=0,g=0,bl=0;if(b.life>0){b.life-=dt;const f=Math.max(0,b.life/b.max);r=b.c.r*f*1.4;g=b.c.g*f*1.4;bl=b.c.b*f*1.4}bCol.set([r,g,bl,r*.3,g*.3,bl*.3],k*6)}
  bGeo.attributes.position.needsUpdate=true;bGeo.attributes.color.needsUpdate=true;
  fx.forEach(f=>{if(!f.s.visible)return;f.life-=dt;if(f.life<=0){f.s.visible=false;return}const k=1-f.life/f.max,sc=f.s0+(f.s1-f.s0)*k;f.s.scale.set(sc,sc,1);f.s.material.opacity=1-k});
+ for(let i=waves.length-1;i>=0;i--){const w=waves[i];w.life-=dt;const k=1-Math.max(0,w.life/w.maxLife),sc=1+(w.max-1)*ease(k);w.m.scale.set(sc,sc,1);w.m.material.opacity=.9*(1-k);if(w.life<=0){scene.remove(w.m);w.m.geometry.dispose();waves.splice(i,1)}}
  SPECIAL.update(now,dt);
  // 矢印
  arrows.forEach(a=>{const p=Math.max(0,Math.min(1,(now-a.t0)/1.8));a.line.geometry.setDrawRange(0,Math.floor(ease(p)*81));a.head.visible=p>=1});
