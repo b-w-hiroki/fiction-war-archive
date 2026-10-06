@@ -1,8 +1,15 @@
 name: Ginei runtime QA
 on:
-  push:
+  pull_request:
     branches:
-      - fix/ginei-runtime-qa
+      - main
+    paths:
+      - "engine/template.html"
+      - "engine/common.py"
+      - "works/ginei/**"
+      - "tools/build.py"
+      - "tools/qa_ginei.mjs"
+      - ".github/workflows/ginei-runtime-qa.yml"
   workflow_dispatch:
 jobs:
   qa:
