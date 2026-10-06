@@ -186,6 +186,8 @@ def main():
     for w in works:  # 作品ごとの入口。中身は同じで、最初に開く作品だけが違う
         build_portal(w, json.loads(json.dumps(works)), hub, base / w / 'index.html', artifact)
     build_hub({w: len(d['B']) for w, d in works.items()}, portal, base / 'index.html', artifact)
+    if not artifact and SITE.get('domain'):  # GitHub Pages の独自ドメイン
+        (base / 'CNAME').write_text(SITE['domain'] + '\n')
     print(f'年表（{len(works)}作品を切り替え）と作品一覧を {base.relative_to(ROOT)}/ に出力')
 
 
