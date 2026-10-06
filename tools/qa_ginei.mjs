@@ -30,17 +30,20 @@ for(const file of files){
       mobileTitleHorizontal:getComputedStyle(document.querySelector('.title')).writingMode==='horizontal-tb',
       capMore:!!document.querySelector('#capMore')
     }));
-    if(!state.three||!state.canvas||!state.steps||!state.play||!state.result||!state.seek||!state.capMore||!state.mobileStepsHidden||!state.mobileTitleHorizontal||state.seekMax!==state.steps-1) throw new Error('UI init failed '+JSON.stringify(state));
+    if(!state.three||!state.canvas||!state.steps||!state.play||!state.result||!state.seek||!state.capMore||!state.mobileStepsHidden||!state.mobileTitleHorizontal||state.seekMax!==1000) throw new Error('UI init failed '+JSON.stringify(state));
     const steps=page.locator('#steps button');
     if(await steps.count()>2){
       const seek=page.locator('#phaseSeek');
-      await seek.fill(String((await steps.count())-1));
-      await seek.dispatchEvent('input');
-      await page.waitForTimeout(120);
-      const v=await seek.inputValue();
+      const startPos=await page.evaluate(()=>{const u=units?.[0];return u?[u.x,u.y,u.z]:null}).catch(()=>null);
+      await seek.fill('500');await seek.dispatchEvent('input');await page.waitForTimeout(120);
+      const mid=await seek.inputValue();
       const now=await page.locator('#seekNow').textContent();
-      if(v!==String((await steps.count())-1)||!now?.startsWith(String(await steps.count()))) throw new Error('seekbar did not jump to final phase');
-      await seek.fill('0');await seek.dispatchEvent('input');await page.waitForTimeout(80);
+      if(mid!=='500'||!now?.includes('.')) throw new Error('seekbar did not scrub continuously');
+      const midPos=await page.evaluate(()=>{const u=units?.[0];return u?[u.x,u.y,u.z]:null}).catch(()=>null);
+      if(startPos&&midPos&&JSON.stringify(startPos)===JSON.stringify(midPos)) throw new Error('seekbar scrub did not move battle state');
+      await seek.fill('1000');await seek.dispatchEvent('input');await page.waitForTimeout(80);
+      if(await seek.inputValue()!=='1000') throw new Error('seekbar did not reach end');
+      await seek.fill('0');await seek.dispatchEvent('input');await seek.dispatchEvent('change');await page.waitForTimeout(80);
     }
     await page.locator('#capMore').click();
     if(!await page.locator('#cap').evaluate(el=>el.classList.contains('expanded'))) throw new Error('mobile caption did not expand');
