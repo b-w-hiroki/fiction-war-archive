@@ -166,7 +166,7 @@ function beamsUpdate(dt){
 }
 
 const SPECIAL={lab:null,fired:false,reset(){this.fired=false;if(!this.lab){this.lab=sprite('イゼルローン要塞','雷神の槌',CSS.A,3);this.lab.position.set(0,13,55);scene.add(this.lab)}},
- update(now,dt){const t=now-phaseStart;if(phase===3&&!this.fired&&t>2.5){this.fired=true;const u=units.find(o=>o.name==='ワーレン艦隊');const b=new THREE.Vector3(u.x,u.y,u.z);BEAMS.push(cannonFX(FORT.position,b,0xbfe8ff,1.6));for(let k=0;k<10;k++)boom([u.x+(Math.random()-.5)*14,u.y+(Math.random()-.5)*6,u.z+(Math.random()-.5)*14],true,0xffc080)}beamsUpdate(dt)}};
+ update(now,dt){const t=now-phaseStart;if(phase===3&&!this.fired&&t>2.5){this.fired=true;const u=units.find(o=>o.name==='ワーレン艦隊');const b=new THREE.Vector3(u.x,u.y,u.z);BEAMS.push(cannonFX(FORT.position,b,0xbfe8ff,2.2));for(let k=0;k<16;k++)boom([u.x+(Math.random()-.5)*16,u.y+(Math.random()-.5)*7,u.z+(Math.random()-.5)*16],true,0xffc080)}beamsUpdate(dt)}};
 
 
 /* ---------- ラベル ---------- */

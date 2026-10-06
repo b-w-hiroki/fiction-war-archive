@@ -101,7 +101,7 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
     <div class="force ui" aria-label="戦力">
       <div class="row e"><span class="side">帝国軍</span><div class="bar"><i class="dep" id="eDep"></i><i class="fig" id="eFig"></i></div><span class="num" id="eNum"></span></div>
       <div class="row a"><span class="side">同盟軍</span><div class="bar"><i class="dep" id="aDep"></i><i class="fig" id="aFig"></i></div><span class="num" id="aNum"></span></div>
-      <div class="note">半個艦隊でも陥ちた難攻不落の要塞。配置は概略</div>
+      <div class="note">半個艦隊でも陥ちた難攻不落の要塞。配置は概略。主砲名は媒体差を併記</div>
       <button class="resbtn" id="resOpen">戦果・損害を見る ›</button><a class="back" href="index.html#ginei">‹ 年表へ戻る</a>
     </div>
     <div class="res ui" id="res" role="dialog" aria-label="戦果"><div class="in" id="resIn"></div></div>
@@ -165,8 +165,8 @@ function beamsUpdate(dt){
  for(let i=WAVES.length-1;i>=0;i--){const w=WAVES[i];w.life-=dt;const p=1-Math.max(0,w.life/w.maxLife),sc=1+(w.max-1)*p;w.m.scale.set(sc,sc,1);w.m.material.opacity=.9*(1-p);if(w.life<=0){scene.remove(w.m);w.m.geometry.dispose();WAVES.splice(i,1)}}
 }
 
-const SPECIAL={lab:null,fired:false,reset(){this.fired=false;if(!this.lab){this.lab=sprite('イゼルローン要塞','雷神の槌',CSS.A,3);this.lab.position.set(0,13,-50);scene.add(this.lab)}},
- update(now,dt){const t=now-phaseStart;if(phase===4&&!this.fired&&t>2.0){this.fired=true;const u=units.find(o=>o.name==='要塞駐留艦隊');const b=new THREE.Vector3(u.x,u.y,u.z);BEAMS.push(cannonFX(FORT.position,b,0xbfe8ff,1.6));for(let k=0;k<10;k++)boom([u.x+(Math.random()-.5)*14,u.y+(Math.random()-.5)*6,u.z+(Math.random()-.5)*14],true,0xffc080)}beamsUpdate(dt)}};
+const SPECIAL={lab:null,fired:false,reset(){this.fired=false;if(!this.lab){this.lab=sprite('イゼルローン要塞','雷神の鎚 / トゥールハンマー',CSS.A,3);this.lab.position.set(0,13,-50);scene.add(this.lab)}},
+ update(now,dt){const t=now-phaseStart;if(phase===4&&!this.fired&&t>2.0){this.fired=true;const u=units.find(o=>o.name==='要塞駐留艦隊');const b=new THREE.Vector3(u.x,u.y,u.z);BEAMS.push(cannonFX(FORT.position,b,0xbfe8ff,2.2));shockwave([b.x,b.y,b.z],0xbfe8ff,30,1.2);for(let k=0;k<16;k++)boom([u.x+(Math.random()-.5)*16,u.y+(Math.random()-.5)*7,u.z+(Math.random()-.5)*16],true,0xffc080)}beamsUpdate(dt)}};
 
 
 /* ---------- ラベル ---------- */
@@ -197,7 +197,7 @@ const PH=[
  {time:'5月',clock:'',step:'誘出',title:'救難信号と偽装艦',text:'偽の救難信号で駐留艦隊を要塞から引き離す。同時に、帝国艦に偽装した艦が「叛乱軍に追われている」として要塞に接近した。乗っているのはシェーンコップの薔薇の騎士連隊である。',cam:{fit:1,th:-.6,ph:1.0},arrows:[{p:[[0,0,-28],[20,0,-4],[30,0,10]],c:'E'},{p:[[-40,4,10],[-30,3,-8],[-20,2,-24]],c:'A'}]},
  {time:'5月',clock:'',step:'制圧',title:'中枢の奪取',text:'要塞に入った潜入部隊は司令室を急襲し、シュトックハウゼン大将を拘束した。外からは落とせない要塞が、内側から落ちた。',cam:{fit:1,k:.8,th:.9,ph:1.05},arrows:[]},
  {time:'5月',clock:'',step:'帰還',title:'戻ってくる駐留艦隊',text:'ゼークト大将の駐留艦隊が異変に気づいて引き返してくる。ヤンは降伏を勧告したが、ゼークトはこれを拒んで突入を図った。',cam:{fit:1,th:.4,ph:.9},arrows:[{p:[[50,0,40],[42,0,24],[30,0,10]],c:'E'}]},
- {time:'5月',clock:'',step:'主砲',title:'雷神の槌',text:'奪った要塞の主砲「雷神の槌」が、かつての持ち主の艦隊に向けて放たれる。駐留艦隊は壊滅し、ゼークトは戦死。幕僚のオーベルシュタインは脱出して生き延びた。',cam:{fit:1,th:.2,ph:.8},arrows:[]},
+ {time:'5月',clock:'',step:'主砲',title:'雷神の鎚 / トゥールハンマー',text:'奪った要塞主砲（原作・旧OVA系「雷神の鎚」／DNT「トゥールハンマー」）が、かつての持ち主の艦隊に向けて放たれる。駐留艦隊は壊滅し、ゼークトは戦死。幕僚のオーベルシュタインは脱出して生き延びた。',cam:{fit:1,th:.2,ph:.8},arrows:[]},
  {time:'戦後',clock:'',step:'陥落',title:'奇跡のヤン',text:'味方の損害をほとんど出さずに要塞は陥落した。ヤンは「奇跡のヤン」と呼ばれ、同盟は回廊の出口を手に入れる。',cam:{fit:1,th:.5,ph:.95},arrows:[]}
 ];
 const RESULT={title:'第7次イゼルローン攻略の結果',winner:'A',outcome:'同盟軍の勝利（要塞の奪取）',when:'宇宙暦796年／帝国暦487年 5月、イゼルローン回廊',
