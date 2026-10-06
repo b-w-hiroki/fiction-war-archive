@@ -28,8 +28,12 @@ for(const file of files){
     }));
     if(!state.three||!state.canvas||!state.steps||!state.play||!state.result) throw new Error('UI init failed '+JSON.stringify(state));
     const steps=page.locator('#steps button');
-    if(await steps.count()>1){await steps.nth(1).click(); await page.waitForTimeout(250);}
-    await page.locator('#play').click(); await page.waitForTimeout(400); await page.locator('#play').click();
+    const initialTitle=await page.locator('#cTitle').textContent();
+    await page.locator('#play').click();
+    await page.waitForTimeout(350);
+    const advancedTitle=await page.locator('#cTitle').textContent();
+    if(await steps.count()>1 && advancedTitle===initialTitle) throw new Error('first play did not advance from initial phase');
+    await page.locator('#play').click();
     await page.locator('#resOpen').click(); await page.waitForSelector('#res.on',{timeout:3000});
     await page.locator('#resClose').click(); await page.waitForTimeout(100);
     if(errors.length) throw new Error(errors.join(' | '));
