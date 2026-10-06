@@ -1,0 +1,44 @@
+{
+ "title": "やまと航跡（沈黙の艦隊）",
+ "short": "沈黙の艦隊",
+ "span": "作中年不明",
+ "unit": "戦い",
+ "date": "uc",
+ "yl": "",
+ "lead": "<span class=\"nb\">原潜やまとの独立宣言から</span><span class=\"nb\">ニューヨーク到達までの</span><span class=\"nb\">6つの戦いを順に並べた年表です。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>年と数値</dt><dd><span class=\"nb\">作中で年は明示されず、</span><span class=\"nb\">戦力もほとんど不明です。</span></dd>\n<dt>巻数</dt><dd><span class=\"nb\">巻の範囲は推定です。</span></dd>\n<dt>陣営の色</dt><dd><span class=\"nb\">青は米海軍、</span><span class=\"nb\">緑はやまとです。</span></dd>\n<dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>",
+ "eras": [
+  [
+   "独立",
+   "独立宣言から日米との対決"
+  ],
+  [
+   "北上",
+   "北極海と大西洋"
+  ],
+  [
+   "国連",
+   "ニューヨークへ"
+  ]
+ ],
+ "names": {
+  "efsf": "米海軍側",
+  "scout": "やまと側",
+  "none": "決着なし"
+ },
+ "order": [
+  "scout",
+  "efsf",
+  "none"
+ ],
+ "colors": {
+  "efsf": [
+   "#2d68be",
+   "#79abee"
+  ],
+  "scout": [
+   "#22703c",
+   "#6cc488"
+  ]
+ }
+}

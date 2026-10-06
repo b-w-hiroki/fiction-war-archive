@@ -1,0 +1,54 @@
+{
+ "title": "ヴィンランド・サガ 戦史",
+ "short": "ヴィンランド・サガ",
+ "span": "1002〜1019年頃",
+ "unit": "戦い",
+ "date": "uc",
+ "yl": "",
+ "lead": "<span class=\"nb\">1002年のトールズの最期から</span><span class=\"nb\">ヨムスボルグの戦いまで、</span><span class=\"nb\">幸村誠『ヴィンランド・サガ』の</span><span class=\"nb\">7つの戦いを時代順に並べた年表です。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>年代</dt><dd><span class=\"nb\">作中年は推定を含みます。</span><span class=\"nb\">史実（スヴェン王の死は1014年2月）との違いは</span><span class=\"nb\">各戦いの注記に書きました。</span></dd>\n<dt>話数</dt><dd><span class=\"nb\">アニメ話数は英語版Wikipediaの話数一覧で確認。</span><span class=\"nb\">漫画の巻数は推定です。</span></dd>\n<dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>",
+ "eras": [
+  [
+   "序章",
+   "トールズの死"
+  ],
+  [
+   "プロローグ",
+   "イングランド遠征とクヌート"
+  ],
+  [
+   "農場編",
+   "奴隷トルフィン"
+  ],
+  [
+   "バルト海戦争",
+   "ヨーム戦士団"
+  ]
+ ],
+ "names": {
+  "zeon": "アシェラッド・イングランド側",
+  "lusi": "デンマーク・トルケル側",
+  "scout": "トルフィン側",
+  "none": "決着なし"
+ },
+ "order": [
+  "zeon",
+  "lusi",
+  "scout",
+  "none"
+ ],
+ "colors": {
+  "zeon": [
+   "#b4452b",
+   "#ec7c5f"
+  ],
+  "lusi": [
+   "#b0303a",
+   "#e8707a"
+  ],
+  "scout": [
+   "#22703c",
+   "#6cc488"
+  ]
+ }
+}

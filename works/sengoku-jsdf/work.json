@@ -1,0 +1,42 @@
+{
+ "title": "戦国自衛隊 戦史",
+ "short": "戦国自衛隊",
+ "span": "1549〜1561年（推定）",
+ "unit": "戦い",
+ "date": "uc",
+ "yl": "",
+ "lead": "<span class=\"nb\">戦国時代へ飛ばされた自衛隊の戦いを、</span><span class=\"nb\">1979年映画を軸に</span><span class=\"nb\">5つ並べた年表です。</span><br><span class=\"nb\">行を押すと、</span><span class=\"nb\">詳細と3D再現への入口が開きます。</span>",
+ "notes": "<dt>年</dt><dd><span class=\"nb\">年は史実の西暦で、</span><span class=\"nb\">作中で明示されないため推定です。</span></dd>\n<dt>典拠</dt><dd><span class=\"nb\">主に1979年映画のあらすじ（英語版Wikipedia）に拠ります。</span><span class=\"nb\">小説との照合は済んでいません。</span></dd>\n<dt>影響の段階</dt><dd><span class=\"nb\">3段階の区分は編者の判断です。</span></dd>",
+ "eras": [
+  [
+   "1549",
+   "『戦国自衛隊1549』（2005年）"
+  ],
+  [
+   "戦国転移",
+   "転移と長尾景虎との合流"
+  ],
+  [
+   "川中島と上洛",
+   "武田との決戦と京での最期"
+  ]
+ ],
+ "names": {
+  "zeon": "武田・敵対側",
+  "efsf": "自衛隊・長尾側"
+ },
+ "order": [
+  "efsf",
+  "zeon"
+ ],
+ "colors": {
+  "zeon": [
+   "#b4452b",
+   "#ec7c5f"
+  ],
+  "efsf": [
+   "#2d68be",
+   "#79abee"
+  ]
+ }
+}

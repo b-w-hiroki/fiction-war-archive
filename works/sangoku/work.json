@@ -27,6 +27,7 @@
   "efsf": "孫権・呉側",
   "titan": "袁紹側",
   "serpent": "黄巾・董卓・南蛮側",
+  "allied": "後漢朝廷・官軍側",
   "none": "決着なし"
  },
  "order": [
@@ -35,6 +36,7 @@
   "efsf",
   "titan",
   "serpent",
+  "allied",
   "none"
  ],
  "colors": {
@@ -57,6 +59,10 @@
   "serpent": [
    "#5a4a6a",
    "#a596b8"
+  ],
+  "allied": [
+   "#2d68be",
+   "#79abee"
   ]
  }
 }
