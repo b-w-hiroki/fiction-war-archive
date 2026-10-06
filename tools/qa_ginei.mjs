@@ -10,8 +10,7 @@ for(const file of files){
   const page=await browser.newPage({viewport:{width:390,height:844}});
   const errors=[];
   await page.route('https://cdnjs.cloudflare.com/ajax/libs/three.js/**',route=>route.fulfill({status:200,contentType:'application/javascript',body:three}));
-  await page.route('https://fonts.googleapis.com/**',route=>route.abort());
-  await page.route('https://fonts.gstatic.com/**',route=>route.abort());
+  await page.route('https://fonts.googleapis.com/**',route=>route.fulfill({status:200,contentType:'text/css',body:''}));
   page.on('pageerror',e=>errors.push('pageerror: '+e.message));
   page.on('console',m=>{if(m.type()==='error')errors.push('console: '+m.text())});
   try{
