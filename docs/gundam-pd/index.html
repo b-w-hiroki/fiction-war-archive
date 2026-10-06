@@ -12,12 +12,12 @@
 body{margin:0;padding-top:env(safe-area-inset-top,0px)}
 /* 一覧そのものを年表にする。左の縦線が時の流れ、印の大きさが後世への影響 */
 :root{
- --paper:#e9ecef;--ink:#151a22;--sub:#566070;--rule:#c3cad3;--faint:#dde2e8;--seal:#151a22;
- --emp:#a4761a;--all:#17808f;--nob:#6d47ad;--coup:#b03f27;--iser:#1d7c50;--reb:#a8343f;--zeon:#b4452b;--efsf:#2d68be;--parse:#1f7a8c;--lusi:#b0303a;--sind:#b8641a;--turan:#6d47ad;--misr:#9a7a12;--hilmes:#8a3b6e;--serpent:#5a4a6a;--titan:#9a5420;--scout:#22703c;--marley:#8a2a2a;--allied:#2d68be;--gamilas:#2d74be;--earth:#b8641a;--none:#7a7c84;
+ --paper:#f5f3ee;--ink:#23272d;--sub:#68717b;--rule:#d5d0c6;--faint:#ebe7df;--seal:#303740;
+ --emp:#a4761a;--all:#17808f;--nob:#6d47ad;--coup:#b03f27;--iser:#1d7c50;--reb:#a8343f;--zeon:#b4452b;--efsf:#2d68be;--parse:#1f7a8c;--lusi:#b0303a;--sind:#b8641a;--turan:#6d47ad;--misr:#9a7a12;--hilmes:#8a3b6e;--serpent:#5a4a6a;--titan:#9a5420;--scout:#22703c;--marley:#8a2a2a;--allied:#2f746f;--gamilas:#2d74be;--earth:#b8641a;--none:#7a7c84;
  --f-m:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;--f-g:"Zen Kaku Gothic New","Hiragino Sans",system-ui,sans-serif;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#10141b;--ink:#e3e7ed;--sub:#97a1b0;--rule:#2f3743;--faint:#1b212b;--seal:#e3e7ed;--emp:#e0ae4a;--all:#56c0cf;--nob:#ad8ae6;--coup:#e8795c;--iser:#5ccd96;--reb:#e66f79;--zeon:#ec7c5f;--efsf:#79abee;--parse:#5cc4d6;--lusi:#e8707a;--sind:#eda15a;--turan:#ad8ae6;--misr:#d9b84a;--hilmes:#d081ad;--serpent:#a596b8;--titan:#e0a070;--scout:#6cc488;--marley:#d87a7a;--allied:#79abee;--gamilas:#7ab8ee;--earth:#eda15a;--none:#8f9198;color-scheme:dark}}
-:root[data-theme="dark"]{--paper:#10141b;--ink:#e3e7ed;--sub:#97a1b0;--rule:#2f3743;--faint:#1b212b;--seal:#e3e7ed;--emp:#e0ae4a;--all:#56c0cf;--nob:#ad8ae6;--coup:#e8795c;--iser:#5ccd96;--reb:#e66f79;--zeon:#ec7c5f;--efsf:#79abee;--parse:#5cc4d6;--lusi:#e8707a;--sind:#eda15a;--turan:#ad8ae6;--misr:#d9b84a;--hilmes:#d081ad;--serpent:#a596b8;--titan:#e0a070;--scout:#6cc488;--marley:#d87a7a;--allied:#79abee;--gamilas:#7ab8ee;--earth:#eda15a;--none:#8f9198;color-scheme:dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#1b1d20;--ink:#ece8df;--sub:#a9a49b;--rule:#393b3f;--faint:#25282c;--seal:#ece8df;--emp:#e0ae4a;--all:#56c0cf;--nob:#ad8ae6;--coup:#e8795c;--iser:#5ccd96;--reb:#e66f79;--zeon:#ec7c5f;--efsf:#79abee;--parse:#5cc4d6;--lusi:#e8707a;--sind:#eda15a;--turan:#ad8ae6;--misr:#d9b84a;--hilmes:#d081ad;--serpent:#a596b8;--titan:#e0a070;--scout:#6cc488;--marley:#d87a7a;--allied:#69aaa4;--gamilas:#7ab8ee;--earth:#eda15a;--none:#8f9198;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#1b1d20;--ink:#ece8df;--sub:#a9a49b;--rule:#393b3f;--faint:#25282c;--seal:#ece8df;--emp:#e0ae4a;--all:#56c0cf;--nob:#ad8ae6;--coup:#e8795c;--iser:#5ccd96;--reb:#e66f79;--zeon:#ec7c5f;--efsf:#79abee;--parse:#5cc4d6;--lusi:#e8707a;--sind:#eda15a;--turan:#ad8ae6;--misr:#d9b84a;--hilmes:#d081ad;--serpent:#a596b8;--titan:#e0a070;--scout:#6cc488;--marley:#d87a7a;--allied:#69aaa4;--gamilas:#7ab8ee;--earth:#eda15a;--none:#8f9198;color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--paper);color:var(--ink);font-family:var(--f-g);font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:auto-phrase;line-break:strict;overflow-wrap:anywhere}
 p,dd{text-wrap:pretty}
@@ -112,11 +112,35 @@ footer p{margin:0;max-width:66ch}
 }
 
 /* archive UI refresh */
-:root{--archive-bg:#0a0d12;--archive-panel:#10151d;--archive-panel2:#151b25;--archive-gold:#c8a15a}body{background:radial-gradient(circle at 82% -8%,rgba(184,84,79,.12),transparent 32rem),var(--paper)}.wrap{max-width:980px}.archivebar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:26px;font-size:11px;color:var(--sub);letter-spacing:.08em}.archivebar a{display:inline-flex;align-items:center;gap:7px;text-decoration:none;font-weight:700;color:var(--ink);padding:7px 10px;border:1px solid var(--rule);border-radius:2px}.archivebar a:hover{background:var(--faint)}header{padding:18px 20px 20px;border:1px solid var(--rule);border-bottom:2px solid var(--ink);background:color-mix(in srgb,var(--paper) 92%,transparent)}.switch>summary{width:100%;justify-content:space-between}.switch .chev{margin-left:auto}.bar{margin:0 20px;padding-top:12px;top:0;background:color-mix(in srgb,var(--paper) 94%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}.finder{display:flex;align-items:center;gap:10px;margin-bottom:8px}.finder input{width:min(440px,100%);border:1px solid var(--rule);background:var(--faint);color:var(--ink);font:inherit;font-size:13px;padding:9px 11px;outline:none;border-radius:2px}.finder input:focus{border-color:var(--seal)}.finder span{font-size:11px;color:var(--sub);white-space:nowrap}.era{margin-top:26px;padding:0 20px}.era h2{padding:0 0 10px;border-bottom:1px solid var(--rule)}.row{padding-left:48px;background:color-mix(in srgb,var(--paper) 97%,transparent)}.row>summary{margin:0 -10px;padding:15px 10px;border-bottom:1px solid var(--faint);border-radius:2px;transition:background .15s ease}.row>summary:hover,.row[open]>summary{background:var(--faint)}.body{margin:0 -10px;padding:8px 10px 22px calc(4.4em + 16px);background:color-mix(in srgb,var(--faint) 58%,transparent)}.open3d{display:inline-flex;align-items:center;gap:8px;margin-top:3px;padding:9px 12px;border:1px solid var(--ink);border-bottom:1px solid var(--ink);text-decoration:none;background:var(--ink);color:var(--paper);border-radius:2px}.open3d::after{content:"↗";font-family:var(--f-g);font-weight:400}.open3d small{color:inherit;opacity:.72}footer{margin:46px 20px 0}@media(max-width:560px){.wrap{padding-inline:10px;padding-top:18px}.archivebar{margin-inline:4px;margin-bottom:14px}.archivebar span{display:none}header{padding:15px 14px}.bar{margin-inline:0;padding-inline:4px}.era{padding-inline:4px}.row{padding-left:38px}.body{padding-left:10px}.finder input{min-height:44px}.tabs button{min-height:40px}.open3d{width:100%;justify-content:center;min-height:44px}footer{margin-inline:4px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+:root{--archive-bg:#0a0d12;--archive-panel:#10151d;--archive-panel2:#151b25;--archive-gold:#c8a15a}
+body{background:var(--paper)}
+.wrap{max-width:980px}
+.archivebar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:26px;font-size:11px;color:var(--sub);letter-spacing:.08em}
+.archivebar a{display:inline-flex;align-items:center;gap:7px;text-decoration:none;font-weight:700;color:var(--ink);padding:7px 10px;border:1px solid var(--rule);border-radius:2px}
+.archivebar a:hover{background:var(--faint)}.archivebar span{font-variant-numeric:tabular-nums}
+header{padding:18px 20px 20px;border:1px solid var(--rule);border-bottom:2px solid var(--ink);background:var(--paper)}
+.switch>summary{width:100%;justify-content:space-between}.switch .chev{margin-left:auto}
+.bar{margin:0 20px;padding-top:12px;top:0;background:var(--paper);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.finder{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.finder input{width:min(440px,100%);border:1px solid var(--rule);background:var(--faint);color:var(--ink);font:inherit;font-size:13px;padding:9px 11px;outline:none;border-radius:2px}
+.finder input:focus{border-color:var(--seal);box-shadow:0 0 0 2px rgba(60,70,82,.12)}
+.finder span{font-size:11px;color:var(--sub);white-space:nowrap}
+.era{margin-top:26px;padding:0 20px}.era h2{padding:0 0 10px;border-bottom:1px solid var(--rule)}
+.row{padding-left:48px;background:var(--paper)}
+.row>summary{margin:0 -10px;padding:15px 10px;border-bottom:1px solid var(--faint);border-radius:2px;transition:background .15s ease}
+.row>summary:hover{background:var(--faint)}.row[open]>summary{background:var(--faint)}
+.body{margin:0 -10px;padding:8px 10px 22px calc(4.4em + 16px);background:var(--faint)}
+.open3d{display:inline-flex;align-items:center;gap:8px;margin-top:3px;padding:9px 12px;border:1px solid var(--ink);border-bottom:1px solid var(--ink);text-decoration:none;background:var(--ink);color:var(--paper);border-radius:2px}
+.open3d::after{content:"↗";font-family:var(--f-g);font-weight:400}.open3d small{color:inherit;opacity:.72}
+footer{margin:46px 20px 0}
+@media(max-width:560px){.wrap{padding-inline:10px;padding-top:18px}.archivebar{margin-inline:4px;margin-bottom:14px}.archivebar span{display:none}header{padding:15px 14px}.bar{margin-inline:0;padding-inline:4px}.era{padding-inline:4px}.row{padding-left:38px}.body{padding-left:10px}.finder{position:relative}.finder input{min-height:44px}.tabs button{min-height:40px}.open3d{width:100%;justify-content:center;min-height:44px}.loss b{font-size:16px}footer{margin-inline:4px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
 </style>
 </head>
 <body>
-<div class="wrap">\n <nav class="archivebar" aria-label="サイト内ナビゲーション"><a id="homeLink" href="#">← 作品一覧</a><span>FICTIONAL MILITARY HISTORY / TIMELINE</span></nav>
+<div class="wrap">
+ <nav class="archivebar" aria-label="サイト内ナビゲーション"><a id="homeLink" href="#">← 作品一覧</a><span>FICTIONAL MILITARY HISTORY / TIMELINE</span></nav>
  <header>
   <details class="switch" id="switch">
    <summary aria-label="作品を切り替える"><h1 id="ttl">P.D.戦史（鉄血のオルフェンズ）</h1><span class="chev" aria-hidden="true"></span></summary>
@@ -148,11 +172,13 @@ function menu(){
 }
 $('menu').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;sw.open=false;if(b.dataset.w!==W){load(b.dataset.w);try{history.replaceState(null,'','#'+W)}catch(_){}window.scrollTo(0,0)}});
 $('tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;cur=b.textContent;$('tabs').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));render()});
-function applySearch(){const q=($('battleQuery').value||'').trim().toLowerCase(),ts=q.split(/\\s+/).filter(Boolean);let n=0;document.querySelectorAll('.row').forEach(r=>{const hit=!ts.length||ts.every(t=>r.textContent.toLowerCase().includes(t));r.hidden=!hit;if(hit)n++});document.querySelectorAll('.era').forEach(e=>{e.hidden=![...e.querySelectorAll('.row')].some(r=>!r.hidden)});$('matchCount').textContent=(q?n+'件':'')}\n$('battleQuery').addEventListener('input',applySearch);\nfunction load(w){
+function applySearch(){const q=($('battleQuery').value||'').trim().toLowerCase(),ts=q.split(/\s+/).filter(Boolean);let n=0;document.querySelectorAll('.row').forEach(r=>{const hit=!ts.length||ts.every(t=>r.textContent.toLowerCase().includes(t));r.hidden=!hit;if(hit)n++});document.querySelectorAll('.era').forEach(e=>{e.hidden=![...e.querySelectorAll('.row')].some(r=>!r.hidden)});$('matchCount').textContent=(q?n+'件':'')}
+$('battleQuery').addEventListener('input',applySearch);
+function load(w){
  W=w;CFG=WORKS[w];B=CFG.B;ERAS=CFG.eras;NAME=CFG.names;BIG='歴史を変えた'+CFG.unit;cur='すべて';
  document.title=CFG.title;$('ttl').textContent=CFG.title;$('lead').innerHTML=CFG.lead;$('notes').innerHTML=CFG.notes;
  $('key').innerHTML=`<dt>印の形</dt><dd>${[3,2,1].map(i=>`<span><span class="mk">${mk(i,'sub')}</span>${IMPN[i]}</span>`).join('')}</dd>`
-  +`<dt>印の色</dt><dd>${CFG.order.filter(k=>B.some(b=>b.wc===k)).map(k=>`<span><span class="sw" style="background:${c(k)}"></span>${k==='none'?NAME.none:NAME[k]+'の勝利'}</span>`).join('')}</dd>`;
+  +`<dt>印の色</dt><dd><span>勝者の陣営を表します。陣営名は各戦いに表示します</span></dd>`;
  $('tabs').innerHTML=['すべて',BIG,...ERAS.map(e=>e[0])].map(v=>`<button type="button" aria-pressed="${v===cur}">${v}</button>`).join('');
  menu();render();applySearch();
 }
@@ -176,7 +202,7 @@ function render(){
  const pick=b=>cur==='すべて'||(cur===BIG?b.im===3:b.arc===cur);
  $('eras').innerHTML=ERAS.map(([e,d])=>{const l=B.filter(b=>b.arc===e&&pick(b));if(!l.length)return'';
   const a=Y(l[0]),z=Y(l[l.length-1]);
-  return `<section class="era"><h2>${e}<b>${CFG.yl}${a}${z!==a?'〜'+z:''}</b><small>${d}</small></h2>${l.map(row).join('')}</section>`}).join('');
+  return `<section class="era"><h2>${e}<b>${CFG.yl}${a}${z!==a?'〜'+z:''}</b><small>${d}</small></h2>${l.map(row).join('')}</section>`}).join('');applySearch();
 }
 const h=location.hash.slice(1);load(WORKS[h]?h:DEF);
 })();

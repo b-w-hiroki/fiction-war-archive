@@ -9,9 +9,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
---bg:#05070c;--panel:rgba(236,240,246,.92);--ink:#10151f;--sub:#4d5668;--line:rgba(16,21,31,.16);--emp:#5a4a6a;--all:#2d68be;--acc:#5a4a6a}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--panel:rgba(9,13,22,.8);--ink:#e6ecf5;--sub:#9aa6ba;--line:rgba(230,236,245,.16);--emp:#a596b8;--all:#79abee;--acc:#a596b8}}
-:root[data-theme="dark"]{--panel:rgba(9,13,22,.8);--ink:#e6ecf5;--sub:#9aa6ba;--line:rgba(230,236,245,.16);--emp:#a596b8;--all:#79abee;--acc:#a596b8}
+--bg:#05070c;--panel:rgba(246,244,239,.95);--ink:#20252b;--sub:#616a76;--line:rgba(32,37,43,.16);--emp:#9a7531;--all:#2f7380;--acc:#9a7531}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--panel:rgba(17,20,25,.88);--ink:#ece9e2;--sub:#a7adb7;--line:rgba(236,233,226,.16);--emp:#c7a35f;--all:#70a9b2;--acc:#c7a35f}}
+:root[data-theme="dark"]{--panel:rgba(9,13,22,.8);--ink:#e6ecf5;--sub:#9aa6ba;--line:rgba(230,236,245,.16);--emp:#a596b8;--all:#69aaa4;--acc:#a596b8}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 html,body{height:100%;margin:0}
 body{background:var(--bg);color:var(--ink);font-family:"Zen Kaku Gothic New",system-ui,sans-serif;overflow:hidden;-webkit-font-smoothing:antialiased}
@@ -170,8 +170,8 @@ RESULT.refs=[{"k": "小説", "v": "『三国志演義』第1〜2回"}, {"k": "�
 const u0=(o,i)=>(U.find(u=>u.name===o.name).k[i]||{});
  let VT=performance.now()/1000,SPEED=1;
 /* ---------- 艦隊生成 ---------- */
-const EC=new THREE.Color(0x8a7a9a),AC=new THREE.Color(0x4a86d8),BK=new THREE.Color(0x5a5e66);
-const CSS={E:'#a596b8',A:'#79abee'};
+const EC=new THREE.Color(0xb88b3f),AC=new THREE.Color(0x4f8791),BK=new THREE.Color(0x666b72);
+const CSS={E:'#c7a35f',A:'#70a9b2'};
 const shipGeo=new THREE.ConeGeometry(.3,1.9,4);shipGeo.rotateX(Math.PI/2);
 const WORD={fight:'交戦',charge:'突撃',broken:'崩壊',withdraw:'撤退',move:'移動中',wait:'停止'};
 const colOf=s=>s.s==='broken'||s.s==='gone'?BK:s.side==='E'?EC:AC;
@@ -216,7 +216,7 @@ let fI=0;
 function boom(p,big,col){const f=fx[fI=(fI+1)%fx.length];f.s.visible=true;f.s.position.set(p[0],p[1],p[2]);f.life=f.max=big?.9:.35;f.s0=big?1.5:.6;f.s1=big?7:2.6;f.s.material.color.set(col||0xffd08a)}
 
 /* ---------- 矢印（進路） ---------- */
-const ACOL={E:0xa596b8,A:0x79abee};let arrows=[];
+const ACOL={E:0xa596b8,A:0x69aaa4};let arrows=[];
 function buildArrows(list,now){
  arrows.forEach(a=>{scene.remove(a.line);scene.remove(a.head);a.line.geometry.dispose()});
  arrows=list.map((a,i)=>{

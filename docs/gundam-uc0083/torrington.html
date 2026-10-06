@@ -9,8 +9,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
---bg:#05070c;--panel:rgba(236,240,246,.92);--ink:#10151f;--sub:#4d5668;--line:rgba(16,21,31,.16);--emp:#b4452b;--all:#2d68be;--acc:#b4452b}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--panel:rgba(9,13,22,.8);--ink:#e6ecf5;--sub:#9aa6ba;--line:rgba(230,236,245,.16);--emp:#ec7c5f;--all:#79abee;--acc:#ec7c5f}}
+--bg:#05070c;--panel:rgba(246,244,239,.95);--ink:#20252b;--sub:#616a76;--line:rgba(32,37,43,.16);--emp:#9a7531;--all:#2f7380;--acc:#9a7531}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--panel:rgba(17,20,25,.88);--ink:#ece9e2;--sub:#a7adb7;--line:rgba(236,233,226,.16);--emp:#c7a35f;--all:#70a9b2;--acc:#c7a35f}}
 :root[data-theme="dark"]{--panel:rgba(9,13,22,.8);--ink:#e6ecf5;--sub:#9aa6ba;--line:rgba(230,236,245,.16);--emp:#ec7c5f;--all:#79abee;--acc:#ec7c5f}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 html,body{height:100%;margin:0}
@@ -171,8 +171,8 @@ RESULT.refs=[{"k": "OVA", "v": "OVA『機動戦士ガンダム0083 STARDUST MEMO
 const u0=(o,i)=>(U.find(u=>u.name===o.name).k[i]||{});
  let VT=performance.now()/1000,SPEED=1;
 /* ---------- 艦隊生成 ---------- */
-const EC=new THREE.Color(0xd25a3e),AC=new THREE.Color(0x4a86d8),BK=new THREE.Color(0x5a5e66);
-const CSS={E:'#ec7c5f',A:'#79abee'};
+const EC=new THREE.Color(0xb88b3f),AC=new THREE.Color(0x4f8791),BK=new THREE.Color(0x666b72);
+const CSS={E:'#c7a35f',A:'#70a9b2'};
 const shipGeo=new THREE.ConeGeometry(.3,1.9,4);shipGeo.rotateX(Math.PI/2);
 const WORD={fight:'交戦',charge:'突撃',broken:'崩壊',withdraw:'撤退',move:'移動中',wait:'停止'};
 const colOf=s=>s.s==='broken'||s.s==='gone'?BK:s.side==='E'?EC:AC;

@@ -3,34 +3,34 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0a0d12">
+<meta name="theme-color" content="#f5f3ee">
 <title>フィクション戦史アーカイブ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/budoux@0.9.3/bundle/budoux-ja.min.js"></script>
 <style>
-:root{--bg:#0a0d12;--panel:#10151d;--panel2:#151b25;--ink:#f2f0e9;--sub:#9ca6b5;--rule:#293241;--gold:#c8a15a;--f-m:"Shippori Mincho","Hiragino Mincho ProN",serif;--f-g:"Zen Kaku Gothic New","Hiragino Sans",system-ui,sans-serif;color-scheme:dark}
+:root{--bg:#f5f3ee;--panel:#fffdfa;--panel2:#f0ece4;--ink:#23272d;--sub:#68717b;--rule:#d5d0c6;--gold:#8a6b32;--f-m:"Shippori Mincho","Hiragino Mincho ProN",serif;--f-g:"Zen Kaku Gothic New","Hiragino Sans",system-ui,sans-serif;color-scheme:light}
 *{box-sizing:border-box}
 html{background:var(--bg);scroll-behavior:smooth}
-body{margin:0;background:radial-gradient(circle at 72% -10%,rgba(184,84,79,.16),transparent 33rem),linear-gradient(180deg,#0a0d12 0,#0c1016 58%,#090c10 100%);color:var(--ink);font-family:var(--f-g);font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-g);font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;padding-top:env(safe-area-inset-top,0px)}
 a{color:inherit}.wrap{max-width:1120px;margin:0 auto;padding:0 20px 72px}
 .mast{padding:54px 0 28px;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px;align-items:end}
 .eyebrow{margin:0 0 10px;color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase}
 h1{font-family:var(--f-m);font-weight:800;font-size:clamp(30px,6vw,58px);letter-spacing:.06em;line-height:1.12;margin:0;word-break:keep-all}
 p.lead{max-width:62ch;color:var(--sub);font-size:14px;margin:14px 0 0}
-.stats{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}.stat{min-width:92px;padding:10px 12px;border:1px solid var(--rule);background:rgba(16,21,29,.72)}
+.stats{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}.stat{min-width:92px;padding:10px 12px;border:1px solid var(--rule);background:var(--panel)}
 .stat b{display:block;font-family:var(--f-m);font-size:22px;line-height:1.1}.stat span{font-size:10px;color:var(--sub);letter-spacing:.1em}
-.tools{position:sticky;top:0;z-index:5;margin:0 -20px;padding:12px 20px;background:rgba(10,13,18,.88);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--rule);display:flex;gap:10px;align-items:center}
+.tools{position:sticky;top:0;z-index:5;margin:0 -20px;padding:12px 20px;background:rgba(245,243,238,.94);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--rule);display:flex;gap:10px;align-items:center}
 .search{position:relative;flex:1;max-width:520px}.search input{width:100%;border:1px solid var(--rule);background:var(--panel);color:var(--ink);font:inherit;padding:10px 38px 10px 13px;outline:none}
 .search input:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(200,161,90,.12)}.search::after{content:"⌕";position:absolute;right:13px;top:7px;color:var(--sub);font-size:22px}
 .result{font-size:12px;color:var(--sub);white-space:nowrap}
 ul{list-style:none;margin:22px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}li{min-width:0}
-a.w{height:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 18px;padding:18px 18px 16px;text-decoration:none;background:linear-gradient(180deg,rgba(21,27,37,.92),rgba(16,21,29,.92));border:1px solid var(--rule);transition:transform .16s ease,border-color .16s ease,background .16s ease}
-a.w:hover{transform:translateY(-2px);border-color:#4a5669;background:var(--panel2)}a.w:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+a.w{height:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 18px;padding:18px 18px 16px;text-decoration:none;background:var(--panel);border:1px solid var(--rule);transition:transform .16s ease,border-color .16s ease,background .16s ease}
+a.w:hover{transform:translateY(-2px);border-color:#9d968a;background:var(--panel2)}a.w:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 a.w b{font-family:var(--f-m);font-size:21px;letter-spacing:.04em;line-height:1.4}a.w>span{color:var(--gold);font-size:11px;grid-column:1;font-variant-numeric:tabular-nums}
 a.w em{font-style:normal;font-size:11px;color:var(--sub);grid-row:1/3;grid-column:2;align-self:center;border:1px solid var(--rule);padding:6px 9px}
-a.w p{grid-column:1/3;margin:0}a.w p.by{font-size:11px;color:var(--sub);margin-top:7px;padding-top:9px;border-top:1px solid var(--rule)}a.w p.sm{font-size:13px;color:#c9cfd8;line-height:1.7}
+a.w p{grid-column:1/3;margin:0}a.w p.by{font-size:11px;color:var(--sub);margin-top:7px;padding-top:9px;border-top:1px solid var(--rule)}a.w p.sm{font-size:13px;color:#4c545e;line-height:1.7}
 li.soon{color:var(--sub);padding:14px;border:1px dashed var(--rule);font-size:13px}.empty{display:none;color:var(--sub);padding:44px 0;text-align:center}
 .foot{margin-top:28px;padding-top:16px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;gap:12px;color:var(--sub);font-size:11px}
 @media(max-width:760px){.wrap{padding-inline:14px}.mast{grid-template-columns:1fr;padding-top:34px}.stats{justify-content:flex-start}.tools{margin-inline:-14px;padding-inline:14px}ul{grid-template-columns:1fr}h1{font-size:clamp(30px,9vw,44px)}}
@@ -39,11 +39,10 @@ li.soon{color:var(--sub);padding:14px;border:1px dashed var(--rule);font-size:13
 </head>
 <body>
 <div class="wrap">
- <header class="mast"><div><p class="eyebrow">Fictional Military History Archive</p><h1>フィクション戦史アーカイブ</h1><p class="lead"><budoux-ja>>物語に描かれた戦いを作中の暦で並べた年表と、原作・アニメの該当箇所の索引です。作品を選ぶと年表が開きます。年表の上部から、いつでも別の作品に切り替えられます。</budoux-ja></p></div>
+ <header class="mast"><div><p class="eyebrow">Fictional Military History Archive</p><h1>フィクション戦史アーカイブ</h1><p class="lead"><budoux-ja>物語に描かれた戦いを作中の暦で並べた年表と、原作・アニメの該当箇所の索引です。作品を選ぶと年表が開きます。年表の上部から、いつでも別の作品に切り替えられます。</budoux-ja></p></div>
  <div class="stats" aria-label="収録情報"><div class="stat"><b id="workCount">—</b><span>WORKS</span></div><div class="stat"><b id="battleCount">—</b><span>BATTLES</span></div></div></header>
  <div class="tools"><label class="search"><input id="q" type="search" placeholder="作品名・作者・年代で検索" autocomplete="off" aria-label="作品を検索"></label><span class="result" id="result"></span></div>
- <main><ul id="works">
-  <li><a class="w" href="ginei/index.html#ginei"><b>銀河英雄伝説</b><span>宇宙暦640〜801年　28の会戦</span><em>年表を開く</em><p class="by">田中芳樹　／　小説（1982〜）／アニメ</p><p class="sm"><budoux-ja>専制国家の銀河帝国と民主国家の自由惑星同盟が、数百年にわたり戦い続ける未来が舞台。帝国の若き覇者ラインハルトと、同盟の用兵家ヤン・ウェンリーという二人の軍人を軸に、艦隊戦と政治の駆け引きを描く。</budoux-ja></p></a></li>
+ <main><ul id="works"><li><a class="w" href="ginei/index.html#ginei"><b>銀河英雄伝説</b><span>宇宙暦640〜801年　28の会戦</span><em>年表を開く</em><p class="by">田中芳樹　／　小説（1982〜）／アニメ</p><p class="sm"><budoux-ja>専制国家の銀河帝国と民主国家の自由惑星同盟が、数百年にわたり戦い続ける未来が舞台。帝国の若き覇者ラインハルトと、同盟の用兵家ヤン・ウェンリーという二人の軍人を軸に、艦隊戦と政治の駆け引きを描く。</budoux-ja></p></a></li>
   <li><a class="w" href="gundam-uc0079/index.html#gundam-uc0079"><b>一年戦争</b><span>U.C.0077〜0080年　18の戦い</span><em>年表を開く</em><p class="by">矢立肇・富野由悠季（サンライズ）　／　TVアニメ（1979）</p><p class="sm"><budoux-ja>宇宙植民地が地球連邦に独立戦争を挑む世界で、偶然に新型兵器へ乗り込んだ少年が戦火の中で成長していく。ロボットを兵器として描いたリアルロボットものの原点。</budoux-ja></p></a></li>
   <li><a class="w" href="arslan/index.html#arslan"><b>アルスラーン戦記</b><span>パルス暦320〜326年　18の戦い</span><em>年表を開く</em><p class="by">田中芳樹　／　小説（1986〜）／漫画・アニメ</p><p class="sm"><budoux-ja>大陸の王国パルスが隣国に敗れて滅びた後、若い王子アルスラーンが仲間を集めて国の再興を目指す。戦場の知略と、異文化がぶつかる宮廷劇が見どころの大河ファンタジー。</budoux-ja></p></a></li>
   <li><a class="w" href="aot/index.html#aot"><b>進撃の巨人</b><span>845〜854年　11の戦い</span><em>年表を開く</em><p class="by">諫山創　／　漫画（2009〜2021）／アニメ</p><p class="sm"><budoux-ja>巨大な人型の怪物「巨人」に追われ、城壁の中でしか生きられない人類。壁が破られた日から少年が戦いに身を投じ、世界の成り立ちに隠された真相へ近づいていく。</budoux-ja></p></a></li>
@@ -68,8 +67,7 @@ li.soon{color:var(--sub);padding:14px;border:1px dashed var(--rule);font-size:13
   <li><a class="w" href="chinmoku/index.html#chinmoku"><b>沈黙の艦隊</b><span>作中年不明　6の戦い</span><em>年表を開く</em><p class="by">かわぐちかいじ　／　漫画（1988〜1996）／アニメ・映画</p><p class="sm"><budoux-ja>日米が極秘に建造した原子力潜水艦が、艦長の海江田の手で独立国家「やまと」を宣言し、世界と対峙する。国際政治と潜水艦戦を描く。</budoux-ja></p></a></li>
   <li><a class="w" href="sengoku-jsdf/index.html#sengoku-jsdf"><b>戦国自衛隊</b><span>1549〜1561年（推定）　5の戦い</span><em>年表を開く</em><p class="by">半村良　／　小説（1971）／映画</p><p class="sm"><budoux-ja>演習中の自衛隊の部隊が、戦国時代へタイムスリップする。現代兵器を持った隊員たちが歴史の流れを変えてしまう。</budoux-ja></p></a></li>
   <li><a class="w" href="vinland/index.html#vinland"><b>ヴィンランド・サガ</b><span>1002〜1019年頃　7の戦い</span><em>年表を開く</em><p class="by">幸村誠　／　漫画（2005〜）／アニメ</p><p class="sm"><budoux-ja>11世紀、デンマーク王国の傭兵団と、そこに身を寄せる少年の物語。復讐と戦争の果てに、少年が本当の強さを探していく。</budoux-ja></p></a></li>
-  <li><a class="w" href="got/index.html#got"><b>氷と炎の歌</b><span>AC299〜305年　8の戦い</span><em>年表を開く</em><p class="by">ジョージ・R・R・マーティン　／　小説『氷と炎の歌』（1996〜）／ドラマ『ゲーム・オブ・スローンズ』</p><p class="sm"><budoux-ja>七つの王国を統べる鉄の玉座をめぐる貴族たちの戦いと、北の壁の向こうからの脅威を描く群像劇。</budoux-ja></p></a></li>
- </ul><p class="empty" id="empty">該当する作品がありません。</p></main>
+  <li><a class="w" href="got/index.html#got"><b>氷と炎の歌</b><span>AC299〜305年　8の戦い</span><em>年表を開く</em><p class="by">ジョージ・R・R・マーティン　／　小説『氷と炎の歌』（1996〜）／ドラマ『ゲーム・オブ・スローンズ』</p><p class="sm"><budoux-ja>七つの王国を統べる鉄の玉座をめぐる貴族たちの戦いと、北の壁の向こうからの脅威を描く群像劇。</budoux-ja></p></a></li></ul><p class="empty" id="empty">該当する作品がありません。</p></main>
  <footer class="foot"><span>各会戦は作中情報に基づく再構成です。</span><span>HTML / CSS / JavaScript</span></footer>
 </div>
 <script>
