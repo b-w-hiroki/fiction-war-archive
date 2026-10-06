@@ -3,15 +3,19 @@ import fs from 'node:fs';
 
 const base='http://127.0.0.1:8000';
 const files=fs.readdirSync('docs/ginei').filter(f=>f.endsWith('.html')&&f!=='index.html'&&f!=='strategy.html').sort();
+const three=fs.readFileSync('node_modules/three/build/three.min.js');
 const browser=await chromium.launch({headless:true,args:['--use-gl=swiftshader','--enable-webgl','--ignore-gpu-blocklist']});
 const failures=[];
 for(const file of files){
   const page=await browser.newPage({viewport:{width:390,height:844}});
   const errors=[];
+  await page.route('https://cdnjs.cloudflare.com/ajax/libs/three.js/**',route=>route.fulfill({status:200,contentType:'application/javascript',body:three}));
+  await page.route('https://fonts.googleapis.com/**',route=>route.abort());
+  await page.route('https://fonts.gstatic.com/**',route=>route.abort());
   page.on('pageerror',e=>errors.push('pageerror: '+e.message));
   page.on('console',m=>{if(m.type()==='error')errors.push('console: '+m.text())});
   try{
-    const res=await page.goto(base+'/ginei/'+file,{waitUntil:'networkidle',timeout:30000});
+    const res=await page.goto(base+'/ginei/'+file,{waitUntil:'domcontentloaded',timeout:12000});
     if(!res||!res.ok()) throw new Error('HTTP '+(res&&res.status()));
     await page.waitForSelector('#stage canvas',{timeout:15000});
     const state=await page.evaluate(()=>({
