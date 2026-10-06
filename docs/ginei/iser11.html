@@ -44,7 +44,7 @@ body{background:var(--bg);color:var(--ink);font-family:"Zen Kaku Gothic New",sys
 .cap p{margin:0;font-size:13.5px;line-height:1.72}
 .seek{position:absolute;left:0;right:0;margin:0 auto;bottom:64px;width:calc(100% - 20px);max-width:620px;height:30px;display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:center;background:var(--panel);padding:0 10px;border-radius:15px;box-sizing:border-box;box-shadow:0 0 0 1px var(--line);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 .seek span{font-size:10px;font-weight:700;color:var(--sub);white-space:nowrap;font-variant-numeric:tabular-nums}
-.seek input{width:100%;height:24px;margin:0;accent-color:var(--acc);cursor:pointer}
+.seek input{width:100%;height:28px;margin:0;accent-color:var(--acc);cursor:pointer;touch-action:pan-x}
 .seek input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 .tl{position:absolute;left:0;right:0;margin:0 auto;bottom:10px;width:calc(100% - 20px);max-width:620px;display:flex;gap:4px;align-items:center}
 .play{flex:none;width:46px;height:46px;border-radius:50%;border:none;background:var(--acc);color:#0b0f18;font-size:15px;cursor:pointer}
@@ -118,7 +118,7 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.capmore{di
     </div>
     <div class="seek ui" aria-label="バトルフェイズ移動">
       <span id="seekNow">1 / 1</span>
-      <input id="phaseSeek" type="range" min="0" max="0" step="1" value="0" aria-label="バトルフェイズを移動">
+      <input id="phaseSeek" type="range" min="0" max="1000" step="1" value="0" aria-label="戦況をスライドして移動">
       <span id="seekLabel">—</span>
     </div>
     <div class="tl ui">
@@ -307,11 +307,29 @@ function pan(dx,dy){const s=T.r*.0016,c=Math.cos(T.th),n=Math.sin(T.th);T.tx+=-d
 
 /* ---------- UI ---------- */
 const stepsEl=$('steps'),phaseSeek=$('phaseSeek');
-phaseSeek.max=Math.max(0,PH.length-1);
-phaseSeek.setAttribute('aria-valuemax',String(Math.max(0,PH.length-1)));
+phaseSeek.max=1000;
+phaseSeek.setAttribute('aria-valuemax','100');
 PH.forEach((p,i)=>{const b=document.createElement('button');b.textContent=p.step;b.setAttribute('aria-label',p.time+' '+p.title);b.onclick=()=>{playing=false;updPlay();setPhase(i)};stepsEl.appendChild(b)});
-let playing=false,phase=0,phaseT=0,phaseStart=0;
-phaseSeek.oninput=()=>{playing=false;updPlay();setPhase(Number(phaseSeek.value))};
+let playing=false,phase=0,phaseT=0,phaseStart=0,scrubbing=false;
+function seekScale(v){return PH.length<=1?0:(Math.max(0,Math.min(1000,v))/1000)*(PH.length-1)}
+function previewSeek(raw){
+ playing=false;updPlay();scrubbing=true;
+ const q=seekScale(raw),i=Math.min(PH.length-1,Math.floor(q)),j=Math.min(PH.length-1,i+1),f=q-i,ui=f<.5?i:j,P=PH[ui];
+ phase=ui;phaseT=0;phaseStart=VT;SPECIAL.reset&&SPECIAL.reset(ui);
+ units.forEach(o=>{
+  const a=o.st[i],b=o.st[j],p=[a.p[0]+(b.p[0]-a.p[0])*f,a.p[1]+(b.p[1]-a.p[1])*f,a.p[2]+(b.p[2]-a.p[2])*f];
+  o.x=p[0];o.y=p[1];o.z=p[2];o.f=p.slice();o.t=p.slice();o.t0=VT;o.dur=1;o.init=true;
+  const st=o.st[ui],key=subOf(o,st)+st.s;if(key!==o.labKey&&o.lab){reSprite(o.lab,o.name,subOf(o,st),CSS[o.side]);o.labKey=key}
+ });
+ if(auto&&P.cam)camTo(P.cam);
+ $('cTime').textContent=P.time;$('cClock').textContent=P.clock;$('cTitle').textContent=P.title;$('cText').textContent=P.text;
+ [...stepsEl.children].forEach((b,k)=>{b.classList.toggle('on',k===ui);b.classList.toggle('done',k<q)});
+ $('seekNow').textContent=(q+1).toFixed(1)+' / '+PH.length;$('seekLabel').textContent=P.step||P.time;
+ phaseSeek.setAttribute('aria-valuenow',String(Math.round(raw/10)));phaseSeek.setAttribute('aria-valuetext',P.time+' '+P.title);
+ forces(ui);
+}
+phaseSeek.oninput=()=>previewSeek(Number(phaseSeek.value));
+phaseSeek.onchange=()=>{const q=seekScale(Number(phaseSeek.value)),i=Math.max(0,Math.min(PH.length-1,Math.round(q)));scrubbing=false;setPhase(i)};
 function updPlay(){$('play').textContent=playing?'❚❚':'▶';$('play').setAttribute('aria-label',playing?'一時停止':'再生')}
 $('play').onclick=()=>{if(!playing){if(phase===PH.length-1&&phaseT>1)setPhase(0);else if(phase===0&&phaseT===0&&PH.length>1)setPhase(1);playing=true}else playing=false;updPlay()};
 function forces(i){
@@ -335,7 +353,7 @@ function setPhase(i){
  $('cTime').textContent=P.time;$('cClock').textContent=P.clock;$('cTitle').textContent=P.title;$('cText').textContent=P.text;
  const cap=$('cap');cap.classList.remove('in');void cap.offsetWidth;cap.classList.add('in');
  [...stepsEl.children].forEach((b,j)=>{b.classList.toggle('on',j===i);b.classList.toggle('done',j<i)});
- phaseSeek.value=String(i);phaseSeek.setAttribute('aria-valuenow',String(i));phaseSeek.setAttribute('aria-valuetext',P.time+' '+P.title);
+ const sv=PH.length<=1?0:Math.round(i/(PH.length-1)*1000);phaseSeek.value=String(sv);phaseSeek.setAttribute('aria-valuenow',String(Math.round(sv/10)));phaseSeek.setAttribute('aria-valuetext',P.time+' '+P.title);
  $('seekNow').textContent=(i+1)+' / '+PH.length;$('seekLabel').textContent=P.step||P.time;
  forces(i);
 }
