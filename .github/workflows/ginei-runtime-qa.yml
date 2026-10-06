@@ -1,0 +1,37 @@
+name: Ginei runtime QA
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "engine/template.html"
+      - "engine/common.py"
+      - "works/ginei/**"
+      - "tools/build.py"
+      - "tools/qa_ginei.mjs"
+      - ".github/workflows/ginei-runtime-qa.yml"
+  workflow_dispatch:
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Rebuild site
+        run: python3 tools/build.py all
+      - name: Install browser
+        run: |
+          npm init -y
+          npm install playwright@1.55.0 three@0.128.0
+          npx playwright install --with-deps chromium
+      - name: Start server
+        run: |
+          python3 -m http.server 8000 --directory docs >/tmp/http.log 2>&1 &
+          sleep 2
+      - name: Run Ginei browser QA
+        run: node tools/qa_ginei.mjs
