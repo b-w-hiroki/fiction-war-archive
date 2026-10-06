@@ -264,7 +264,7 @@ const stepsEl=$('steps');
 PH.forEach((p,i)=>{const b=document.createElement('button');b.textContent=p.step;b.setAttribute('aria-label',p.time+' '+p.title);b.onclick=()=>{playing=false;updPlay();setPhase(i)};stepsEl.appendChild(b)});
 let playing=false,phase=0,phaseT=0,phaseStart=0;
 function updPlay(){$('play').textContent=playing?'❚❚':'▶';$('play').setAttribute('aria-label',playing?'一時停止':'再生')}
-$('play').onclick=()=>{if(!playing&&phase===PH.length-1&&phaseT>1)setPhase(0);playing=!playing;updPlay()};
+$('play').onclick=()=>{if(!playing){if(phase===PH.length-1&&phaseT>1)setPhase(0);else if(phase===0&&phaseT===0&&PH.length>1)setPhase(1);playing=true}else playing=false;updPlay()};
 function forces(i){
  const r={E:[0,0,0],A:[0,0,0]};
  units.forEach(o=>{const s=o.st[i];r[o.side][2]++;if(['gone','broken','hidden'].includes(s.s))return;r[o.side][0]++;if(['fight','charge'].includes(s.s)||s.l==='殿')r[o.side][1]++});
@@ -380,7 +380,6 @@ const allText=U.map(u=>u.name+u.cmd).join('')+PH.map(p=>p.title).join('')+U.map(
 Promise.race([document.fonts.load('900 30px "Zen Kaku Gothic New"',allText).then(()=>document.fonts.load('700 17px "Zen Kaku Gothic New"',allText)).catch(()=>{}),new Promise(r=>setTimeout(r,2500))]).then(()=>{
  units.forEach(o=>{const s=o.st[0];o.lab=sprite(o.name,subOf(o,s),CSS[o.side],2.7);o.labKey=subOf(o,s)+s.s;scene.add(o.lab)});
  setPhase(0);if(reduce)Object.assign(C,T);
- setTimeout(()=>{playing=true;updPlay()},2800);
 });
 setAuto(true);updPlay();loop();
 })();
