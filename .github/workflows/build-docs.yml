@@ -1,0 +1,44 @@
+name: Build generated site
+
+on:
+  push:
+    branches:
+      - fix/handover-normalize-ui
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Rebuild docs
+        run: python3 tools/build.py all
+      - name: Validate generated output
+        run: |
+          git diff --check
+          test -f docs/index.html
+          test -f docs/CNAME
+          grep -qx "fiction-war-archive.birdman-studio.com" docs/CNAME
+          ! grep -R '\\n <nav class="archivebar"' engine docs/*/index.html
+      - name: Commit generated docs
+        run: |
+          if git diff --quiet -- docs; then
+            echo "docs already normalized"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs
+          git commit -m "Rebuild docs from templates [skip ci]"
+          git push
