@@ -25,9 +25,12 @@ for(const file of files){
       play:!!document.querySelector('#play'),
       result:!!document.querySelector('#resOpen'),
       seek:!!document.querySelector('#phaseSeek'),
-      seekMax:Number(document.querySelector('#phaseSeek')?.max||-1)
+      seekMax:Number(document.querySelector('#phaseSeek')?.max||-1),
+      mobileStepsHidden:getComputedStyle(document.querySelector('#steps')).display==='none',
+      mobileTitleHorizontal:getComputedStyle(document.querySelector('.title')).writingMode==='horizontal-tb',
+      capMore:!!document.querySelector('#capMore')
     }));
-    if(!state.three||!state.canvas||!state.steps||!state.play||!state.result||!state.seek||state.seekMax!==state.steps-1) throw new Error('UI init failed '+JSON.stringify(state));
+    if(!state.three||!state.canvas||!state.steps||!state.play||!state.result||!state.seek||!state.capMore||!state.mobileStepsHidden||!state.mobileTitleHorizontal||state.seekMax!==state.steps-1) throw new Error('UI init failed '+JSON.stringify(state));
     const steps=page.locator('#steps button');
     if(await steps.count()>2){
       const seek=page.locator('#phaseSeek');
@@ -39,6 +42,9 @@ for(const file of files){
       if(v!==String((await steps.count())-1)||!now?.startsWith(String(await steps.count()))) throw new Error('seekbar did not jump to final phase');
       await seek.fill('0');await seek.dispatchEvent('input');await page.waitForTimeout(80);
     }
+    await page.locator('#capMore').click();
+    if(!await page.locator('#cap').evaluate(el=>el.classList.contains('expanded'))) throw new Error('mobile caption did not expand');
+    await page.locator('#capMore').click();
     const initialTitle=await page.locator('#cTitle').textContent();
     await page.locator('#play').click();
     await page.waitForTimeout(350);
