@@ -34,13 +34,13 @@ for(const file of files){
     const steps=page.locator('#steps button');
     if(await steps.count()>2){
       const seek=page.locator('#phaseSeek');
-      const startPos=await page.evaluate(()=>{const u=units?.[0];return u?[u.x,u.y,u.z]:null}).catch(()=>null);
+      const startTitle=await page.locator('#cTitle').textContent();
       await seek.fill('500');await seek.dispatchEvent('input');await page.waitForTimeout(120);
       const mid=await seek.inputValue();
       const now=await page.locator('#seekNow').textContent();
+      const midTitle=await page.locator('#cTitle').textContent();
       if(mid!=='500'||!now?.includes('.')) throw new Error('seekbar did not scrub continuously');
-      const midPos=await page.evaluate(()=>{const u=units?.[0];return u?[u.x,u.y,u.z]:null}).catch(()=>null);
-      if(startPos&&midPos&&JSON.stringify(startPos)===JSON.stringify(midPos)) throw new Error('seekbar scrub did not move battle state');
+      if(midTitle===startTitle) throw new Error('seekbar scrub did not advance battle state');
       await seek.fill('1000');await seek.dispatchEvent('input');await page.waitForTimeout(80);
       if(await seek.inputValue()!=='1000') throw new Error('seekbar did not reach end');
       await seek.fill('0');await seek.dispatchEvent('input');await seek.dispatchEvent('change');await page.waitForTimeout(80);
