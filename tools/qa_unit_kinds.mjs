@@ -4,7 +4,9 @@ import fs from 'node:fs';
 const cases=[
   {url:'/ginei/astarte.html',legend:['艦隊'],src:["kind:'fleet'","r:'close'","r:'far'"]},
   {url:'/kingdom/kankoku.html',legend:['歩兵','騎兵'],src:["kind:'infantry'","kind:'cavalry'","r:'close'","r:'far'"]},
-  {url:'/gundam-uc0079/odessa.html',legend:['要塞','陸上兵器','艦船'],src:["kind:'fortress'","kind:'ground_vehicle'","kind:'ship'","r:'close'","r:'far'"]}
+  {url:'/gundam-uc0079/odessa.html',legend:['要塞','陸上兵器','艦船'],src:["kind:'fortress'","kind:'ground_vehicle'","kind:'ship'","r:'close'","r:'far'"]},
+  {url:'/gundam-uc0079/garma.html',legend:['航空機','陸上兵器','艦船'],src:["kind:'aircraft'","kind:'ground_vehicle'","kind:'ship'","r:'close'","r:'far'"]},
+  {url:'/arslan/atropatene1.html',legend:['歩兵','騎兵'],src:["kind:'infantry'","kind:'cavalry'","r:'close'","r:'far'"]}
 ];
 const base='http://127.0.0.1:8000';
 const browser=await chromium.launch({headless:true,args:['--use-gl=swiftshader','--enable-webgl','--ignore-gpu-blocklist']});
