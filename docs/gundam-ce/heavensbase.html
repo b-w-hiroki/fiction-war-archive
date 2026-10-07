@@ -74,8 +74,8 @@ body{background:var(--bg);color:var(--ink);font-family:"Zen Kaku Gothic New",sys
 .spd.fast{color:var(--acc)}
 button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.capmore{display:none}
 .kindlegend{margin-top:5px;display:flex;gap:5px;flex-wrap:wrap;align-items:center}
-.kindlegend .k{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:800;color:var(--ink);white-space:nowrap;padding:3px 6px;border:1px solid var(--line);border-radius:999px;background:color-mix(in srgb,var(--panel) 94%,transparent)}
-.kindlegend .i{width:14px;height:14px;display:inline-block;border:2px solid currentColor;background:transparent;flex:none}
+.kindlegend .k{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:900;color:var(--ink);white-space:nowrap;padding:4px 7px;border:1px solid color-mix(in srgb,var(--ink) 28%,var(--line));border-radius:999px;background:color-mix(in srgb,var(--panel) 98%,transparent);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.kindlegend .i{width:16px;height:16px;display:inline-block;border:2px solid currentColor;background:color-mix(in srgb,currentColor 12%,transparent);flex:none}
 .kindlegend .fleet .i{clip-path:polygon(50% 0,100% 100%,50% 72%,0 100%)}
 .kindlegend .ship .i{width:13px;height:6px;border-radius:50% 50% 25% 25%}
 .kindlegend .infantry .i{border-radius:50%}
@@ -84,16 +84,18 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.capmore{di
 .kindlegend .aircraft .i{clip-path:polygon(50% 0,100% 78%,62% 66%,50% 100%,38% 66%,0 78%)}
 .kindlegend .ground_vehicle .i{width:14px;height:8px;border-radius:2px}
 .kindlegend .fortress .i{border-radius:50%;box-shadow:0 0 0 2px currentColor inset}
-.rangebadge{display:inline-flex;align-items:center;gap:5px;margin-top:5px;padding:3px 7px;border:1px solid var(--line);border-radius:999px;background:color-mix(in srgb,var(--panel) 96%,transparent);font-size:9px;font-weight:800;color:var(--sub)}
-.rangebadge b{font-size:10px;color:var(--ink)}
-.rangebadge.close b{color:#e7a85b}.rangebadge.far b{color:#6fc8d6}.rangebadge.mixed b{color:#d9c17a}
+.rangebadge{display:inline-flex;align-items:center;gap:6px;margin-top:6px;padding:4px 8px;border:1px solid color-mix(in srgb,var(--ink) 26%,var(--line));border-radius:999px;background:color-mix(in srgb,var(--panel) 98%,transparent);font-size:10px;font-weight:900;color:var(--sub);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.rangebadge b{font-size:11px;color:var(--ink)}
+.rangebadge.close{box-shadow:inset 3px 0 0 #e7a85b,0 1px 4px rgba(0,0,0,.12)}.rangebadge.close b{color:#d78628}
+.rangebadge.far{box-shadow:inset 3px 0 0 #6fc8d6,0 1px 4px rgba(0,0,0,.12)}.rangebadge.far b{color:#3ba6b7}
+.rangebadge.mixed{box-shadow:inset 3px 0 0 #d9c17a,0 1px 4px rgba(0,0,0,.12)}.rangebadge.mixed b{color:#a98b2d}
 @media (max-width:600px){
  .title{top:max(6px,env(safe-area-inset-top,0px));left:8px;right:8px;writing-mode:horizontal-tb;display:flex;align-items:baseline;gap:8px;color:#f3f6fb;pointer-events:none}
  .title b{font-size:16px;letter-spacing:.04em;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:68vw}
  .title span{font-size:9px;letter-spacing:.03em;color:#b9c6da;white-space:nowrap}
  .force{top:calc(max(6px,env(safe-area-inset-top,0px)) + 26px);left:8px;width:calc(100% - 16px);padding:6px 8px 5px;font-size:10px;border-radius:8px;background:color-mix(in srgb,var(--panel) 88%,transparent)}
  .row{grid-template-columns:max-content minmax(56px,1fr) auto;gap:5px;margin:1px 0}.row .side{font-size:10.5px}.num{font-size:9px}
- .note{display:none}.kindlegend{gap:4px;margin-top:4px}.kindlegend .k{font-size:9px;gap:4px;padding:3px 5px}.kindlegend .i{width:12px;height:12px}.rangebadge{margin-top:4px;font-size:8px;padding:3px 6px}.rangebadge b{font-size:9px}.resbtn{margin-top:4px;font-size:10px;padding:1px 0}
+ .note{display:none}.kindlegend{gap:4px;margin-top:5px}.kindlegend .k{font-size:10px;gap:5px;padding:4px 6px}.kindlegend .i{width:14px;height:14px}.rangebadge{margin-top:5px;font-size:9px;padding:4px 7px}.rangebadge b{font-size:10px}.resbtn{margin-top:5px;font-size:10px;padding:1px 0}
  .cap{bottom:calc(100px + env(safe-area-inset-bottom,0px));width:calc(100% - 16px);padding:8px 10px 8px;max-height:none;overflow:visible;border-radius:10px;background:color-mix(in srgb,var(--panel) 90%,transparent)}
  .cap h2{font-size:15px;letter-spacing:.02em;margin:0 0 2px}.cap p{font-size:11.5px;line-height:1.5;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
  .cap.expanded p{display:block;-webkit-line-clamp:unset;max-height:30vh;overflow-y:auto}
@@ -261,7 +263,7 @@ const units=U.map((u,ui)=>{
  const n=u.n,L=3,per=Math.ceil(n/L),cols=Math.ceil(Math.sqrt(per*1.6)),rows=Math.ceil(per/cols),offs=[];
  for(let i=0;i<n;i++){const l=Math.floor(i/per),j=i%per,c=j%cols,r=Math.floor(j/cols);
   offs.push([(c-(cols-1)/2)*1.5+(hs(i,ui)-.5)*.5,(l-(L-1)/2)*1.4+(hs(ui,i)-.5)*.5,(r-(rows-1)/2)*2.2,(hs(i*3,ui)-.5),(hs(ui,i*3)-.5),(hs(i,ui*7)-.5)])}
- const mat=new THREE.MeshLambertMaterial({color:colOf(st[0]),emissive:colOf(st[0]).clone().multiplyScalar(.52),transparent:true});
+ const mat=new THREE.MeshLambertMaterial({color:colOf(st[0]),emissive:colOf(st[0]).clone().multiplyScalar(.68),transparent:true});
  const mesh=new THREE.InstancedMesh(unitGeo(kind),mat,n);mesh.frustumCulled=false;scene.add(mesh);
  const p=st[0].p,yaw=u.side==='E'?0:Math.PI;
  return {name:u.name,cmd:u.cmd,side:u.side,kind,n,st,mesh,mat,offs,sp:null,sy:new Float32Array(n),fmT0:0,x:p[0],y:p[1],z:p[2],f:p.slice(),t:p.slice(),t0:0,dur:1,spread:1,yaw,lab:null,labKey:'',wp:new Float32Array(n*3)};
@@ -287,7 +289,7 @@ for(let i=0;i<BN;i++)beams.push({life:0});
 const bGeo=new THREE.BufferGeometry();bGeo.setAttribute('position',new THREE.BufferAttribute(bPos,3));bGeo.setAttribute('color',new THREE.BufferAttribute(bCol,3));
 const bLines=new THREE.LineSegments(bGeo,new THREE.LineBasicMaterial({vertexColors:true,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));bLines.frustumCulled=false;scene.add(bLines);
 let bI=0;
-function beam(a,b,col){const k=bI=(bI+1)%BN,bm=beams[k];bm.life=bm.max=.28+Math.random()*.15;bm.c=col;bPos.set([a[0],a[1],a[2],b[0],b[1],b[2]],k*6)}
+function beam(a,b,col){const k=bI=(bI+1)%BN,bm=beams[k];bm.life=bm.max=.42+Math.random()*.18;bm.c=col;bPos.set([a[0],a[1],a[2],b[0],b[1],b[2]],k*6)}
 const fx=[];for(let i=0;i<180;i++){const s=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,opacity:0}));s.visible=false;scene.add(s);fx.push({s,life:0})}
 let fI=0;
 function boom(p,big,col){const f=fx[fI=(fI+1)%fx.length];f.s.visible=true;f.s.position.set(p[0],p[1],p[2]);f.life=f.max=big?.9:.35;f.s0=big?1.5:.6;f.s1=big?7:2.6;f.s.material.color.set(col||0xffd08a)}
@@ -299,14 +301,14 @@ function shockwave(p,col=0xffd080,max=24,life=1.15){
 const rangeFx=[];
 function arcShot(a,b,col){
  const A=new THREE.Vector3(...a),B=new THREE.Vector3(...b),M=A.clone().add(B).multiplyScalar(.5);M.y+=Math.max(4,A.distanceTo(B)*.18);
- const c=new THREE.QuadraticBezierCurve3(A,M,B),g=new THREE.BufferGeometry().setFromPoints(c.getPoints(28)),m=new THREE.LineBasicMaterial({color:col,transparent:true,opacity:1,depthWrite:false,blending:THREE.AdditiveBlending});
- const line=new THREE.Line(g,m);line.renderOrder=8;scene.add(line);rangeFx.push({o:line,life:.85,max:.85});boom(b,false,col)
+ const c=new THREE.QuadraticBezierCurve3(A,M,B),g=new THREE.BufferGeometry().setFromPoints(c.getPoints(32)),m=new THREE.LineBasicMaterial({color:col,transparent:true,opacity:1,depthWrite:false,blending:THREE.AdditiveBlending});
+ const line=new THREE.Line(g,m);line.renderOrder=8;scene.add(line);rangeFx.push({o:line,life:1.05,max:1.05});boom(b,true,col)
 }
 function closeClash(a,b,col){
  const m=[(a[0]+b[0])*.5,(a[1]+b[1])*.5,(a[2]+b[2])*.5];
- boom(m,true,col);
- if(Math.random()<.55)shockwave(m,col,7,.45);
- if(Math.random()<.45){boom([m[0]+(Math.random()-.5)*3,m[1]+(Math.random()-.5)*2,m[2]+(Math.random()-.5)*3],false,0xffe2a8)}
+ boom(m,true,col);boom([m[0]+(Math.random()-.5)*2,m[1]+(Math.random()-.5)*1.5,m[2]+(Math.random()-.5)*2],false,0xffffff);
+ if(Math.random()<.75)shockwave(m,col,9,.55);
+ if(Math.random()<.6){boom([m[0]+(Math.random()-.5)*4,m[1]+(Math.random()-.5)*2,m[2]+(Math.random()-.5)*4],false,0xffe2a8)}
 }
 function combatMode(a,b,sa,dist){
  if(sa.r==='close'||sa.r==='far')return sa.r;
@@ -474,12 +476,12 @@ function loop(){
    const mvx=o.sp[k3]-px,mvz=o.sp[k3+2]-pz;if(!o.init&&Math.hypot(mvx,mvz)>.04)hy=Math.atan2(mvx,mvz);
    let d=hy-o.sy[i];while(d>Math.PI)d-=Math.PI*2;while(d<-Math.PI)d+=Math.PI*2;o.sy[i]=o.init?hy:o.sy[i]+d*Math.min(1,dt*3);
    dummy.position.set(o.sp[k3],o.sp[k3+1],o.sp[k3+2]);dummy.rotation.set(br?q[3]*br*2:0,o.sy[i],br?q[5]*br*2:0);
-   const ks=(o.kind==='fleet'?1.12:o.kind==='ship'?1.35:o.kind==='aircraft'?1.38:o.kind==='ground_vehicle'?1.24:o.kind==='fortress'?1.58:o.kind==='cavalry'?1.2:o.kind==='archer'?1.14:1.08)*vk;dummy.scale.set(ks,ks,ks);dummy.updateMatrix();dummy.scale.set(1,1,1);o.mesh.setMatrixAt(i,dummy.matrix);
+   const ks=(o.kind==='fleet'?1.24:o.kind==='ship'?1.52:o.kind==='aircraft'?1.62:o.kind==='ground_vehicle'?1.42:o.kind==='fortress'?1.82:o.kind==='cavalry'?1.38:o.kind==='archer'?1.28:1.22)*vk;dummy.scale.set(ks,ks,ks);dummy.updateMatrix();dummy.scale.set(1,1,1);o.mesh.setMatrixAt(i,dummy.matrix);
    o.wp[k3]=o.sp[k3];o.wp[k3+1]=o.sp[k3+1];o.wp[k3+2]=o.sp[k3+2];ax+=X;az+=Z}
   o.init=false;
   if(ring){o.x=ax/o.n;o.z=az/o.n}
   o.mesh.instanceMatrix.needsUpdate=true;
-  if(o.lab){const kd=Math.min(2.8,Math.max(.85,cam.position.distanceTo(o.lab.position)/110)),sc=o.lab.userData.scale*kd;o.lab.scale.set(sc*o.lab.userData.a,sc,1);o.lab.position.set(o.x,o.y+3.5+2*kd,o.z);o.lab.material.opacity=Math.min(1,o.mat.opacity*1.5);o.lab.visible=o.lab.material.opacity>.05}
+  if(o.lab){const kd=Math.min(3.15,Math.max(1.0,cam.position.distanceTo(o.lab.position)/105)),sc=o.lab.userData.scale*kd;o.lab.scale.set(sc*o.lab.userData.a,sc,1);o.lab.position.set(o.x,o.y+3.5+2*kd,o.z);o.lab.material.opacity=Math.min(1,o.mat.opacity*1.5);o.lab.visible=o.lab.material.opacity>.05}
  });
  // 砲火
  fireT-=dt;
@@ -497,7 +499,7 @@ function loop(){
    }
   });
  }
- for(let k=0;k<BN;k++){const b=beams[k];let r=0,g=0,bl=0;if(b.life>0){b.life-=dt;const f=Math.max(0,b.life/b.max);r=b.c.r*f*1.4;g=b.c.g*f*1.4;bl=b.c.b*f*1.4}bCol.set([r,g,bl,r*.3,g*.3,bl*.3],k*6)}
+ for(let k=0;k<BN;k++){const b=beams[k];let r=0,g=0,bl=0;if(b.life>0){b.life-=dt;const f=Math.max(0,b.life/b.max);r=b.c.r*f*1.8;g=b.c.g*f*1.8;bl=b.c.b*f*1.8}bCol.set([r,g,bl,r*.3,g*.3,bl*.3],k*6)}
  bGeo.attributes.position.needsUpdate=true;bGeo.attributes.color.needsUpdate=true;
  fx.forEach(f=>{if(!f.s.visible)return;f.life-=dt;if(f.life<=0){f.s.visible=false;return}const k=1-f.life/f.max,sc=f.s0+(f.s1-f.s0)*k;f.s.scale.set(sc,sc,1);f.s.material.opacity=1-k});
  for(let i=waves.length-1;i>=0;i--){const w=waves[i];w.life-=dt;const k=1-Math.max(0,w.life/w.maxLife),sc=1+(w.max-1)*ease(k);w.m.scale.set(sc,sc,1);w.m.material.opacity=.9*(1-k);if(w.life<=0){scene.remove(w.m);w.m.geometry.dispose();waves.splice(i,1)}}
