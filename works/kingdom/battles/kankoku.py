@@ -10,9 +10,9 @@ NOTE='交戦中／健在の部隊。配置は原作漫画にもとづく概略�
 ENV=land_env('0x5a5a40','0x988c68',amp=5,seed=9)+specials(labels([('函谷関', '', 'A', (0, 10, 0), 3)]))
 DATA=r"""
 const U=[
-{name:'合従軍',cmd:'李牧・春申君',side:'E',n:90,k:{0:{p:[0,7,-36],s:'ready',f:'line',l:'約54万'},1:{p:[0,7,-18],s:'fight'},2:{p:[0,7,-14],s:'fight'},3:{p:[0,7,-34],s:'withdraw'}}},
-{name:'函谷関守備',cmd:'蒙驁・張唐ほか',side:'A',n:40,k:{0:{p:[0,7,16],s:'ready',f:'concave',l:'関を守る'},1:{p:[0,7,10],s:'fight'},2:{p:[0,7,10],s:'fight'},3:{p:[0,7,16],s:'ready'}}},
-{name:'麃公軍',cmd:'麃公',side:'A',n:24,k:{0:{p:[24,7,30],s:'ready',f:'concave',l:'野戦'},1:{p:[24,7,8],s:'charge'},2:{p:[24,7,30],s:'gone'},3:{p:[24,7,30],s:'gone'}}}
+{name:'合従軍',cmd:'李牧・春申君',side:'E',kind:'infantry',n:90,k:{0:{p:[0,7,-36],s:'ready',f:'line',l:'約54万'},1:{p:[0,7,-18],s:'fight',r:'far'},2:{p:[0,7,-14],s:'fight'},3:{p:[0,7,-34],s:'withdraw'}}},
+{name:'函谷関守備',cmd:'蒙驁・張唐ほか',side:'A',kind:'infantry',n:40,k:{0:{p:[0,7,16],s:'ready',f:'concave',l:'関を守る'},1:{p:[0,7,10],s:'fight'},2:{p:[0,7,10],s:'fight'},3:{p:[0,7,16],s:'ready'}}},
+{name:'麃公軍',cmd:'麃公',side:'A',kind:'cavalry',n:24,k:{0:{p:[24,7,30],s:'ready',f:'concave',l:'野戦'},1:{p:[24,7,8],s:'charge',r:'close'},2:{p:[24,7,30],s:'gone'},3:{p:[24,7,30],s:'gone'}}}
 ];
 const PH=[
 {time:'紀元前241年',clock:'',step:'侵攻',title:'五国の合従',text:'楚・趙・魏・韓・燕の五国が連合して秦へ攻め入った。',cam:{fit:1,th:0.4,ph:.9},arrows:[]},
