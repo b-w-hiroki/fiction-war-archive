@@ -26,7 +26,20 @@ for(const width of widths){
     if(state.toolsWidth>state.clientWidth+1) throw new Error('tools overflow '+JSON.stringify(state));
     if(state.cardWidths.some(w=>w>state.clientWidth+1)) throw new Error('card overflow '+JSON.stringify(state));
     if(errors.length) throw new Error(errors.join(' | '));
-    console.log('OK',width,state);
+    const guide=await page.goto(base+'/guide.html',{waitUntil:'domcontentloaded',timeout:12000});
+    if(!guide||!guide.ok()) throw new Error('guide HTTP '+(guide&&guide.status()));
+    const guideState=await page.evaluate(()=>({
+      scrollWidth:document.documentElement.scrollWidth,
+      clientWidth:document.documentElement.clientWidth,
+      cards:document.querySelectorAll('.grid .card').length,
+      combat:document.querySelectorAll('.combat .card').length,
+      examples:[...document.querySelectorAll('a.example')].map(a=>a.getAttribute('href'))
+    }));
+    if(guideState.scrollWidth>guideState.clientWidth+1) throw new Error('guide horizontal overflow '+JSON.stringify(guideState));
+    if(guideState.cards!==8) throw new Error('guide unit cards '+guideState.cards);
+    if(guideState.combat!==2) throw new Error('guide combat cards '+guideState.combat);
+    if(guideState.examples.length<6) throw new Error('guide example links missing');
+    console.log('OK',width,state,guideState);
   }catch(e){
     failures.push({width,error:String(e),errors});
     console.error('FAIL',width,String(e));
