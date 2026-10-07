@@ -28,10 +28,23 @@ for(const file of files){
       seekMax:Number(document.querySelector('#phaseSeek')?.max||-1),
       mobileStepsHidden:getComputedStyle(document.querySelector('#steps')).display==='none',
       mobileTitleHorizontal:getComputedStyle(document.querySelector('.title')).writingMode==='horizontal-tb',
-      capMore:!!document.querySelector('#capMore')
+      capMore:!!document.querySelector('#capMore'),
+      focusToggle:!!document.querySelector('#focusToggle')
     }));
-    if(!state.three||!state.canvas||!state.steps||!state.play||!state.result||!state.seek||!state.capMore||!state.mobileStepsHidden||!state.mobileTitleHorizontal||state.seekMax!==1000) throw new Error('UI init failed '+JSON.stringify(state));
+    if(!state.three||!state.canvas||!state.steps||!state.play||!state.result||!state.seek||!state.capMore||!state.mobileStepsHidden||!state.mobileTitleHorizontal||!state.focusToggle||state.seekMax!==1000) throw new Error('UI init failed '+JSON.stringify(state));
     const steps=page.locator('#steps button');
+    await page.locator('#focusToggle').click();
+    const focusState=await page.evaluate(()=>({
+      focus:document.querySelector('#hud').classList.contains('focus'),
+      pressed:document.querySelector('#focusToggle').getAttribute('aria-pressed'),
+      forceHidden:getComputedStyle(document.querySelector('.force')).visibility==='hidden',
+      capHidden:getComputedStyle(document.querySelector('#cap')).visibility==='hidden',
+      seekHidden:getComputedStyle(document.querySelector('.seek')).visibility==='hidden',
+      playVisible:getComputedStyle(document.querySelector('#play')).visibility!=='hidden'
+    }));
+    if(!focusState.focus||focusState.pressed!=='true'||!focusState.forceHidden||!focusState.capHidden||!focusState.seekHidden||!focusState.playVisible) throw new Error('focus mode failed '+JSON.stringify(focusState));
+    await page.locator('#focusToggle').click();
+    if(await page.locator('#hud').evaluate(el=>el.classList.contains('focus'))) throw new Error('focus mode did not restore UI');
     if(await steps.count()>2){
       const seek=page.locator('#phaseSeek');
       const startNow=await page.locator('#seekNow').textContent();
