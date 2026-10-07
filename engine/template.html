@@ -199,9 +199,9 @@ function inferKind(u){
  if(/騎兵|騎馬|騎士|麃公/.test(n))return 'cavalry';
  if(/弓兵|弩|射手|弓隊/.test(n))return 'archer';
  if(/戦車|装甲|機甲|モビルスーツ|MS|三連星|地上部隊|防衛線/.test(n))return 'ground_vehicle';
- if(/艦隊|艦隊本隊|分艦隊|本隊/.test(n))return 'fleet';
+ if(/艦隊|分艦隊/.test(n))return 'fleet';
  if(/戦艦|巡洋艦|駆逐艦|旗艦|艦/.test(n))return 'ship';
- return 'infantry';
+ return 'fleet';
 }
 function unitGeo(kind){
  let g;
