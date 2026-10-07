@@ -44,6 +44,8 @@ for(const c of cases){
       fontFamily:getComputedStyle(document.body).fontFamily,
       panelWidth:document.querySelector('.force').getBoundingClientRect().width,
       labelCollisionLogic:document.documentElement.innerHTML.includes('visibleLabs.sort'),
+      strongFactionColor:document.documentElement.innerHTML.includes("const opOf=s=>s.s==='gone'||s.s==='hidden'?0:1"),
+      stateLabels:document.documentElement.innerHTML.includes("charge:'▶ 突撃'")&&document.documentElement.innerHTML.includes("broken:'× 崩壊'"),
       momentum:document.querySelector('#momentumText')?.textContent||'',
       momentumPos:parseFloat(document.querySelector('#momentumMark')?.style.left||'0')
     }));
@@ -63,6 +65,8 @@ for(const c of cases){
     if(!state.fontFamily.includes('Noto Sans JP')) throw new Error('readability font missing '+state.fontFamily);
     if(state.panelWidth>375) throw new Error('HUD panel consumes too much width '+state.panelWidth);
     if(!state.labelCollisionLogic) throw new Error('label collision control missing');
+    if(!state.strongFactionColor) throw new Error('unit states can fade faction colors');
+    if(!state.stateLabels) throw new Error('explicit unit state labels missing');
     if(!state.momentum) throw new Error('battle momentum missing');
     if(state.momentumPos<8||state.momentumPos>92) throw new Error('battle momentum marker invalid '+state.momentumPos);
     const seek=page.locator('#phaseSeek');
