@@ -34,7 +34,13 @@ for(const c of cases){
       iconSize:document.querySelector('#kindLegend .i').getBoundingClientRect().width,
       legendWidth:document.querySelector('#kindLegend').getBoundingClientRect().width,
       rangeMode:document.querySelector('#rangeMode')?.textContent||'',
-      rangeFont:parseFloat(getComputedStyle(document.querySelector('#rangeMode')).fontSize)
+      rangeFont:parseFloat(getComputedStyle(document.querySelector('#rangeMode')).fontSize),
+      captionFont:parseFloat(getComputedStyle(document.querySelector('#cap p')).fontSize),
+      phaseFont:parseFloat(getComputedStyle(document.querySelector('#cTitle')).fontSize),
+      seekFont:parseFloat(getComputedStyle(document.querySelector('#seekNow')).fontSize),
+      seekHeight:document.querySelector('#phaseSeek').getBoundingClientRect().height,
+      panelBg:getComputedStyle(document.querySelector('.force')).backgroundColor,
+      labelInk:getComputedStyle(document.querySelector('#cTitle')).color
     }));
     for(const label of c.legend) if(!state.legend.includes(label)) throw new Error('legend missing '+label+' '+JSON.stringify(state.legend));
     if(!state.canvas) throw new Error('canvas missing');
@@ -44,6 +50,11 @@ for(const c of cases){
     if(state.legendWidth>390) throw new Error('legend too wide '+state.legendWidth);
     if(!['待機','近距離戦','遠距離戦','近・遠 混戦'].includes(state.rangeMode)) throw new Error('range HUD invalid '+state.rangeMode);
     if(state.rangeFont<10) throw new Error('range HUD font too small '+state.rangeFont);
+    if(state.captionFont<13) throw new Error('caption font too small '+state.captionFont);
+    if(state.phaseFont<18) throw new Error('phase title too small '+state.phaseFont);
+    if(state.seekFont<10) throw new Error('seek label too small '+state.seekFont);
+    if(state.seekHeight<28) throw new Error('seek touch target too small '+state.seekHeight);
+    if(!state.panelBg.includes('0.96')&&!state.panelBg.includes('0.98')) throw new Error('HUD panel too transparent '+state.panelBg);
     const seek=page.locator('#phaseSeek');
     await seek.fill('500');await seek.dispatchEvent('input');await page.waitForTimeout(250);
     const rangeAfterSeek=await page.locator('#rangeMode').textContent();
