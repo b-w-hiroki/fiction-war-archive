@@ -19,6 +19,11 @@ body{background:var(--bg);color:var(--ink);font-family:"Zen Kaku Gothic New",sys
 #stage canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
 .hud{position:absolute;inset:0;pointer-events:none}
 .hud .ui{pointer-events:auto}
+.focusbtn{position:absolute;z-index:6;top:10px;right:10px;height:36px;padding:0 11px;border:1px solid var(--line);border-radius:18px;background:var(--panel2);color:var(--ink);font:900 11px "Zen Kaku Gothic New",sans-serif;box-shadow:0 4px 16px rgba(0,0,0,.32);pointer-events:auto;cursor:pointer}
+.hud.focus .title,.hud.focus .force,.hud.focus .cap,.hud.focus .seek,.hud.focus .spd,.hud.focus .cam{opacity:0;visibility:hidden;pointer-events:none}
+.hud.focus .tl{width:auto;left:50%;right:auto;transform:translateX(-50%)}
+.hud.focus .play{box-shadow:0 5px 20px rgba(0,0,0,.48),0 0 0 1px rgba(255,255,255,.18)}
+.hud.focus .focusbtn{background:rgba(12,17,27,.72);color:#fff}
 .back{display:inline-block;margin:2px 0 0;font-size:12px;font-weight:700;color:var(--sub);text-decoration:none}
 .title{position:absolute;top:10px;right:12px;writing-mode:vertical-rl;color:#f3f6fb;text-shadow:0 2px 4px rgba(0,0,0,.9),0 0 18px rgba(120,170,255,.42);display:flex;gap:6px}
 .title b{font-size:30px;font-weight:900;letter-spacing:.18em;line-height:1}
@@ -89,6 +94,7 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.capmore{di
 .rangebadge.far{box-shadow:inset 3px 0 0 #6fc8d6,0 1px 4px rgba(0,0,0,.12)}.rangebadge.far b{color:#3ba6b7}
 .rangebadge.mixed{box-shadow:inset 3px 0 0 #d9c17a,0 1px 4px rgba(0,0,0,.12)}.rangebadge.mixed b{color:#a98b2d}
 @media (max-width:600px){
+ .focusbtn{top:max(6px,env(safe-area-inset-top,0px));right:8px;height:32px;padding:0 9px;font-size:10px}
  .title{top:max(6px,env(safe-area-inset-top,0px));left:8px;right:8px;writing-mode:horizontal-tb;display:flex;align-items:baseline;gap:8px;color:#f3f6fb;pointer-events:none}
  .title b{font-size:16px;letter-spacing:.04em;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:68vw}
  .title span{font-size:9px;letter-spacing:.03em;color:#b9c6da;white-space:nowrap}
@@ -116,7 +122,8 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.capmore{di
 <body>
 <div id="app">
   <div id="stage"></div>
-  <div class="hud">
+  <div class="hud" id="hud">
+    <button class="focusbtn" id="focusToggle" type="button" aria-pressed="false" aria-label="UIを隠して戦況に集中">UI OFF</button>
     <div class="title"><b>@@HEAD@@</b><span>@@ERA@@</span></div>
     <div class="force ui" aria-label="戦力">
       <div class="row e"><span class="side">@@SE@@</span><div class="bar"><i class="dep" id="eDep"></i><i class="fig" id="eFig"></i></div><span class="num" id="eNum"></span></div>
@@ -329,6 +336,14 @@ function pan(dx,dy){const s=T.r*.0016,c=Math.cos(T.th),n=Math.sin(T.th);T.tx+=-d
 
 /* ---------- UI ---------- */
 const stepsEl=$('steps'),phaseSeek=$('phaseSeek');
+const hud=$('hud'),focusToggle=$('focusToggle');
+function setFocusMode(on){
+ hud.classList.toggle('focus',on);
+ focusToggle.setAttribute('aria-pressed',String(on));
+ focusToggle.textContent=on?'UI ON':'UI OFF';
+ focusToggle.setAttribute('aria-label',on?'UIを表示':'UIを隠して戦況に集中');
+}
+focusToggle.onclick=()=>setFocusMode(!hud.classList.contains('focus'));
 phaseSeek.max=1000;
 phaseSeek.setAttribute('aria-valuemax','100');
 PH.forEach((p,i)=>{const b=document.createElement('button');b.textContent=p.step;b.setAttribute('aria-label',p.time+' '+p.title);b.onclick=()=>{playing=false;updPlay();setPhase(i)};stepsEl.appendChild(b)});
