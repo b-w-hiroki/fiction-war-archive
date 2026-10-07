@@ -5,6 +5,7 @@ on:
       - main
     paths:
       - "engine/hub.html"
+      - "engine/guide.html"
       - "tools/build.py"
       - "tools/qa_hub_mobile.mjs"
       - ".github/workflows/hub-mobile-qa.yml"
