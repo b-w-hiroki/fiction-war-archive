@@ -368,7 +368,7 @@ function previewSeek(raw){
  [...stepsEl.children].forEach((b,k)=>{b.classList.toggle('on',k===ui);b.classList.toggle('done',k<q)});
  $('seekNow').textContent=(q+1).toFixed(1)+' / '+PH.length;$('seekLabel').textContent=P.step||P.time;
  phaseSeek.setAttribute('aria-valuenow',String(Math.round(raw/10)));phaseSeek.setAttribute('aria-valuetext',P.time+' '+P.title);
- forces(ui);updateRangeBadge(ui);
+ forces(ui);updateRangeBadge(ui);updateMomentum(ui);
 }
 phaseSeek.oninput=()=>previewSeek(Number(phaseSeek.value));
 phaseSeek.onchange=()=>{const q=seekScale(Number(phaseSeek.value)),i=Math.max(0,Math.min(PH.length-1,Math.round(q)));scrubbing=false;setPhase(i)};
