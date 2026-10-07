@@ -42,7 +42,8 @@ for(const c of cases){
       panelBg:getComputedStyle(document.querySelector('.force')).backgroundColor,
       labelInk:getComputedStyle(document.querySelector('#cTitle')).color,
       fontFamily:getComputedStyle(document.body).fontFamily,
-      panelWidth:document.querySelector('.force').getBoundingClientRect().width
+      panelWidth:document.querySelector('.force').getBoundingClientRect().width,
+      labelCollisionLogic:document.documentElement.innerHTML.includes('visibleLabs.sort')
     }));
     for(const label of c.legend) if(!state.legend.includes(label)) throw new Error('legend missing '+label+' '+JSON.stringify(state.legend));
     if(!state.canvas) throw new Error('canvas missing');
@@ -59,6 +60,7 @@ for(const c of cases){
     if(!state.panelBg.includes('0.94')&&!state.panelBg.includes('0.97')) throw new Error('HUD panel too transparent '+state.panelBg);
     if(!state.fontFamily.includes('Noto Sans JP')) throw new Error('readability font missing '+state.fontFamily);
     if(state.panelWidth>375) throw new Error('HUD panel consumes too much width '+state.panelWidth);
+    if(!state.labelCollisionLogic) throw new Error('label collision control missing');
     const seek=page.locator('#phaseSeek');
     await seek.fill('500');await seek.dispatchEvent('input');await page.waitForTimeout(250);
     const rangeAfterSeek=await page.locator('#rangeMode').textContent();
