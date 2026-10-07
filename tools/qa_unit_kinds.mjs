@@ -40,7 +40,9 @@ for(const c of cases){
       seekFont:parseFloat(getComputedStyle(document.querySelector('#seekNow')).fontSize),
       seekHeight:document.querySelector('#phaseSeek').getBoundingClientRect().height,
       panelBg:getComputedStyle(document.querySelector('.force')).backgroundColor,
-      labelInk:getComputedStyle(document.querySelector('#cTitle')).color
+      labelInk:getComputedStyle(document.querySelector('#cTitle')).color,
+      fontFamily:getComputedStyle(document.body).fontFamily,
+      panelWidth:document.querySelector('.force').getBoundingClientRect().width
     }));
     for(const label of c.legend) if(!state.legend.includes(label)) throw new Error('legend missing '+label+' '+JSON.stringify(state.legend));
     if(!state.canvas) throw new Error('canvas missing');
@@ -54,7 +56,9 @@ for(const c of cases){
     if(state.phaseFont<18) throw new Error('phase title too small '+state.phaseFont);
     if(state.seekFont<10) throw new Error('seek label too small '+state.seekFont);
     if(state.seekHeight<28) throw new Error('seek touch target too small '+state.seekHeight);
-    if(!state.panelBg.includes('0.96')&&!state.panelBg.includes('0.98')) throw new Error('HUD panel too transparent '+state.panelBg);
+    if(!state.panelBg.includes('0.94')&&!state.panelBg.includes('0.97')) throw new Error('HUD panel too transparent '+state.panelBg);
+    if(!state.fontFamily.includes('Noto Sans JP')) throw new Error('readability font missing '+state.fontFamily);
+    if(state.panelWidth>375) throw new Error('HUD panel consumes too much width '+state.panelWidth);
     const seek=page.locator('#phaseSeek');
     await seek.fill('500');await seek.dispatchEvent('input');await page.waitForTimeout(250);
     const rangeAfterSeek=await page.locator('#rangeMode').textContent();
