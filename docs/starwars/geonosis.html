@@ -84,13 +84,16 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.capmore{di
 .kindlegend .aircraft .i{clip-path:polygon(50% 0,100% 78%,62% 66%,50% 100%,38% 66%,0 78%)}
 .kindlegend .ground_vehicle .i{width:14px;height:8px;border-radius:2px}
 .kindlegend .fortress .i{border-radius:50%;box-shadow:0 0 0 2px currentColor inset}
+.rangebadge{display:inline-flex;align-items:center;gap:5px;margin-top:5px;padding:3px 7px;border:1px solid var(--line);border-radius:999px;background:color-mix(in srgb,var(--panel) 96%,transparent);font-size:9px;font-weight:800;color:var(--sub)}
+.rangebadge b{font-size:10px;color:var(--ink)}
+.rangebadge.close b{color:#e7a85b}.rangebadge.far b{color:#6fc8d6}.rangebadge.mixed b{color:#d9c17a}
 @media (max-width:600px){
  .title{top:max(6px,env(safe-area-inset-top,0px));left:8px;right:8px;writing-mode:horizontal-tb;display:flex;align-items:baseline;gap:8px;color:#f3f6fb;pointer-events:none}
  .title b{font-size:16px;letter-spacing:.04em;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:68vw}
  .title span{font-size:9px;letter-spacing:.03em;color:#b9c6da;white-space:nowrap}
  .force{top:calc(max(6px,env(safe-area-inset-top,0px)) + 26px);left:8px;width:calc(100% - 16px);padding:6px 8px 5px;font-size:10px;border-radius:8px;background:color-mix(in srgb,var(--panel) 88%,transparent)}
  .row{grid-template-columns:max-content minmax(56px,1fr) auto;gap:5px;margin:1px 0}.row .side{font-size:10.5px}.num{font-size:9px}
- .note{display:none}.kindlegend{gap:4px;margin-top:4px}.kindlegend .k{font-size:9px;gap:4px;padding:3px 5px}.kindlegend .i{width:12px;height:12px}.resbtn{margin-top:4px;font-size:10px;padding:1px 0}
+ .note{display:none}.kindlegend{gap:4px;margin-top:4px}.kindlegend .k{font-size:9px;gap:4px;padding:3px 5px}.kindlegend .i{width:12px;height:12px}.rangebadge{margin-top:4px;font-size:8px;padding:3px 6px}.rangebadge b{font-size:9px}.resbtn{margin-top:4px;font-size:10px;padding:1px 0}
  .cap{bottom:calc(100px + env(safe-area-inset-bottom,0px));width:calc(100% - 16px);padding:8px 10px 8px;max-height:none;overflow:visible;border-radius:10px;background:color-mix(in srgb,var(--panel) 90%,transparent)}
  .cap h2{font-size:15px;letter-spacing:.02em;margin:0 0 2px}.cap p{font-size:11.5px;line-height:1.5;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
  .cap.expanded p{display:block;-webkit-line-clamp:unset;max-height:30vh;overflow-y:auto}
@@ -119,6 +122,7 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.capmore{di
       <div class="row a"><span class="side">銀河共和国</span><div class="bar"><i class="dep" id="aDep"></i><i class="fig" id="aFig"></i></div><span class="num" id="aNum"></span></div>
       <div class="note">交戦中／健在の部隊。配置は映画・アニメの描写にもとづく概略。部隊の大きさは兵力の目安</div>
       <div class="kindlegend" id="kindLegend" aria-label="兵種凡例"></div>
+      <div class="rangebadge" id="rangeBadge" aria-label="現在の戦闘距離">戦闘距離 <b id="rangeMode">待機</b></div>
       <button class="resbtn" id="resOpen">戦果・損害を見る ›</button><a class="back" href="index.html#starwars">‹ 年表へ戻る</a>
     </div>
     <div class="res ui" id="res" role="dialog" aria-label="戦果"><div class="in" id="resIn"></div></div>
@@ -251,7 +255,7 @@ const KIND_LABEL={fleet:'艦隊',ship:'艦船',infantry:'歩兵',cavalry:'騎兵
 const WORD={fight:'交戦',charge:'突撃',broken:'崩壊',withdraw:'撤退',move:'移動中',wait:'停止'};
 const colOf=s=>s.s==='broken'||s.s==='gone'?BK:s.side==='E'?EC:AC;
 const opOf=s=>s.s==='gone'||s.s==='hidden'?0:s.s==='broken'?.5:1;
-const subOf=(o,s)=>{const w=s.l||WORD[s.s]||'';return o.cmd+(w?'　'+w:'')};
+const subOf=(o,s)=>{const w=s.l||WORD[s.s]||'';return KIND_LABEL[o.kind]+' / '+o.cmd+(w?'　'+w:'')};
 const dummy=new THREE.Object3D();
 const units=U.map((u,ui)=>{
  const kind=inferKind(u),st=[];let cur={p:null,s:'ready',side:u.side,l:'',r:u.range||'auto'};
@@ -371,7 +375,7 @@ function previewSeek(raw){
  [...stepsEl.children].forEach((b,k)=>{b.classList.toggle('on',k===ui);b.classList.toggle('done',k<q)});
  $('seekNow').textContent=(q+1).toFixed(1)+' / '+PH.length;$('seekLabel').textContent=P.step||P.time;
  phaseSeek.setAttribute('aria-valuenow',String(Math.round(raw/10)));phaseSeek.setAttribute('aria-valuetext',P.time+' '+P.title);
- forces(ui);
+ forces(ui);updateRangeBadge(ui);
 }
 phaseSeek.oninput=()=>previewSeek(Number(phaseSeek.value));
 phaseSeek.onchange=()=>{const q=seekScale(Number(phaseSeek.value)),i=Math.max(0,Math.min(PH.length-1,Math.round(q)));scrubbing=false;setPhase(i)};
@@ -381,6 +385,22 @@ function forces(i){
  const r={E:[0,0,0],A:[0,0,0]};
  units.forEach(o=>{const s=o.st[i];r[o.side][2]++;if(['gone','broken','hidden'].includes(s.s))return;r[o.side][0]++;if(['fight','charge'].includes(s.s)||s.l==='殿')r[o.side][1]++});
  [['e','E'],['a','A']].forEach(([k,K])=>{$(k+'Dep').style.width=(r[K][0]/r[K][2]*100)+'%';$(k+'Fig').style.width=(r[K][1]/r[K][2]*100)+'%';$(k+'Num').innerHTML=`交戦 <b>${r[K][1]}</b> ／ 健在 ${r[K][0]}`});
+}
+function updateRangeBadge(i){
+ let close=0,far=0;
+ units.forEach(a=>{
+  const sa=a.st[i];if(!(sa.s==='fight'||sa.s==='charge'||sa.l==='殿')||a.mat.opacity<.2)return;
+  let best=null,bd=Infinity;
+  units.forEach(b=>{if(b.side===a.side)return;const sb=b.st[i];if(!ok(sb))return;const d=Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z);if(d<bd){bd=d;best=b}});
+  if(!best)return;
+  const m=combatMode(a,best,sa,bd);if(m==='close')close++;else far++;
+ });
+ const el=$('rangeBadge'),txt=$('rangeMode');
+ el.classList.remove('close','far','mixed');
+ if(close&&far){txt.textContent='近・遠 混戦';el.classList.add('mixed')}
+ else if(close){txt.textContent='近距離戦';el.classList.add('close')}
+ else if(far){txt.textContent='遠距離戦';el.classList.add('far')}
+ else txt.textContent='待機';
 }
 function setPhase(i){
  const now=VT;phase=i;phaseT=0;phaseStart=now;const P=PH[i];SPECIAL.reset&&SPECIAL.reset(i);
@@ -400,7 +420,7 @@ function setPhase(i){
  [...stepsEl.children].forEach((b,j)=>{b.classList.toggle('on',j===i);b.classList.toggle('done',j<i)});
  const sv=PH.length<=1?0:Math.round(i/(PH.length-1)*1000);phaseSeek.value=String(sv);phaseSeek.setAttribute('aria-valuenow',String(Math.round(sv/10)));phaseSeek.setAttribute('aria-valuetext',P.time+' '+P.title);
  $('seekNow').textContent=(i+1)+' / '+PH.length;$('seekLabel').textContent=P.step||P.time;
- forces(i);
+ forces(i);updateRangeBadge(i);
 }
 
 
