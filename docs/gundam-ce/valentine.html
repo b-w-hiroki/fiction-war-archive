@@ -73,9 +73,9 @@ body{background:var(--bg);color:var(--ink);font-family:"Zen Kaku Gothic New",sys
 .spd{flex:none;height:46px;min-width:46px;padding:0 8px;border-radius:23px;border:none;background:var(--panel);color:var(--ink);font:700 12px "Zen Kaku Gothic New",sans-serif;font-variant-numeric:tabular-nums;cursor:pointer;box-shadow:0 0 0 1px var(--line)}
 .spd.fast{color:var(--acc)}
 button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.capmore{display:none}
-.kindlegend{margin-top:4px;display:flex;gap:4px;flex-wrap:wrap;align-items:center}
-.kindlegend .k{display:inline-flex;align-items:center;gap:4px;font-size:9px;color:var(--sub);white-space:nowrap}
-.kindlegend .i{width:11px;height:11px;display:inline-block;border:1px solid currentColor;background:transparent}
+.kindlegend{margin-top:5px;display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.kindlegend .k{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:800;color:var(--ink);white-space:nowrap;padding:3px 6px;border:1px solid var(--line);border-radius:999px;background:color-mix(in srgb,var(--panel) 94%,transparent)}
+.kindlegend .i{width:14px;height:14px;display:inline-block;border:2px solid currentColor;background:transparent;flex:none}
 .kindlegend .fleet .i{clip-path:polygon(50% 0,100% 100%,50% 72%,0 100%)}
 .kindlegend .ship .i{width:13px;height:6px;border-radius:50% 50% 25% 25%}
 .kindlegend .infantry .i{border-radius:50%}
@@ -90,7 +90,7 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.capmore{di
  .title span{font-size:9px;letter-spacing:.03em;color:#b9c6da;white-space:nowrap}
  .force{top:calc(max(6px,env(safe-area-inset-top,0px)) + 26px);left:8px;width:calc(100% - 16px);padding:6px 8px 5px;font-size:10px;border-radius:8px;background:color-mix(in srgb,var(--panel) 88%,transparent)}
  .row{grid-template-columns:max-content minmax(56px,1fr) auto;gap:5px;margin:1px 0}.row .side{font-size:10.5px}.num{font-size:9px}
- .note{display:none}.kindlegend{gap:3px;margin-top:3px}.kindlegend .k{font-size:8px}.kindlegend .i{width:9px;height:9px}.resbtn{margin-top:3px;font-size:10px;padding:1px 0}
+ .note{display:none}.kindlegend{gap:4px;margin-top:4px}.kindlegend .k{font-size:9px;gap:4px;padding:3px 5px}.kindlegend .i{width:12px;height:12px}.resbtn{margin-top:4px;font-size:10px;padding:1px 0}
  .cap{bottom:calc(100px + env(safe-area-inset-bottom,0px));width:calc(100% - 16px);padding:8px 10px 8px;max-height:none;overflow:visible;border-radius:10px;background:color-mix(in srgb,var(--panel) 90%,transparent)}
  .cap h2{font-size:15px;letter-spacing:.02em;margin:0 0 2px}.cap p{font-size:11.5px;line-height:1.5;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
  .cap.expanded p{display:block;-webkit-line-clamp:unset;max-height:30vh;overflow-y:auto}
@@ -242,13 +242,13 @@ function inferKind(u){
 function unitGeo(kind){
  let g;
  if(kind==='fleet'){g=new THREE.ConeGeometry(.3,1.9,4);g.rotateX(Math.PI/2)}
- else if(kind==='ship'){g=new THREE.BoxGeometry(.55,.36,2.25)}
- else if(kind==='infantry'){g=new THREE.OctahedronGeometry(.43,0);g.scale(.8,1.15,.8)}
- else if(kind==='cavalry'){g=new THREE.ConeGeometry(.48,1.55,3);g.rotateX(Math.PI/2);g.scale(1.15,.85,1.15)}
- else if(kind==='archer'){g=new THREE.ConeGeometry(.48,.95,3);g.rotateX(Math.PI/2);g.scale(1.25,.7,1)}
- else if(kind==='aircraft'){g=new THREE.ConeGeometry(.58,1.8,3);g.rotateX(Math.PI/2);g.scale(1.45,.45,1)}
- else if(kind==='ground_vehicle'){g=new THREE.BoxGeometry(1.05,.42,1.55)}
- else if(kind==='fortress'){g=new THREE.DodecahedronGeometry(.78,0)}
+ else if(kind==='ship'){g=new THREE.BoxGeometry(.68,.42,2.5)}
+ else if(kind==='infantry'){g=new THREE.OctahedronGeometry(.52,0);g.scale(.85,1.3,.85)}
+ else if(kind==='cavalry'){g=new THREE.ConeGeometry(.58,1.8,3);g.rotateX(Math.PI/2);g.scale(1.25,.9,1.2)}
+ else if(kind==='archer'){g=new THREE.ConeGeometry(.58,1.08,3);g.rotateX(Math.PI/2);g.scale(1.35,.72,1.05)}
+ else if(kind==='aircraft'){g=new THREE.ConeGeometry(.7,2.05,3);g.rotateX(Math.PI/2);g.scale(1.55,.48,1.05)}
+ else if(kind==='ground_vehicle'){g=new THREE.BoxGeometry(1.28,.52,1.82)}
+ else if(kind==='fortress'){g=new THREE.DodecahedronGeometry(.96,0)}
  else{g=new THREE.OctahedronGeometry(.43,0)}
  return g;
 }
@@ -265,7 +265,7 @@ const units=U.map((u,ui)=>{
  const n=u.n,L=3,per=Math.ceil(n/L),cols=Math.ceil(Math.sqrt(per*1.6)),rows=Math.ceil(per/cols),offs=[];
  for(let i=0;i<n;i++){const l=Math.floor(i/per),j=i%per,c=j%cols,r=Math.floor(j/cols);
   offs.push([(c-(cols-1)/2)*1.5+(hs(i,ui)-.5)*.5,(l-(L-1)/2)*1.4+(hs(ui,i)-.5)*.5,(r-(rows-1)/2)*2.2,(hs(i*3,ui)-.5),(hs(ui,i*3)-.5),(hs(i,ui*7)-.5)])}
- const mat=new THREE.MeshLambertMaterial({color:colOf(st[0]),emissive:colOf(st[0]).clone().multiplyScalar(.35),transparent:true});
+ const mat=new THREE.MeshLambertMaterial({color:colOf(st[0]),emissive:colOf(st[0]).clone().multiplyScalar(.52),transparent:true});
  const mesh=new THREE.InstancedMesh(unitGeo(kind),mat,n);mesh.frustumCulled=false;scene.add(mesh);
  const p=st[0].p,yaw=u.side==='E'?0:Math.PI;
  return {name:u.name,cmd:u.cmd,side:u.side,kind,n,st,mesh,mat,offs,sp:null,sy:new Float32Array(n),fmT0:0,x:p[0],y:p[1],z:p[2],f:p.slice(),t:p.slice(),t0:0,dur:1,spread:1,yaw,lab:null,labKey:'',wp:new Float32Array(n*3)};
@@ -303,12 +303,14 @@ function shockwave(p,col=0xffd080,max=24,life=1.15){
 const rangeFx=[];
 function arcShot(a,b,col){
  const A=new THREE.Vector3(...a),B=new THREE.Vector3(...b),M=A.clone().add(B).multiplyScalar(.5);M.y+=Math.max(4,A.distanceTo(B)*.18);
- const c=new THREE.QuadraticBezierCurve3(A,M,B),g=new THREE.BufferGeometry().setFromPoints(c.getPoints(22)),m=new THREE.LineBasicMaterial({color:col,transparent:true,opacity:.95,depthWrite:false,blending:THREE.AdditiveBlending});
- const line=new THREE.Line(g,m);line.renderOrder=8;scene.add(line);rangeFx.push({o:line,life:.65,max:.65})
+ const c=new THREE.QuadraticBezierCurve3(A,M,B),g=new THREE.BufferGeometry().setFromPoints(c.getPoints(28)),m=new THREE.LineBasicMaterial({color:col,transparent:true,opacity:1,depthWrite:false,blending:THREE.AdditiveBlending});
+ const line=new THREE.Line(g,m);line.renderOrder=8;scene.add(line);rangeFx.push({o:line,life:.85,max:.85});boom(b,false,col)
 }
 function closeClash(a,b,col){
  const m=[(a[0]+b[0])*.5,(a[1]+b[1])*.5,(a[2]+b[2])*.5];
- boom(m,false,col);if(Math.random()<.18)shockwave(m,col,5,.35)
+ boom(m,true,col);
+ if(Math.random()<.55)shockwave(m,col,7,.45);
+ if(Math.random()<.45){boom([m[0]+(Math.random()-.5)*3,m[1]+(Math.random()-.5)*2,m[2]+(Math.random()-.5)*3],false,0xffe2a8)}
 }
 function combatMode(a,b,sa,dist){
  if(sa.r==='close'||sa.r==='far')return sa.r;
@@ -449,7 +451,7 @@ function loop(){
   o.mat.opacity+=(opOf(s)-o.mat.opacity)*dt*1.4;o.mesh.visible=o.mat.opacity>.02;
   const br=Math.max(0,o.spread-1),c=Math.cos(o.yaw),sn=Math.sin(o.yaw),f=s.fm||defForm(s),ring=f&&f.ring;
   if(!o.sp){o.sp=new Float32Array(o.n*3);o.init=true}
-  const kk2=o.init?1:1-Math.exp(-dt*2.2);let ax=0,az=0;
+  const kk2=o.init?1:1-Math.exp(-dt*2.2),vd=Math.hypot(cam.position.x-o.x,cam.position.y-o.y,cam.position.z-o.z),vk=Math.min(1.45,Math.max(1,vd/210));let ax=0,az=0;
   for(let i=0;i<o.n;i++){const q=o.offs[i];let X,Y,Z,hy;
    if(ring){const [cx,cz,rr,a0,a1,w]=ring,row=i%3,j=Math.floor(i/3),m=Math.ceil(o.n/3),th=a0+(a1-a0)*(j/Math.max(1,m-1))+(reduce?0:w*(now-phaseStart)),R=rr+(row-1)*1.6;
     X=cx+Math.cos(th)*R;Z=cz+Math.sin(th)*R;Y=o.y+q[1]*.8;const sg=Math.sign(w||1);hy=Math.atan2(-Math.sin(th)*sg,Math.cos(th)*sg)}
@@ -460,7 +462,7 @@ function loop(){
    const mvx=o.sp[k3]-px,mvz=o.sp[k3+2]-pz;if(!o.init&&Math.hypot(mvx,mvz)>.04)hy=Math.atan2(mvx,mvz);
    let d=hy-o.sy[i];while(d>Math.PI)d-=Math.PI*2;while(d<-Math.PI)d+=Math.PI*2;o.sy[i]=o.init?hy:o.sy[i]+d*Math.min(1,dt*3);
    dummy.position.set(o.sp[k3],o.sp[k3+1],o.sp[k3+2]);dummy.rotation.set(br?q[3]*br*2:0,o.sy[i],br?q[5]*br*2:0);
-   const ks=o.kind==='fleet'?1:o.kind==='ship'?1.15:o.kind==='aircraft'?1.15:o.kind==='ground_vehicle'?1.0:o.kind==='fortress'?1.35:.9;dummy.scale.set(ks,ks,ks);dummy.updateMatrix();dummy.scale.set(1,1,1);o.mesh.setMatrixAt(i,dummy.matrix);
+   const ks=(o.kind==='fleet'?1.12:o.kind==='ship'?1.35:o.kind==='aircraft'?1.38:o.kind==='ground_vehicle'?1.24:o.kind==='fortress'?1.58:o.kind==='cavalry'?1.2:o.kind==='archer'?1.14:1.08)*vk;dummy.scale.set(ks,ks,ks);dummy.updateMatrix();dummy.scale.set(1,1,1);o.mesh.setMatrixAt(i,dummy.matrix);
    o.wp[k3]=o.sp[k3];o.wp[k3+1]=o.sp[k3+1];o.wp[k3+2]=o.sp[k3+2];ax+=X;az+=Z}
   o.init=false;
   if(ring){o.x=ax/o.n;o.z=az/o.n}
@@ -479,7 +481,7 @@ function loop(){
     if(mode==='close'){
       closeClash(A,B,col);if(a.kind==='fleet'||a.kind==='ship'||a.kind==='aircraft'){const C=[A[0]+(B[0]-A[0])*.38,A[1]+(B[1]-A[1])*.38,A[2]+(B[2]-A[2])*.38];beam(A,C,col)}
     }else if(a.kind==='archer'){arcShot(A,B,col)}
-    else{beam(A,B,col);if(Math.random()<.22)boom(B,false)}
+    else{beam(A,B,col);if(Math.random()<.42)boom(B,false,col)}
    }
   });
  }
