@@ -16,10 +16,10 @@ h1{font-size:clamp(28px,7vw,48px);margin:0 0 8px;line-height:1.1}
 .lead{margin:0 0 28px;color:var(--sub);font-size:14px;line-height:1.8}
 h2{font-size:18px;margin:30px 0 12px}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.card{background:var(--panel);border:1px solid var(--rule);padding:16px;border-radius:8px;min-width:0}
+.card{background:var(--panel);border:1px solid #bdb6aa;padding:17px;border-radius:9px;min-width:0;box-shadow:0 1px 0 rgba(0,0,0,.03)}
 .card h3{margin:0 0 5px;font-size:16px}.card p{margin:0;color:var(--sub);font-size:12.5px;line-height:1.65}
-.visual{height:72px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;border-bottom:1px solid var(--rule)}
-.icon{position:relative;width:42px;height:42px;color:var(--a)}
+.visual{height:86px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;border-bottom:1px solid var(--rule);background:#f8f6f1;border-radius:6px 6px 0 0}
+.icon{position:relative;width:54px;height:54px;color:#397f8a}
 .icon::before,.icon::after{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:2px solid currentColor}
 .fleet::before{width:12px;height:26px;clip-path:polygon(50% 0,100% 100%,50% 74%,0 100%);background:currentColor;border:0}
 .fleet::after{width:36px;height:22px;border:0;background:linear-gradient(135deg,transparent 44%,currentColor 45% 52%,transparent 53%),linear-gradient(225deg,transparent 44%,currentColor 45% 52%,transparent 53%);opacity:.65}
@@ -33,14 +33,14 @@ h2{font-size:18px;margin:30px 0 12px}
 .fortress::before{width:32px;height:32px;border-radius:50%;box-shadow:0 0 0 5px var(--bg),0 0 0 7px currentColor}
 .example{display:inline-block;margin-top:10px;font-size:11px;color:var(--gold);text-decoration:none}
 .combat{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.scene{height:110px;position:relative;overflow:hidden;background:#0b1017;border-radius:7px;margin-bottom:10px}
-.dot{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--a)}
-.dot.e{background:var(--e)}
-.near .dot:nth-child(1){left:38%;top:48%}.near .dot:nth-child(2){left:53%;top:46%}.near::after{content:"";position:absolute;left:47%;top:50%;width:34px;height:34px;border:2px solid #ffd080;border-radius:50%;transform:translate(-50%,-50%);opacity:.7}
-.far .dot:nth-child(1){left:15%;top:50%}.far .dot:nth-child(2){right:15%;top:45%}.far::after{content:"";position:absolute;left:22%;right:22%;top:50%;height:2px;background:linear-gradient(90deg,var(--a),#fff,var(--e));box-shadow:0 0 8px #fff}
+.scene{height:118px;position:relative;overflow:hidden;background:#07101a;border-radius:7px;margin-bottom:10px;border:1px solid #1e3347}
+.dot{position:absolute;width:14px;height:14px;border-radius:50%;background:#70c6d2;box-shadow:0 0 8px currentColor}
+.dot.e{background:#d7ad59}
+.near .dot:nth-child(1){left:37%;top:48%}.near .dot:nth-child(2){left:54%;top:46%}.near::after{content:"";position:absolute;left:48%;top:50%;width:48px;height:48px;border:3px solid #ffd080;border-radius:50%;transform:translate(-50%,-50%);opacity:.9;box-shadow:0 0 14px #ffd080}
+.far .dot:nth-child(1){left:12%;top:50%}.far .dot:nth-child(2){right:12%;top:45%}.far::after{content:"";position:absolute;left:19%;right:19%;top:50%;height:3px;background:linear-gradient(90deg,#70c6d2,#fff,#d7ad59);box-shadow:0 0 12px #fff}
 .states{display:flex;gap:8px;flex-wrap:wrap}.state{padding:8px 10px;border:1px solid var(--rule);background:var(--panel);font-size:12px}.state b{display:block;font-size:11px;color:var(--gold)}
 .note{margin-top:26px;padding:14px;border-left:3px solid var(--gold);background:var(--panel);font-size:12px;color:var(--sub);line-height:1.7}
-@media(max-width:640px){.grid,.combat{grid-template-columns:1fr}.wrap{padding-inline:12px}.card{padding:14px}.visual{height:62px}.scene{height:96px}}
+@media(max-width:640px){.grid,.combat{grid-template-columns:1fr}.wrap{padding-inline:12px}.card{padding:14px}.visual{height:78px}.icon{width:50px;height:50px}.scene{height:104px}.card h3{font-size:17px}.card p{font-size:13px;line-height:1.7}}
 </style>
 </head>
 <body>
