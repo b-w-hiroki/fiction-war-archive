@@ -368,7 +368,7 @@ function previewSeek(raw){
  [...stepsEl.children].forEach((b,k)=>{b.classList.toggle('on',k===ui);b.classList.toggle('done',k<q)});
  $('seekNow').textContent=(q+1).toFixed(1)+' / '+PH.length;$('seekLabel').textContent=P.step||P.time;
  phaseSeek.setAttribute('aria-valuenow',String(Math.round(raw/10)));phaseSeek.setAttribute('aria-valuetext',P.time+' '+P.title);
- forces(ui);updateRangeBadge(ui);
+ forces(ui);updateRangeBadge(ui);updateMomentum(ui);
 }
 phaseSeek.oninput=()=>previewSeek(Number(phaseSeek.value));
 phaseSeek.onchange=()=>{const q=seekScale(Number(phaseSeek.value)),i=Math.max(0,Math.min(PH.length-1,Math.round(q)));scrubbing=false;setPhase(i)};
@@ -487,7 +487,6 @@ function loop(){
  const visibleLabs=units.filter(o=>o.lab&&o.lab.visible).map(o=>{const p=o.lab.position.clone().project(cam);return {o,x:(p.x*.5+.5)*renderer.domElement.clientWidth,y:(-.5*p.y+.5)*renderer.domElement.clientHeight}}).filter(v=>v.x>=-80&&v.x<=renderer.domElement.clientWidth+80&&v.y>=-50&&v.y<=renderer.domElement.clientHeight+50);
  visibleLabs.sort((a,b)=>{const sa=a.o.st[phase],sb=b.o.st[phase],pa=(sa.s==='fight'||sa.s==='charge'?2:sa.s==='broken'?0:1),pb=(sb.s==='fight'||sb.s==='charge'?2:sb.s==='broken'?0:1);return pb-pa||b.o.n-a.o.n});
  const kept=[];visibleLabs.forEach(v=>{const clash=kept.some(k=>Math.abs(k.x-v.x)<82&&Math.abs(k.y-v.y)<34);v.o.lab.material.opacity*=clash?.28:1;if(!clash)kept.push(v)});
- });
  // 砲火
  fireT-=dt;
  if(fireT<=0){fireT=.085;
