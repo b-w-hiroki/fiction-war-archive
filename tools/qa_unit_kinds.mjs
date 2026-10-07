@@ -43,7 +43,9 @@ for(const c of cases){
       labelInk:getComputedStyle(document.querySelector('#cTitle')).color,
       fontFamily:getComputedStyle(document.body).fontFamily,
       panelWidth:document.querySelector('.force').getBoundingClientRect().width,
-      labelCollisionLogic:document.documentElement.innerHTML.includes('visibleLabs.sort')
+      labelCollisionLogic:document.documentElement.innerHTML.includes('visibleLabs.sort'),
+      momentum:document.querySelector('#momentumText')?.textContent||'',
+      momentumPos:parseFloat(document.querySelector('#momentumMark')?.style.left||'0')
     }));
     for(const label of c.legend) if(!state.legend.includes(label)) throw new Error('legend missing '+label+' '+JSON.stringify(state.legend));
     if(!state.canvas) throw new Error('canvas missing');
@@ -61,10 +63,14 @@ for(const c of cases){
     if(!state.fontFamily.includes('Noto Sans JP')) throw new Error('readability font missing '+state.fontFamily);
     if(state.panelWidth>375) throw new Error('HUD panel consumes too much width '+state.panelWidth);
     if(!state.labelCollisionLogic) throw new Error('label collision control missing');
+    if(!state.momentum) throw new Error('battle momentum missing');
+    if(state.momentumPos<8||state.momentumPos>92) throw new Error('battle momentum marker invalid '+state.momentumPos);
     const seek=page.locator('#phaseSeek');
     await seek.fill('500');await seek.dispatchEvent('input');await page.waitForTimeout(250);
     const rangeAfterSeek=await page.locator('#rangeMode').textContent();
+    const momentumAfterSeek=await page.locator('#momentumText').textContent();
     if(!rangeAfterSeek) throw new Error('range HUD empty after seek');
+    if(!momentumAfterSeek) throw new Error('momentum HUD empty after seek');
     await seek.dispatchEvent('change');await page.locator('#play').click();await page.waitForTimeout(900);await page.locator('#play').click();
     if(errors.length) throw new Error(errors.join(' | '));
     console.log('OK',c.url,state.legend.join(','));
