@@ -32,7 +32,9 @@ for(const c of cases){
       overflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+1,
       legendFont:parseFloat(getComputedStyle(document.querySelector('#kindLegend .k')).fontSize),
       iconSize:document.querySelector('#kindLegend .i').getBoundingClientRect().width,
-      legendWidth:document.querySelector('#kindLegend').getBoundingClientRect().width
+      legendWidth:document.querySelector('#kindLegend').getBoundingClientRect().width,
+      rangeMode:document.querySelector('#rangeMode')?.textContent||'',
+      rangeFont:parseFloat(getComputedStyle(document.querySelector('#rangeMode')).fontSize)
     }));
     for(const label of c.legend) if(!state.legend.includes(label)) throw new Error('legend missing '+label+' '+JSON.stringify(state.legend));
     if(!state.canvas) throw new Error('canvas missing');
@@ -40,8 +42,12 @@ for(const c of cases){
     if(state.legendFont<9) throw new Error('legend font too small '+state.legendFont);
     if(state.iconSize<11) throw new Error('legend icon too small '+state.iconSize);
     if(state.legendWidth>390) throw new Error('legend too wide '+state.legendWidth);
+    if(!['待機','近距離戦','遠距離戦','近・遠 混戦'].includes(state.rangeMode)) throw new Error('range HUD invalid '+state.rangeMode);
+    if(state.rangeFont<9) throw new Error('range HUD font too small '+state.rangeFont);
     const seek=page.locator('#phaseSeek');
     await seek.fill('500');await seek.dispatchEvent('input');await page.waitForTimeout(250);
+    const rangeAfterSeek=await page.locator('#rangeMode').textContent();
+    if(!rangeAfterSeek) throw new Error('range HUD empty after seek');
     await seek.dispatchEvent('change');await page.locator('#play').click();await page.waitForTimeout(900);await page.locator('#play').click();
     if(errors.length) throw new Error(errors.join(' | '));
     console.log('OK',c.url,state.legend.join(','));
