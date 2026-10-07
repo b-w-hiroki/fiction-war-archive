@@ -209,7 +209,7 @@ function reSprite(s,main,sub,col){const {t,a}=makeTex(main,sub,col,30);s.materia
 const u0=(o,i)=>(U.find(u=>u.name===o.name).k[i]||{});
  let VT=performance.now()/1000,SPEED=1;
 /* ---------- 艦隊生成 ---------- */
-const EC=new THREE.Color(0xe3a72f),AC=new THREE.Color(0x35b8d0),BK=new THREE.Color(0x666b72);
+const EC=new THREE.Color(0xffbd32),AC=new THREE.Color(0x35d5f0),BK=new THREE.Color(0x9aa3ad);
 const CSS={E:'#ffc857',A:'#65d9ee'};
 function inferKind(u){
  if(u.kind)return u.kind;
@@ -237,9 +237,9 @@ function unitGeo(kind){
  return g;
 }
 const KIND_LABEL={fleet:'艦隊',ship:'艦船',infantry:'歩兵',cavalry:'騎兵',archer:'弓兵',aircraft:'航空機',ground_vehicle:'陸上兵器',fortress:'要塞'};
-const WORD={fight:'交戦',charge:'突撃',broken:'崩壊',withdraw:'撤退',move:'移動中',wait:'停止'};
-const colOf=s=>s.s==='broken'||s.s==='gone'?BK:s.side==='E'?EC:AC;
-const opOf=s=>s.s==='gone'||s.s==='hidden'?0:s.s==='broken'?.5:1;
+const WORD={fight:'● 交戦',charge:'▶ 突撃',broken:'× 崩壊',withdraw:'← 撤退',move:'→ 移動',wait:'■ 停止'};
+const colOf=s=>s.side==='E'?EC:AC;
+const opOf=s=>s.s==='gone'||s.s==='hidden'?0:1;
 const subOf=(o,s)=>{const w=s.l||WORD[s.s]||'';return KIND_LABEL[o.kind]+' / '+o.cmd+(w?'　'+w:'')};
 const dummy=new THREE.Object3D();
 const units=U.map((u,ui)=>{
@@ -461,7 +461,7 @@ function loop(){
   let ty=s.h!=null?s.h*Math.PI/180:(o.side==='E'?0:Math.PI);if(Math.hypot(vx,vz)>.02)ty=Math.atan2(vx,vz);
   let dy=ty-o.yaw;while(dy>Math.PI)dy-=Math.PI*2;while(dy<-Math.PI)dy+=Math.PI*2;o.yaw+=dy*Math.min(1,dt*2);
   const baseSpread=s.r==='close'?.72:s.r==='far'?1.15:1,tsp=s.s==='broken'?2.4:s.s==='charge'?Math.min(.85,baseSpread):baseSpread;o.spread+=(tsp-o.spread)*dt*1.2;
-  const col=colOf(s);o.mat.color.lerp(col,dt*2);o.mat.emissive.copy(o.mat.color).multiplyScalar(.35);
+  const col=colOf(s);o.mat.color.lerp(col,dt*4);o.mat.emissive.copy(o.mat.color).multiplyScalar(s.s==='fight'||s.s==='charge'?.62:.46);
   o.mat.opacity+=(opOf(s)-o.mat.opacity)*dt*1.4;o.mesh.visible=o.mat.opacity>.02;
   const br=Math.max(0,o.spread-1),c=Math.cos(o.yaw),sn=Math.sin(o.yaw),f=s.fm||defForm(s),ring=f&&f.ring;
   if(!o.sp){o.sp=new Float32Array(o.n*3);o.init=true}
@@ -476,7 +476,7 @@ function loop(){
    const mvx=o.sp[k3]-px,mvz=o.sp[k3+2]-pz;if(!o.init&&Math.hypot(mvx,mvz)>.04)hy=Math.atan2(mvx,mvz);
    let d=hy-o.sy[i];while(d>Math.PI)d-=Math.PI*2;while(d<-Math.PI)d+=Math.PI*2;o.sy[i]=o.init?hy:o.sy[i]+d*Math.min(1,dt*3);
    dummy.position.set(o.sp[k3],o.sp[k3+1],o.sp[k3+2]);dummy.rotation.set(br?q[3]*br*2:0,o.sy[i],br?q[5]*br*2:0);
-   const ks=(o.kind==='fleet'?1.24:o.kind==='ship'?1.52:o.kind==='aircraft'?1.62:o.kind==='ground_vehicle'?1.42:o.kind==='fortress'?1.82:o.kind==='cavalry'?1.38:o.kind==='archer'?1.28:1.22)*vk;dummy.scale.set(ks,ks,ks);dummy.updateMatrix();dummy.scale.set(1,1,1);o.mesh.setMatrixAt(i,dummy.matrix);
+   const stateScale=s.s==='charge'?1.16:s.s==='broken'?.9:1,ks=(o.kind==='fleet'?1.34:o.kind==='ship'?1.62:o.kind==='aircraft'?1.72:o.kind==='ground_vehicle'?1.52:o.kind==='fortress'?1.92:o.kind==='cavalry'?1.48:o.kind==='archer'?1.38:1.32)*vk*stateScale;dummy.scale.set(ks,ks,ks);dummy.updateMatrix();dummy.scale.set(1,1,1);o.mesh.setMatrixAt(i,dummy.matrix);
    o.wp[k3]=o.sp[k3];o.wp[k3+1]=o.sp[k3+1];o.wp[k3+2]=o.sp[k3+2];ax+=X;az+=Z}
   o.init=false;
   if(ring){o.x=ax/o.n;o.z=az/o.n}
@@ -486,7 +486,7 @@ function loop(){
  // ラベル衝突を軽減: 画面上で近いラベルは重要度の低い側を薄くする
  const visibleLabs=units.filter(o=>o.lab&&o.lab.visible).map(o=>{const p=o.lab.position.clone().project(cam);return {o,x:(p.x*.5+.5)*renderer.domElement.clientWidth,y:(-.5*p.y+.5)*renderer.domElement.clientHeight}}).filter(v=>v.x>=-80&&v.x<=renderer.domElement.clientWidth+80&&v.y>=-50&&v.y<=renderer.domElement.clientHeight+50);
  visibleLabs.sort((a,b)=>{const sa=a.o.st[phase],sb=b.o.st[phase],pa=(sa.s==='fight'||sa.s==='charge'?2:sa.s==='broken'?0:1),pb=(sb.s==='fight'||sb.s==='charge'?2:sb.s==='broken'?0:1);return pb-pa||b.o.n-a.o.n});
- const kept=[];visibleLabs.forEach(v=>{const clash=kept.some(k=>Math.abs(k.x-v.x)<82&&Math.abs(k.y-v.y)<34);v.o.lab.material.opacity*=clash?.28:1;if(!clash)kept.push(v)});
+ const kept=[];visibleLabs.forEach(v=>{const clash=kept.some(k=>Math.abs(k.x-v.x)<82&&Math.abs(k.y-v.y)<34);v.o.lab.material.opacity*=clash?.62:1;if(!clash)kept.push(v)});
  // 砲火
  fireT-=dt;
  if(fireT<=0){fireT=.085;
