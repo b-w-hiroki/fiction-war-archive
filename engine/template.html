@@ -209,8 +209,8 @@ function reSprite(s,main,sub,col){const {t,a}=makeTex(main,sub,col,30);s.materia
 const u0=(o,i)=>(U.find(u=>u.name===o.name).k[i]||{});
  let VT=performance.now()/1000,SPEED=1;
 /* ---------- 艦隊生成 ---------- */
-const EC=new THREE.Color(0xffbd32),AC=new THREE.Color(0x35d5f0),BK=new THREE.Color(0x9aa3ad);
-const CSS={E:'#ffc857',A:'#65d9ee'};
+const EC=new THREE.Color(0xf5a400),AC=new THREE.Color(0x009dc7),BK=new THREE.Color(0x9aa3ad);
+const CSS={E:'#ffbd38',A:'#35c9f2'};
 function inferKind(u){
  if(u.kind)return u.kind;
  const n=(u.name||'')+' '+(u.cmd||'');
@@ -249,7 +249,7 @@ const units=U.map((u,ui)=>{
  const n=u.n,L=3,per=Math.ceil(n/L),cols=Math.ceil(Math.sqrt(per*1.6)),rows=Math.ceil(per/cols),offs=[];
  for(let i=0;i<n;i++){const l=Math.floor(i/per),j=i%per,c=j%cols,r=Math.floor(j/cols);
   offs.push([(c-(cols-1)/2)*1.5+(hs(i,ui)-.5)*.5,(l-(L-1)/2)*1.4+(hs(ui,i)-.5)*.5,(r-(rows-1)/2)*2.2,(hs(i*3,ui)-.5),(hs(ui,i*3)-.5),(hs(i,ui*7)-.5)])}
- const mat=new THREE.MeshLambertMaterial({color:colOf(st[0]),emissive:colOf(st[0]).clone().multiplyScalar(.68),transparent:true});
+ const mat=new THREE.MeshBasicMaterial({color:colOf(st[0]),transparent:true});
  const mesh=new THREE.InstancedMesh(unitGeo(kind),mat,n);mesh.frustumCulled=false;scene.add(mesh);
  const p=st[0].p,yaw=u.side==='E'?0:Math.PI;
  return {name:u.name,cmd:u.cmd,side:u.side,kind,n,st,mesh,mat,offs,sp:null,sy:new Float32Array(n),fmT0:0,x:p[0],y:p[1],z:p[2],f:p.slice(),t:p.slice(),t0:0,dur:1,spread:1,yaw,lab:null,labKey:'',wp:new Float32Array(n*3)};
@@ -461,8 +461,8 @@ function loop(){
   let ty=s.h!=null?s.h*Math.PI/180:(o.side==='E'?0:Math.PI);if(Math.hypot(vx,vz)>.02)ty=Math.atan2(vx,vz);
   let dy=ty-o.yaw;while(dy>Math.PI)dy-=Math.PI*2;while(dy<-Math.PI)dy+=Math.PI*2;o.yaw+=dy*Math.min(1,dt*2);
   const baseSpread=s.r==='close'?.72:s.r==='far'?1.15:1,tsp=s.s==='broken'?2.4:s.s==='charge'?Math.min(.85,baseSpread):baseSpread;o.spread+=(tsp-o.spread)*dt*1.2;
-  const col=colOf(s);o.mat.color.lerp(col,dt*4);o.mat.emissive.copy(o.mat.color).multiplyScalar(s.s==='fight'||s.s==='charge'?.62:.46);
-  o.mat.opacity+=(opOf(s)-o.mat.opacity)*dt*1.4;o.mesh.visible=o.mat.opacity>.02;
+  const col=colOf(s);o.mat.color.lerp(col,dt*4);/* faction hue stays independent of scene lighting */
+  o.mat.opacity=opOf(s);o.mesh.visible=o.mat.opacity>.02;
   const br=Math.max(0,o.spread-1),c=Math.cos(o.yaw),sn=Math.sin(o.yaw),f=s.fm||defForm(s),ring=f&&f.ring;
   if(!o.sp){o.sp=new Float32Array(o.n*3);o.init=true}
   const kk2=o.init?1:1-Math.exp(-dt*2.2),vd=Math.hypot(cam.position.x-o.x,cam.position.y-o.y,cam.position.z-o.z),vk=Math.min(1.45,Math.max(1,vd/210));let ax=0,az=0;
