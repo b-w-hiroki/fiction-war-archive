@@ -136,6 +136,33 @@ footer{margin:46px 20px 0}
 @media(max-width:560px){.wrap{padding-inline:10px;padding-top:18px}.archivebar{margin-inline:4px;margin-bottom:14px}.archivebar span{display:none}header{padding:15px 14px}.bar{margin-inline:0;padding-inline:4px}.era{padding-inline:4px}.row{padding-left:38px}.body{padding-left:10px}.finder{position:relative}.finder input{min-height:44px}.tabs button{min-height:40px}.open3d{width:100%;justify-content:center;min-height:44px}.loss b{font-size:16px}footer{margin-inline:4px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 
+
+/* Readability: archive timeline */
+:root{--paper:#faf9f6;--ink:#17212b;--sub:#465361;--rule:#b9c0c7;--faint:#eef1f3;--seal:#233d53}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#111922;--ink:#f4f7fa;--sub:#c5d0dc;--rule:#617083;--faint:#1d2a38;--seal:#e5edf5}}
+:root[data-theme="dark"]{--paper:#111922;--ink:#f4f7fa;--sub:#c5d0dc;--rule:#617083;--faint:#1d2a38;--seal:#e5edf5}
+body{font-size:16px;line-height:1.75;-webkit-font-smoothing:auto}
+.lead,.nm .oc,.row.big .nm .imt,.body,dl.f,.key{font-size:14px}
+.nm b{font-family:var(--f-g);font-size:17px;font-weight:700;line-height:1.6}
+.row.big .nm b{font-size:20px}
+.yr small,.loss,.menu :is(a,button) span,.menu :is(a,button) em{font-size:13px}
+.loss b{font-size:19px}
+.tabs button{font-family:var(--f-g);font-size:15px;font-weight:700}
+.finder input{font-size:16px;background:var(--paper);border:1.5px solid var(--rule)}
+.finder span,.archivebar,.open3d small{font-size:13px}
+.row>summary{border-bottom-color:var(--rule)}
+.row[open]>summary,.row>summary:hover{background:var(--faint)}
+.nm .oc span{color:var(--ink)!important;font-weight:700}
+.open3d small{opacity:1}
+@media(max-width:560px){
+ .nm b{font-size:17px}.row.big .nm b{font-size:19px}
+ .nm .oc,.loss,.yr small,.key,.lead{font-size:13.5px}
+ .loss b{font-size:17px}
+ .row>summary{gap:6px 10px}
+ .body{font-size:15px;line-height:1.75}
+ .tabs button{font-size:14px;min-height:44px}
+}
+
 </style>
 </head>
 <body>
