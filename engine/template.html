@@ -173,7 +173,7 @@ const renderer=new THREE.WebGLRenderer({antialias:true});
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 renderer.outputEncoding=THREE.sRGBEncoding;
 renderer.toneMapping=THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure=1.12;
+renderer.toneMappingExposure=1.0;
 $('stage').appendChild(renderer.domElement);
 const scene=new THREE.Scene();scene.background=new THREE.Color(0x050a11);
 const cam=new THREE.PerspectiveCamera(42,1,.5,3000);
@@ -212,8 +212,8 @@ function reSprite(s,main,sub,col){const {t,a}=makeTex(main,sub,col,30);s.materia
 const u0=(o,i)=>(U.find(u=>u.name===o.name).k[i]||{});
  let VT=performance.now()/1000,SPEED=1;
 /* ---------- 艦隊生成 ---------- */
-const EC=new THREE.Color(0xf5a400),AC=new THREE.Color(0x009dc7),BK=new THREE.Color(0x9aa3ad);
-const CSS={E:'#ffbd38',A:'#35c9f2'};
+const EC=new THREE.Color(0xd99526),AC=new THREE.Color(0x248eaf),BK=new THREE.Color(0x9aa3ad);
+const CSS={E:'#eab34d',A:'#61bad1'};
 function inferKind(u){
  if(u.kind)return u.kind;
  const n=(u.name||'')+' '+(u.cmd||'');
@@ -284,13 +284,13 @@ let fI=0;
 function boom(p,big,col){const f=fx[fI=(fI+1)%fx.length];f.s.visible=true;f.s.position.set(p[0],p[1],p[2]);f.life=f.max=big?.9:.35;f.s0=big?1.5:.6;f.s1=big?7:2.6;f.s.material.color.set(col||0xffd08a)}
 const waves=[];
 function shockwave(p,col=0xffd080,max=24,life=1.15){
- const m=new THREE.Mesh(new THREE.RingGeometry(1,1.22,64),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.9,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));
+ const m=new THREE.Mesh(new THREE.RingGeometry(1,1.22,64),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.55,blending:THREE.NormalBlending,depthWrite:false,side:THREE.DoubleSide}));
  m.position.set(p[0],p[1],p[2]);m.rotation.x=-Math.PI/2;m.renderOrder=7;scene.add(m);waves.push({m,life,maxLife:life,max})
 }
 const rangeFx=[];
 function arcShot(a,b,col){
  const A=new THREE.Vector3(...a),B=new THREE.Vector3(...b),M=A.clone().add(B).multiplyScalar(.5);M.y+=Math.max(4,A.distanceTo(B)*.18);
- const c=new THREE.QuadraticBezierCurve3(A,M,B),g=new THREE.BufferGeometry().setFromPoints(c.getPoints(32)),m=new THREE.LineBasicMaterial({color:col,transparent:true,opacity:1,depthWrite:false,blending:THREE.AdditiveBlending});
+ const c=new THREE.QuadraticBezierCurve3(A,M,B),g=new THREE.BufferGeometry().setFromPoints(c.getPoints(32)),m=new THREE.LineBasicMaterial({color:col,transparent:true,opacity:.72,depthWrite:false,blending:THREE.NormalBlending});
  const line=new THREE.Line(g,m);line.renderOrder=8;scene.add(line);rangeFx.push({o:line,life:1.05,max:1.05});boom(b,true,col)
 }
 function closeClash(a,b,col){
@@ -506,10 +506,10 @@ function loop(){
    }
   });
  }
- for(let k=0;k<BN;k++){const b=beams[k];let r=0,g=0,bl=0;if(b.life>0){b.life-=dt;const f=Math.max(0,b.life/b.max);r=b.c.r*f*1.8;g=b.c.g*f*1.8;bl=b.c.b*f*1.8}bCol.set([r,g,bl,r*.3,g*.3,bl*.3],k*6)}
+ for(let k=0;k<BN;k++){const b=beams[k];let r=0,g=0,bl=0;if(b.life>0){b.life-=dt;const f=Math.max(0,b.life/b.max);r=b.c.r*f*1.05;g=b.c.g*f*1.05;bl=b.c.b*f*1.05}bCol.set([r,g,bl,r*.3,g*.3,bl*.3],k*6)}
  bGeo.attributes.position.needsUpdate=true;bGeo.attributes.color.needsUpdate=true;
- fx.forEach(f=>{if(!f.s.visible)return;f.life-=dt;if(f.life<=0){f.s.visible=false;return}const k=1-f.life/f.max,sc=f.s0+(f.s1-f.s0)*k;f.s.scale.set(sc,sc,1);f.s.material.opacity=1-k});
- for(let i=waves.length-1;i>=0;i--){const w=waves[i];w.life-=dt;const k=1-Math.max(0,w.life/w.maxLife),sc=1+(w.max-1)*ease(k);w.m.scale.set(sc,sc,1);w.m.material.opacity=.9*(1-k);if(w.life<=0){scene.remove(w.m);w.m.geometry.dispose();waves.splice(i,1)}}
+ fx.forEach(f=>{if(!f.s.visible)return;f.life-=dt;if(f.life<=0){f.s.visible=false;return}const k=1-f.life/f.max,sc=f.s0+(f.s1-f.s0)*k;f.s.scale.set(sc,sc,1);f.s.material.opacity=.58*(1-k)});
+ for(let i=waves.length-1;i>=0;i--){const w=waves[i];w.life-=dt;const k=1-Math.max(0,w.life/w.maxLife),sc=1+(w.max-1)*ease(k);w.m.scale.set(sc,sc,1);w.m.material.opacity=.55*(1-k);if(w.life<=0){scene.remove(w.m);w.m.geometry.dispose();waves.splice(i,1)}}
  for(let i=rangeFx.length-1;i>=0;i--){const x=rangeFx[i];x.life-=dt;x.o.material.opacity=Math.max(0,x.life/x.max);if(x.life<=0){scene.remove(x.o);x.o.geometry.dispose();rangeFx.splice(i,1)}}
  SPECIAL.update(now,dt);
  // 矢印
