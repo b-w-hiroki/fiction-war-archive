@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fiction-war-archive.birdman-studio.com/sitemap.xml

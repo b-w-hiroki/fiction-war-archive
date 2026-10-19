@@ -30,5 +30,7 @@ jobs:
           test -f docs/CNAME
           grep -qx "fiction-war-archive.birdman-studio.com" docs/CNAME
           ! grep -R '\\n <nav class="archivebar"' engine docs/*/index.html
+      - name: Verify search metadata and crawl files
+        run: python3 tools/qa_search_metadata.py
       - name: Report data quality markers
         run: python3 tools/audit_data.py
