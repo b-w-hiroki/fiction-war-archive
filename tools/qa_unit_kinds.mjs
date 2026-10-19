@@ -25,6 +25,7 @@ for(const c of cases){
     const res=await page.goto(base+c.url,{waitUntil:'domcontentloaded',timeout:15000});
     if(!res||!res.ok()) throw new Error('HTTP '+(res&&res.status()));
     await page.waitForSelector('#stage canvas',{timeout:15000});
+    if(await page.locator('#brief').isVisible()) await page.locator('#briefStart').click();
     await page.waitForTimeout(500);
     const state=await page.evaluate(()=>({
       legend:[...document.querySelectorAll('#kindLegend .k')].map(x=>x.textContent.trim()),
