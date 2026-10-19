@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="color-scheme" content="light dark">
 <title>@@TITLE@@</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -124,6 +126,9 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.capmore{di
  .force{left:6px;width:calc(100% - 20px)}.cap{width:calc(100% - 12px)}
  .play{width:40px;height:40px}.spd{height:40px;min-width:48px}.cam{height:40px;min-width:54px}
 }
+/* final HUD focus visibility */
+.focusbtn:focus-visible,.play:focus-visible,.cam:focus-visible,.spd:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+@media(max-width:600px){.focusbtn{min-height:36px}.seek input{min-height:32px}}
 </style>
 </head>
 <body>
