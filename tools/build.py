@@ -6,6 +6,7 @@
 年表は全作品を1ページに収め、見出しのメニューでページ内を切り替える。
 """
 import sys, json, re, os, subprocess, importlib.util, glob, tempfile
+from html import escape
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -25,6 +26,38 @@ COL = {'': None, 'noble': 'nob', 'coup': 'coup', 'iser': 'iser', 'rebel': 'reb',
 
 SITE = json.loads((ROOT / 'site.json').read_text()) if (ROOT / 'site.json').exists() else {}
 GA_RE = re.compile(r'\n?<!-- ga -->.*?<!-- /ga -->', re.S)
+SEARCH_META_RE = re.compile(r'\n?<!-- search metadata -->.*?<!-- /search metadata -->', re.S)
+
+
+def page_url(path=''):
+    return SITE.get('pages_url', '').rstrip('/') + ('/' + path.lstrip('/') if path else '/')
+
+
+def plain_text(value):
+    return re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', '', value)).strip()
+
+
+def with_search_meta(html, description, canonical):
+    """手書きの公開補助ページに、再生成可能な検索メタ情報を付ける。"""
+    html = SEARCH_META_RE.sub('', html)
+    title_match = re.search(r'<title>(.*?)</title>', html, re.S)
+    if not title_match:
+        raise ValueError(f'title missing for {canonical}')
+    title = plain_text(title_match.group(1))
+    meta = (
+        '\n<!-- search metadata -->\n'
+        f'<meta name="description" content="{escape(description, quote=True)}">\n'
+        f'<link rel="canonical" href="{canonical}">\n'
+        '<meta property="og:type" content="website">\n'
+        f'<meta property="og:title" content="{escape(title, quote=True)}">\n'
+        f'<meta property="og:description" content="{escape(description, quote=True)}">\n'
+        f'<meta property="og:url" content="{canonical}">\n'
+        '<meta name="twitter:card" content="summary">\n'
+        f'<meta name="twitter:title" content="{escape(title, quote=True)}">\n'
+        f'<meta name="twitter:description" content="{escape(description, quote=True)}">\n'
+        '<!-- /search metadata -->'
+    )
+    return html.replace('</title>', '</title>' + meta, 1)
 
 
 def with_ga(html):
@@ -54,6 +87,10 @@ def build_battle(path, work_dir, refs, out_dir, ga=False, back=''):
     s = (ENGINE / 'template.html').read_text()
     for k in ['TITLE', 'HEAD', 'ERA', 'NOTE']:
         s = s.replace('@@%s@@' % k, getattr(c, k))
+    title = c.TITLE.replace(' 3D俯瞰', '')
+    description = f'{title}（{c.ERA}）を作中情報に基づいて3D俯瞰で再構成し、経過、戦果、原作・アニメの該当箇所を確認できます。'
+    canonical = page_url(f'{work_dir.name}/{key}.html')
+    s = s.replace('@@DESCRIPTION@@', escape(description, quote=True)).replace('@@CANONICAL@@', canonical)
     s = s.replace('@@SE@@', getattr(c, 'SE', '帝国軍')).replace('@@SA@@', getattr(c, 'SA', '同盟軍'))
     pal, pale = getattr(c, 'PAL', None), getattr(c, 'PALE', None)
     if pal:  # 側Aの配色を先に替える（Eの置換と衝突しないように）
@@ -117,8 +154,20 @@ def build_portal(default, works, hub, out_file, artifact):
             .replace('/*@@VARS_D@@*/', ''.join(f'--{k}:{v[1]};' for k, v in colors.items()))
             .replace('@@TITLE@@', works[default]['title']))
     if not artifact:  # GitHub Pages 用。アーティファクトは公開時に枠が付くので不要
+        description = plain_text(works[default]['lead'])
+        canonical = page_url(f'{default}/')
+        metadata = (f'<meta name="description" content="{escape(description, quote=True)}">\n'
+                    f'<link rel="canonical" href="{canonical}">\n'
+                    '<meta property="og:type" content="website">\n'
+                    '<meta property="og:locale" content="ja_JP">\n'
+                    f'<meta property="og:site_name" content="{escape(SITE.get("name", ""), quote=True)}">\n'
+                    f'<meta property="og:title" content="{escape(works[default]["title"], quote=True)}">\n'
+                    f'<meta property="og:description" content="{escape(description, quote=True)}">\n'
+                    f'<meta property="og:url" content="{canonical}">\n'
+                    '<meta name="twitter:card" content="summary">\n')
         html = ('<!doctype html>\n<html lang="ja">\n<head>\n<meta charset="utf-8">\n'
                 '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
+                + metadata
                 + html.replace('<style>', '<style>\nbody{margin:0;padding-top:env(safe-area-inset-top,0px)}', 1)
                 .replace('<div class="wrap">', '</head>\n<body>\n<div class="wrap">', 1) + '\n</body>\n</html>\n')
     out_file.parent.mkdir(parents=True, exist_ok=True)
@@ -135,7 +184,9 @@ def build_hub(counts, link_portal, out_file, artifact):
         items.append(f'<li><a class="w" href="{link_portal(w)}"{t}><b>{cfg["short"]}</b>'
                      f'<span>{cfg["span"]}　{counts[w]}の{cfg["unit"]}</span><em>年表を開く</em>{info}</a></li>')
     items += [f'<li class="soon">{x}　準備中</li>' for x in SITE.get('soon', [])]
+    description = plain_text(SITE['lead'])
     html = ((ENGINE / 'hub.html').read_text().replace('@@NAME@@', SITE['name']).replace('@@LEAD@@', SITE['lead'])
+            .replace('@@DESCRIPTION@@', escape(description, quote=True)).replace('@@URL@@', page_url())
             .replace('@@ITEMS@@', '\n  '.join(items)))
     if artifact:  # claude.ai では doctype〜head を公開時に補うので本文だけ
         html = re.sub(r'^<!doctype html>\n<html lang="ja">\n<head>\n(<meta [^>]*>\n)*', '', html)
@@ -147,6 +198,7 @@ def build_hub(counts, link_portal, out_file, artifact):
 def build_work(work, artifact):
     """会戦ページを出力し、年表用の作品データを返す"""
     work_dir = ROOT / 'works' / work
+    cfg = load_work(work)
     for m in ('refs', 'impact'):
         sys.modules.pop(m, None)
     sys.path.insert(0, str(work_dir))
@@ -164,8 +216,9 @@ def build_work(work, artifact):
         metas = [build_battle(p, work_dir, R, out_dir, ga=True, back=f'index.html#{work}') for p in battles]
         link, strategy = (lambda k: f'../{work}/{k}.html'), f'../{work}/strategy.html'
         for extra in out_dir.glob('strategy.html'):  # 手書きのページにも反映
-            extra.write_text(with_ga(extra.read_text()))
-    cfg = load_work(work)
+            description = f'{plain_text(cfg["title"])}の主要勢力と戦略上の変遷を時系列で確認できる補助資料です。'
+            canonical = page_url(f'{work}/{extra.name}')
+            extra.write_text(with_ga(with_search_meta(extra.read_text(), description, canonical)))
     data = {k: cfg[k] for k in ('title', 'short', 'span', 'unit', 'date', 'yl', 'eras', 'names', 'order', 'colors')}
     data['lead'] = cfg['lead'].replace('@@STRATEGY@@', strategy)
     data['notes'] = cfg['notes'].replace('@@STRATEGY@@', strategy)
@@ -193,6 +246,20 @@ def main():
     (base / 'guide.html').write_text(guide if artifact else with_ga(guide))
     if not artifact and SITE.get('domain'):  # GitHub Pages の独自ドメイン
         (base / 'CNAME').write_text(SITE['domain'] + '\n')
+        (base / 'robots.txt').write_text('User-agent: *\nAllow: /\n\nSitemap: ' + page_url('sitemap.xml') + '\n')
+        urls = []
+        for html_file in sorted(base.rglob('*.html')):
+            rel = html_file.relative_to(base).as_posix()
+            if rel == 'index.html':
+                rel = ''
+            elif rel.endswith('/index.html'):
+                rel = rel[:-len('index.html')]
+            urls.append(page_url(rel))
+        sitemap = ('<?xml version="1.0" encoding="UTF-8"?>\n'
+                   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+                   + ''.join(f'  <url><loc>{escape(url)}</loc></url>\n' for url in urls)
+                   + '</urlset>\n')
+        (base / 'sitemap.xml').write_text(sitemap)
     print(f'年表（{len(works)}作品を切り替え）と作品一覧を {base.relative_to(ROOT)}/ に出力')
 
 
