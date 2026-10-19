@@ -31,3 +31,13 @@ npx playwright screenshot --viewport-size="390,844" https://fiction-war-archive.
 - 2026-10-19 12:38 UTC、Chromium 390×844 で変更後のローカル生成 `docs/index.html` を撮影し、見出し、26作品・254会戦の統計、検索欄、作品カードを確認。
 - draft PR #48 で扱われていた公開用 HTML の更新漏れは、2026-10-19 の `main` に入った PR #49「公開用254戦HTMLの再生成と同期を修復」で解消済み。本変更はその生成同期を前提に、生成元へ検索メタ情報と crawl ファイルを追加する。
 - ChatGPT、Gemini、Copilot への質問や外部 AI API 送信は実施していない。
+
+## 自動契約検査とJSON記録
+
+- python3 tools/qa_search_metadata.py は全sitemap掲載HTMLについて canonical 一致、同一オリジンの href/src 実在、共有画像の実ファイルと1200×630寸法を検査する。
+- 2026-10-19 14:24 UTC、生成した共有画像を実ピクセルで確認し、作品名、26作品・254会戦、検索欄、作品カードが読め、見切れや別作品の混入がないことを確認した。
+- 公開前後は次の同一コマンドを実行し、標準出力のJSONを notes/qa/search-discovery/YYYY-MM-DD-http.json として保存する。
+
+    python3 tools/measure_search_discovery.py https://fiction-war-archive.birdman-studio.com/
+
+JSONはUTC時刻、要求URL、最終URL、status、content-type、バイト数、title、description、canonical、OG画像、sitemap URL数を同じキーで出力する。HTTPエラーでは取得できた応答メタデータを保持し、通信失敗で取得できない応答項目は `null`、全HTTP成功判定は `false` とする。

@@ -32,5 +32,7 @@ jobs:
           ! grep -R '\\n <nav class="archivebar"' engine docs/*/index.html
       - name: Verify search metadata and crawl files
         run: python3 tools/qa_search_metadata.py
+      - name: Verify HTTP measurement format
+        run: python3 -m unittest tools/test_measure_search_discovery.py
       - name: Report data quality markers
         run: python3 tools/audit_data.py
