@@ -17,6 +17,16 @@ for(const file of files){
     const res=await page.goto(base+'/ginei/'+file,{waitUntil:'domcontentloaded',timeout:12000});
     if(!res||!res.ok()) throw new Error('HTTP '+(res&&res.status()));
     await page.waitForSelector('#stage canvas',{timeout:15000});
+    if(await page.locator('#briefSides .briefside').count()!==2) throw new Error('prebattle sides missing');
+    for(const side of await page.locator('#briefSides .briefside').all()){
+      if(await side.locator('dd').count()!==3) throw new Error('prebattle fields missing');
+    }
+    await page.locator('#briefStart').click();
+    if(await page.locator('#brief').isVisible()) throw new Error('briefing did not close');
+    await page.locator('#briefOpen').click();
+    if(!await page.locator('#brief').isVisible()) throw new Error('briefing did not reopen');
+    await page.locator('#briefClose').click();
+
     const state=await page.evaluate(()=>({
       three:typeof THREE!=='undefined',
       canvas:!!document.querySelector('#stage canvas'),
