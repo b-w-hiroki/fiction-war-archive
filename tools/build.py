@@ -52,9 +52,15 @@ def with_search_meta(html, description, canonical):
         f'<meta property="og:title" content="{escape(title, quote=True)}">\n'
         f'<meta property="og:description" content="{escape(description, quote=True)}">\n'
         f'<meta property="og:url" content="{canonical}">\n'
-        '<meta name="twitter:card" content="summary">\n'
+        f'<meta property="og:image" content="{page_url("og-fiction-war-archive.png")}">\n'
+        '<meta property="og:image:width" content="1200">\n'
+        '<meta property="og:image:height" content="630">\n'
+        '<meta property="og:image:alt" content="フィクション戦史アーカイブの作品・会戦一覧">\n'
+        '<meta name="twitter:card" content="summary_large_image">\n'
         f'<meta name="twitter:title" content="{escape(title, quote=True)}">\n'
         f'<meta name="twitter:description" content="{escape(description, quote=True)}">\n'
+        f'<meta name="twitter:image" content="{page_url("og-fiction-war-archive.png")}">\n'
+        '<meta name="twitter:image:alt" content="フィクション戦史アーカイブの作品・会戦一覧">\n'
         '<!-- /search metadata -->'
     )
     return html.replace('</title>', '</title>' + meta, 1)
@@ -90,7 +96,9 @@ def build_battle(path, work_dir, refs, out_dir, ga=False, back=''):
     title = c.TITLE.replace(' 3D俯瞰', '')
     description = f'{title}（{c.ERA}）を作中情報に基づいて3D俯瞰で再構成し、経過、戦果、原作・アニメの該当箇所を確認できます。'
     canonical = page_url(f'{work_dir.name}/{key}.html')
-    s = s.replace('@@DESCRIPTION@@', escape(description, quote=True)).replace('@@CANONICAL@@', canonical)
+    s = (s.replace('@@DESCRIPTION@@', escape(description, quote=True))
+         .replace('@@CANONICAL@@', canonical)
+         .replace('@@OG_IMAGE@@', page_url('og-fiction-war-archive.png')))
     s = s.replace('@@SE@@', getattr(c, 'SE', '帝国軍')).replace('@@SA@@', getattr(c, 'SA', '同盟軍'))
     pal, pale = getattr(c, 'PAL', None), getattr(c, 'PALE', None)
     if pal:  # 側Aの配色を先に替える（Eの置換と衝突しないように）
@@ -145,8 +153,9 @@ def build_portal(default, works, hub, out_file, artifact):
         colors.update(w.pop('colors', {}) or {})
     for w in works.values():
         w.pop('colors', None)
+    hub_target = ' target="_blank" rel="noopener"' if artifact else ''
     js = ('const WORKS=' + json.dumps(works, ensure_ascii=False) + ';\n'
-          + f'const DEF={json.dumps(default)},HUB={json.dumps(hub)},HUBT={json.dumps(" target=\"_blank\" rel=\"noopener\"" if artifact else "")},'
+          + f'const DEF={json.dumps(default)},HUB={json.dumps(hub)},HUBT={json.dumps(hub_target)},'
           + f'SITE={json.dumps(SITE.get("name", ""), ensure_ascii=False)};')
     html = (ENGINE / 'portal.html').read_text()
     html = (html.replace('/*@@DATA@@*/', js)
@@ -164,7 +173,13 @@ def build_portal(default, works, hub, out_file, artifact):
                     f'<meta property="og:title" content="{escape(works[default]["title"], quote=True)}">\n'
                     f'<meta property="og:description" content="{escape(description, quote=True)}">\n'
                     f'<meta property="og:url" content="{canonical}">\n'
-                    '<meta name="twitter:card" content="summary">\n')
+                    f'<meta property="og:image" content="{page_url("og-fiction-war-archive.png")}">\n'
+                    '<meta property="og:image:width" content="1200">\n'
+                    '<meta property="og:image:height" content="630">\n'
+                    '<meta property="og:image:alt" content="フィクション戦史アーカイブの作品・会戦一覧">\n'
+                    '<meta name="twitter:card" content="summary_large_image">\n'
+                    f'<meta name="twitter:image" content="{page_url("og-fiction-war-archive.png")}">\n'
+                    '<meta name="twitter:image:alt" content="フィクション戦史アーカイブの作品・会戦一覧">\n')
         html = ('<!doctype html>\n<html lang="ja">\n<head>\n<meta charset="utf-8">\n'
                 '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
                 + metadata
@@ -187,6 +202,7 @@ def build_hub(counts, link_portal, out_file, artifact):
     description = plain_text(SITE['lead'])
     html = ((ENGINE / 'hub.html').read_text().replace('@@NAME@@', SITE['name']).replace('@@LEAD@@', SITE['lead'])
             .replace('@@DESCRIPTION@@', escape(description, quote=True)).replace('@@URL@@', page_url())
+            .replace('@@OG_IMAGE@@', page_url('og-fiction-war-archive.png'))
             .replace('@@ITEMS@@', '\n  '.join(items)))
     if artifact:  # claude.ai では doctype〜head を公開時に補うので本文だけ
         html = re.sub(r'^<!doctype html>\n<html lang="ja">\n<head>\n(<meta [^>]*>\n)*', '', html)
