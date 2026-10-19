@@ -40,4 +40,4 @@ npx playwright screenshot --viewport-size="390,844" https://fiction-war-archive.
 
     python3 tools/measure_search_discovery.py https://fiction-war-archive.birdman-studio.com/
 
-JSONはUTC時刻、要求URL、最終URL、status、content-type、バイト数、title、description、canonical、OG画像、sitemap URL数を同じキーで出力する。
+JSONはUTC時刻、要求URL、最終URL、status、content-type、バイト数、title、description、canonical、OG画像、sitemap URL数を同じキーで出力する。HTTPエラーでは取得できた応答メタデータを保持し、通信失敗で取得できない応答項目は `null`、全HTTP成功判定は `false` とする。
