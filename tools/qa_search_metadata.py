@@ -23,7 +23,7 @@ check_meta(DOCS / 'guide.html', BASE + '/guide.html')
 for work in SITE['works']:
     check_meta(DOCS / work / 'index.html', f'{BASE}/{work}/')
     for battle in sorted((DOCS / work).glob('*.html')):
-        if battle.name not in ('index.html', 'strategy.html'):
+        if battle.name != 'index.html':
             check_meta(battle, f'{BASE}/{work}/{battle.name}')
 
 robots = (DOCS / 'robots.txt').read_text()

@@ -26,6 +26,7 @@ COL = {'': None, 'noble': 'nob', 'coup': 'coup', 'iser': 'iser', 'rebel': 'reb',
 
 SITE = json.loads((ROOT / 'site.json').read_text()) if (ROOT / 'site.json').exists() else {}
 GA_RE = re.compile(r'\n?<!-- ga -->.*?<!-- /ga -->', re.S)
+SEARCH_META_RE = re.compile(r'\n?<!-- search metadata -->.*?<!-- /search metadata -->', re.S)
 
 
 def page_url(path=''):
@@ -34,6 +35,29 @@ def page_url(path=''):
 
 def plain_text(value):
     return re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', '', value)).strip()
+
+
+def with_search_meta(html, description, canonical):
+    """手書きの公開補助ページに、再生成可能な検索メタ情報を付ける。"""
+    html = SEARCH_META_RE.sub('', html)
+    title_match = re.search(r'<title>(.*?)</title>', html, re.S)
+    if not title_match:
+        raise ValueError(f'title missing for {canonical}')
+    title = plain_text(title_match.group(1))
+    meta = (
+        '\n<!-- search metadata -->\n'
+        f'<meta name="description" content="{escape(description, quote=True)}">\n'
+        f'<link rel="canonical" href="{canonical}">\n'
+        '<meta property="og:type" content="website">\n'
+        f'<meta property="og:title" content="{escape(title, quote=True)}">\n'
+        f'<meta property="og:description" content="{escape(description, quote=True)}">\n'
+        f'<meta property="og:url" content="{canonical}">\n'
+        '<meta name="twitter:card" content="summary">\n'
+        f'<meta name="twitter:title" content="{escape(title, quote=True)}">\n'
+        f'<meta name="twitter:description" content="{escape(description, quote=True)}">\n'
+        '<!-- /search metadata -->'
+    )
+    return html.replace('</title>', '</title>' + meta, 1)
 
 
 def with_ga(html):
@@ -174,6 +198,7 @@ def build_hub(counts, link_portal, out_file, artifact):
 def build_work(work, artifact):
     """会戦ページを出力し、年表用の作品データを返す"""
     work_dir = ROOT / 'works' / work
+    cfg = load_work(work)
     for m in ('refs', 'impact'):
         sys.modules.pop(m, None)
     sys.path.insert(0, str(work_dir))
@@ -191,8 +216,9 @@ def build_work(work, artifact):
         metas = [build_battle(p, work_dir, R, out_dir, ga=True, back=f'index.html#{work}') for p in battles]
         link, strategy = (lambda k: f'../{work}/{k}.html'), f'../{work}/strategy.html'
         for extra in out_dir.glob('strategy.html'):  # 手書きのページにも反映
-            extra.write_text(with_ga(extra.read_text()))
-    cfg = load_work(work)
+            description = f'{plain_text(cfg["title"])}の主要勢力と戦略上の変遷を時系列で確認できる補助資料です。'
+            canonical = page_url(f'{work}/{extra.name}')
+            extra.write_text(with_ga(with_search_meta(extra.read_text(), description, canonical)))
     data = {k: cfg[k] for k in ('title', 'short', 'span', 'unit', 'date', 'yl', 'eras', 'names', 'order', 'colors')}
     data['lead'] = cfg['lead'].replace('@@STRATEGY@@', strategy)
     data['notes'] = cfg['notes'].replace('@@STRATEGY@@', strategy)
