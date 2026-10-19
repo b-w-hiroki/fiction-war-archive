@@ -186,6 +186,9 @@ def main():
     for w in works:  # 作品ごとの入口。中身は同じで、最初に開く作品だけが違う
         build_portal(w, json.loads(json.dumps(works)), hub, base / w / 'index.html', artifact)
     build_hub({w: len(d['B']) for w, d in works.items()}, portal, base / 'index.html', artifact)
+    favicon = ROOT / 'favicon.svg'
+    if favicon.exists() and not artifact:
+        (base / 'favicon.svg').write_bytes(favicon.read_bytes())
     guide = (ENGINE / 'guide.html').read_text()
     (base / 'guide.html').write_text(guide if artifact else with_ga(guide))
     if not artifact and SITE.get('domain'):  # GitHub Pages の独自ドメイン
