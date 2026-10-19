@@ -368,16 +368,25 @@ let auto=true;
 function setAuto(v){auto=v;$('cam').classList.toggle('off',!v);$('cam').innerHTML=v?'自動<br>カメラ':'手動<br>操作中'}
 function camTo(c){[T.tx,T.ty,T.tz]=c.t;T.r=Math.max(72,Math.min(c.r,340));T.ph=c.ph;let th=c.th;while(th-C.th>Math.PI)th-=Math.PI*2;while(C.th-th>Math.PI)th+=Math.PI*2;T.th=th}
 $('cam').onclick=()=>{setAuto(!auto);if(auto)camTo(PH[phase].cam)};
-const cv=renderer.domElement,ptrs=new Map();let pinch=null;
-cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,[e.clientX,e.clientY]);if(auto)setAuto(false);pinch=null});
+const cv=renderer.domElement,ptrs=new Map();let pinch=null;const downPoints=new Map();const raycaster=new THREE.Raycaster();const tapNdc=new THREE.Vector2();
+cv.addEventListener('pointerdown',e=>{downPoints.set(e.pointerId,[e.clientX,e.clientY,ptrs.size]);cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,[e.clientX,e.clientY]);pinch=null});
 cv.addEventListener('pointermove',e=>{
  if(!ptrs.has(e.pointerId))return;const pr=ptrs.get(e.pointerId),dx=e.clientX-pr[0],dy=e.clientY-pr[1];ptrs.set(e.pointerId,[e.clientX,e.clientY]);
- if(ptrs.size===1&&!e.shiftKey&&e.buttons!==2){T.th-=dx*.006;T.ph=Math.min(2.8,Math.max(.25,T.ph-dy*.005))}
+ if(ptrs.size===1&&!e.shiftKey&&e.buttons!==2){if(auto&&Math.abs(dx)+Math.abs(dy)>2)setAuto(false);T.th-=dx*.006;T.ph=Math.min(2.8,Math.max(.25,T.ph-dy*.005))}
  else if(ptrs.size===1)pan(dx,dy);
  else if(ptrs.size===2){const v=[...ptrs.values()],d=Math.hypot(v[0][0]-v[1][0],v[0][1]-v[1][1]),mx=(v[0][0]+v[1][0])/2,my=(v[0][1]+v[1][1])/2;
   if(pinch){T.r=Math.min(420,Math.max(25,T.r*pinch.d/d));pan(mx-pinch.mx,my-pinch.my)}pinch={d,mx,my}}
 });
-const up=e=>{ptrs.delete(e.pointerId);pinch=null};
+const up=e=>{
+ const start=downPoints.get(e.pointerId);
+ if(e.type==='pointerup'&&start&&start[2]===0&&ptrs.size===1&&Math.hypot(e.clientX-start[0],e.clientY-start[1])<9){
+  const rect=cv.getBoundingClientRect();tapNdc.set((e.clientX-rect.left)/rect.width*2-1,-((e.clientY-rect.top)/rect.height*2-1));
+  raycaster.setFromCamera(tapNdc,cam);
+  const hits=raycaster.intersectObjects(units.map(o=>o.mesh),false);
+  if(hits.length){const idx=units.findIndex(o=>o.mesh===hits[0].object);if(idx>=0){selectedUnit=idx;showUnitInfo()}}
+ }
+ downPoints.delete(e.pointerId);ptrs.delete(e.pointerId);pinch=null
+};
 cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);cv.addEventListener('contextmenu',e=>e.preventDefault());
 cv.addEventListener('wheel',e=>{e.preventDefault();if(auto)setAuto(false);T.r=Math.min(420,Math.max(25,T.r*(1+e.deltaY*.001)))},{passive:false});
 function pan(dx,dy){const s=T.r*.0016,c=Math.cos(T.th),n=Math.sin(T.th);T.tx+=-dx*c*s;T.tz+=dx*n*s;T.ty+=dy*s}
