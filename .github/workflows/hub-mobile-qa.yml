@@ -6,6 +6,10 @@ on:
     paths:
       - "engine/hub.html"
       - "engine/guide.html"
+      - "engine/*-content.html"
+      - "engine/public-page.html"
+      - "engine/contact.js"
+      - "tools/qa_public_pages.mjs"
       - "tools/build.py"
       - "tools/qa_hub_mobile.mjs"
       - ".github/workflows/hub-mobile-qa.yml"
@@ -30,3 +34,9 @@ jobs:
           python3 -m http.server 8000 --directory docs >/tmp/http.log 2>&1 &
           sleep 2
       - run: node tools/qa_hub_mobile.mjs
+      - run: node tools/qa_public_pages.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-pages-screenshots
+          path: qa-public/

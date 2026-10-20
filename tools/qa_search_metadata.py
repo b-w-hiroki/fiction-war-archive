@@ -28,6 +28,8 @@ def check_meta(path, canonical):
 
 check_meta(DOCS / 'index.html', BASE + '/')
 check_meta(DOCS / 'guide.html', BASE + '/guide.html')
+for slug in ('about', 'privacy', 'contact'):
+    check_meta(DOCS / f'{slug}.html', f'{BASE}/{slug}.html')
 for work in SITE['works']:
     check_meta(DOCS / work / 'index.html', f'{BASE}/{work}/')
     for battle in sorted((DOCS / work).glob('*.html')):
