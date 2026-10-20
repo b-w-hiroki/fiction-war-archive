@@ -87,6 +87,19 @@ for(const c of cases){
     if(!rangeAfterSeek) throw new Error('range HUD empty after seek');
     if(!momentumAfterSeek) throw new Error('momentum HUD empty after seek');
     await seek.dispatchEvent('change');await page.locator('#play').click();await page.waitForTimeout(900);await page.locator('#play').click();
+    // 320px compact viewport regression: no horizontal overflow or offscreen controls.
+    await page.setViewportSize({width:320,height:720});
+    await page.waitForTimeout(200);
+    const compact=await page.evaluate(()=>({
+      overflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+1,
+      play:document.querySelector('#play').getBoundingClientRect(),
+      seek:document.querySelector('#phaseSeek').getBoundingClientRect()
+    }));
+    if(compact.overflow) throw new Error('320px horizontal overflow');
+    for(const key of ['play','seek']){
+      const b=compact[key];
+      if(b.width<20||b.left<0||b.right>321) throw new Error('320px control out of bounds '+key+' '+JSON.stringify(b));
+    }
     if(errors.length) throw new Error(errors.join(' | '));
     console.log('OK',c.url,state.legend.join(','));
   }catch(e){
