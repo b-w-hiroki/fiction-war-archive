@@ -279,6 +279,11 @@ def main():
     for w in works:  # 作品ごとの入口。中身は同じで、最初に開く作品だけが違う
         build_portal(w, json.loads(json.dumps(works)), hub, base / w / 'index.html', artifact)
     build_hub({w: len(d['B']) for w, d in works.items()}, portal, base / 'index.html', artifact)
+    if not artifact:
+        import shutil
+        shutil.copyfile(ROOT / 'manifest.webmanifest', base / 'manifest.webmanifest')
+        (base / 'icons').mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(ROOT / 'icons/app-icon.svg', base / 'icons/app-icon.svg')
     favicon = ROOT / 'favicon.svg'
     if favicon.exists() and not artifact:
         (base / 'favicon.svg').write_bytes(favicon.read_bytes())
