@@ -248,7 +248,7 @@ def build_work(work, artifact):
 def public_links(prefix=''):
     return ('<nav class="public-links" aria-label="運営情報">'
             + ''.join(f'<a href="{prefix}{path}.html">{label}</a>' for path, label in
-                      [('about', 'このサイトについて'), ('privacy', 'プライバシー'), ('contact', 'お問い合わせ')])
+                      [('guide', '3D表示ガイド'), ('about', 'このサイトについて'), ('privacy', 'プライバシー'), ('contact', 'お問い合わせ')])
             + '</nav>')
 
 
