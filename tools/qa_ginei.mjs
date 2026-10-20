@@ -27,6 +27,12 @@ for(const file of files){
     if(!await page.locator('#brief').isVisible()) throw new Error('briefing did not reopen');
     await page.locator('#briefClose').click();
 
+    const tacticState=await page.evaluate(()=>({
+      hasCue:!!document.querySelector('#tactic'),
+      explicit:document.documentElement.innerHTML.includes('function updateTactic(P)'),
+      initialText:document.querySelector('#tacticText')?.textContent||''
+    }));
+    if(!tacticState.hasCue||!tacticState.explicit) throw new Error('tactical cue not initialized');
     const state=await page.evaluate(()=>({
       three:typeof THREE!=='undefined',
       canvas:!!document.querySelector('#stage canvas'),
