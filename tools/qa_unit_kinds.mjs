@@ -70,6 +70,16 @@ for(const c of cases){
     if(!state.stateLabels) throw new Error('explicit unit state labels missing');
     if(!state.momentum) throw new Error('battle momentum missing');
     if(state.momentumPos<8||state.momentumPos>92) throw new Error('battle momentum marker invalid '+state.momentumPos);
+    // Unit panel, focus mode and camera follow must remain operable.
+    await page.locator('#unitSelect').click();
+    if(!await page.locator('#unitInfo').isVisible()) throw new Error('unit detail did not open');
+    if(!await page.locator('#unitInfoText').textContent()) throw new Error('unit detail empty');
+    await page.locator('#unitInfoClose').click();
+    if(await page.locator('#unitInfo').isVisible()) throw new Error('unit detail did not close');
+    await page.locator('#focusToggle').click();
+    if(!await page.locator('#hud').evaluate(el=>el.classList.contains('focus'))) throw new Error('focus mode not enabled');
+    await page.locator('#focusToggle').click();
+    if(await page.locator('#hud').evaluate(el=>el.classList.contains('focus'))) throw new Error('focus mode not disabled');
     const seek=page.locator('#phaseSeek');
     await seek.fill('500');await seek.dispatchEvent('input');await page.waitForTimeout(250);
     const rangeAfterSeek=await page.locator('#rangeMode').textContent();
