@@ -34,7 +34,8 @@ try {
   await page.evaluate(()=>document.getElementById('contact-form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true})));
   await page.waitForFunction(()=>document.getElementById('contact-status').textContent.includes('受け付けました'));
   assert.equal(calls.length,1,'in-flight duplicate blocked');
-  assert(calls[0].data.subject.startsWith('[戦史アーカイブ]'));
+  assert.equal(calls[0].data.subject,'送信契約');
+  assert.equal(calls[0].data.serviceId,'fictionWarArchive');
   assert(calls[0].data.message.includes('お問い合わせ種別：著作権・権利関係'));
   assert.equal(await page.locator('#email').inputValue(),'');
   mode='error';
