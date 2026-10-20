@@ -4,7 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f5f3ee">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icons/app-icon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="フィクション戦史">
+
 <meta name="color-scheme" content="light dark">
 <title>3D表示ガイド | フィクション戦史アーカイブ</title>
 <meta name="description" content="フィクション戦史アーカイブの3D会戦ページで、視点移動、再生、部隊表示、戦果と資料を確認するための操作ガイドです。">
@@ -57,6 +62,7 @@ h2{font-size:18px;margin:30px 0 12px}
 .note{margin-top:26px;padding:14px;border-left:3px solid var(--gold);background:var(--panel);font-size:12px;color:var(--sub);line-height:1.7}
 @media(max-width:640px){.grid,.combat{grid-template-columns:1fr}.wrap{padding-inline:12px}.card{padding:14px}.visual{height:78px}.icon{width:50px;height:50px}.scene{height:104px}.card h3{font-size:17px}.card p{font-size:13px;line-height:1.7}}
 .public-links{display:flex;flex-wrap:wrap;gap:8px 18px}.public-links a{display:inline-flex;align-items:center;min-height:44px}</style>
+<!-- ga --><script async src="https://www.googletagmanager.com/gtag/js?id=G-VMR5RYVQK4"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-VMR5RYVQK4');</script><!-- /ga -->
 </head>
 <body>
 <main class="wrap">
@@ -96,5 +102,5 @@ h2{font-size:18px;margin:30px 0 12px}
 
 <div class="note">兵種は作品ごとの設定を優先します。既存データで兵種を断定できない部隊は無理に分類せず、確認できたものから順次明示指定します。</div>
 </main>
-<footer style="max-width:1000px;margin:24px auto;padding:20px"><nav class="public-links" aria-label="運営情報"><a href="about.html">このサイトについて</a><a href="privacy.html">プライバシー</a><a href="contact.html">お問い合わせ</a></nav></footer></body>
+<footer style="max-width:1000px;margin:24px auto;padding:20px"><nav class="public-links" aria-label="運営情報"><a href="guide.html">3D表示ガイド</a><a href="about.html">このサイトについて</a><a href="privacy.html">プライバシー</a><a href="contact.html">お問い合わせ</a></nav></footer></body>
 </html>
