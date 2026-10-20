@@ -148,6 +148,7 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.capmore{di
 .hud.focus .briefopen{opacity:0;visibility:hidden;pointer-events:none}.briefopen{position:absolute;z-index:6;top:10px;right:95px;min-height:36px;border:1px solid var(--line);border-radius:18px;background:var(--panel2);color:var(--ink);font:700 12px "Noto Sans JP",sans-serif;padding:0 10px;pointer-events:auto;cursor:pointer}@media(max-width:600px){.briefopen{top:max(6px,env(safe-area-inset-top,0px));right:83px;min-height:36px;font-size:11px}}
 @media(max-width:600px){.briefsides{grid-template-columns:1fr}.briefcard{max-height:calc(100dvh - 24px);padding:14px}.briefside{padding:10px}.briefside dl{display:grid;grid-template-columns:90px minmax(0,1fr);gap:5px 8px}.briefside dt{font-size:12px;margin:0}.briefside dd{font-size:14px;margin:0}.briefactions{position:sticky;bottom:-14px;background:#111b27;padding:10px 0 0}.briefopen{right:82px;max-width:84px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
 .unitinfo{position:absolute;z-index:7;left:10px;bottom:112px;max-width:min(340px,calc(100% - 20px));background:rgba(9,16,26,.97);color:#f3f6fa;border:1px solid #657486;border-radius:10px;padding:12px 38px 12px 13px;box-shadow:0 8px 24px #0009;pointer-events:auto}.unitinfo[hidden]{display:none}.unitinfo strong{display:block;font-size:16px}.unitinfo p{font-size:13px;margin:5px 0;line-height:1.6}.unitinfo button{position:absolute;right:7px;top:7px;min-width:30px;min-height:30px;background:#253547;border:0;color:#fff;border-radius:7px}.unitselect{position:absolute;z-index:6;left:10px;bottom:65px;max-width:180px;min-height:36px;border:1px solid var(--line);border-radius:18px;background:var(--panel2);color:var(--ink);padding:0 10px;font:700 12px "Noto Sans JP",sans-serif;pointer-events:auto}.hud.focus .unitselect,.hud.focus .unitinfo{display:none}@media(max-width:600px){.unitselect{bottom:calc(55px + env(safe-area-inset-bottom,0px));left:8px;max-width:125px;font-size:11px}.unitinfo{bottom:calc(108px + env(safe-area-inset-bottom,0px));left:8px;right:8px;max-width:none}}
+.tactic{display:inline-flex;align-items:center;gap:6px;margin-top:5px;padding:4px 9px;border:1px solid rgba(235,242,251,.38);border-radius:6px;background:rgba(7,15,25,.94);color:#f3f6fa;font-size:12px;font-weight:800}.tactic[hidden]{display:none}.tactic b{color:#f3c977}@media(max-width:600px){.tactic{font-size:12px;padding:3px 7px;margin-top:4px}}
 </style>
 </head>
 <body>
@@ -171,7 +172,7 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.capmore{di
     <div class="res ui" id="res" role="dialog" aria-label="戦果"><div class="in" id="resIn"></div></div>
     <div class="cap ui" id="cap" aria-live="polite">
       <div class="time"><b id="cTime"></b><span id="cClock"></span></div>
-      <h2 id="cTitle"></h2>
+      <h2 id="cTitle"></h2><div class="tactic" id="tactic" hidden><b>戦術</b><span id="tacticText"></span></div>
       <p id="cText"></p>
       <button class="capmore" id="capMore" type="button" aria-expanded="false">全文</button>
     </div>
@@ -452,7 +453,7 @@ function previewSeek(raw){
   const st=o.st[ui],key=subOf(o,st)+st.s;if(key!==o.labKey&&o.lab){reSprite(o.lab,o.name,subOf(o,st),CSS[o.side]);o.labKey=key}
  });
  if(auto&&P.cam&&P.cam.t)camTo(P.cam);
- $('cTime').textContent=P.time;$('cClock').textContent=P.clock;$('cTitle').textContent=P.title;$('cText').textContent=P.text;
+ $('cTime').textContent=P.time;$('cClock').textContent=P.clock;$('cTitle').textContent=P.title;$('cText').textContent=P.text;updateTactic(P);
  [...stepsEl.children].forEach((b,k)=>{b.classList.toggle('on',k===ui);b.classList.toggle('done',k<q)});
  $('seekNow').textContent=(q+1).toFixed(1)+' / '+PH.length;$('seekLabel').textContent=P.step||P.time;
  phaseSeek.setAttribute('aria-valuenow',String(Math.round(raw/10)));phaseSeek.setAttribute('aria-valuetext',P.time+' '+P.title);
@@ -488,6 +489,12 @@ function updateRangeBadge(i){
  else if(close){txt.textContent='近距離戦';el.classList.add('close')}
  else if(far){txt.textContent='遠距離戦';el.classList.add('far')}
  else txt.textContent='待機';
+}
+function updateTactic(P){
+ const txt=[P.title||'',P.text||''].join(' ');
+ const types=[['包囲',/包囲|挟撃|背後を取|後背に回|取り囲/],['突破',/突破|中央を抜|突破口/],['撤退',/撤退|後退|退却|退く|撤収/]];
+ const found=types.find(x=>x[1].test(txt));$('tactic').hidden=!found;
+ $('tacticText').textContent=found?found[0]:'';
 }
 function setPhase(i){
  const now=VT;phase=i;phaseT=0;phaseStart=now;const P=PH[i];SPECIAL.reset&&SPECIAL.reset(i);
