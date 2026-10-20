@@ -20,8 +20,8 @@ form.addEventListener('submit', async event => {
   const category = value('category');
   const data = {
     name, email, company: '', phone: '', agreed: document.getElementById('agree').checked,
-    subject: `[戦史アーカイブ] ${subject}`,
-    message: `サービス：フィクション戦史アーカイブ\nサイト：https://fiction-war-archive.birdman-studio.com/\nお問い合わせ種別：${category}\n\n${message}`,
+    serviceId: 'fictionWarArchive', subject,
+    message: `サイト：https://fiction-war-archive.birdman-studio.com/\nお問い合わせ種別：${category}\n\n${message}`,
     hp: ''
   };
   sending = true;
