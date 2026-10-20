@@ -3,7 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icons/app-icon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="フィクション戦史">
+
 <meta name="color-scheme" content="light dark">
 <title>5thルナ落とし 3D俯瞰</title>
 <meta name="description" content="5thルナ落とし（U.C.0093年3月（推定））を作中情報に基づいて3D俯瞰で再構成し、経過、戦果、原作・アニメの該当箇所を確認できます。">
@@ -160,7 +165,17 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.capmore{di
  .unitinfo{bottom:calc(204px + env(safe-area-inset-bottom,0px));max-height:32dvh;overflow-y:auto}
 }
 @media(max-width:350px){.title{max-width:calc(100% - 110px)}.briefopen{max-width:88px}.focusbtn{right:6px!important}}
+/* Mobile control lanes: top heading, mid actions, lower playback controls. */
+@media(max-width:600px){
+ .focusbtn{bottom:calc(188px + env(safe-area-inset-bottom,0px))!important;right:8px!important;min-width:76px;min-height:44px}
+ .unitselect{bottom:calc(188px + env(safe-area-inset-bottom,0px))!important;left:8px!important;min-width:90px;min-height:44px;max-width:125px}
+ .unitinfo{bottom:calc(242px + env(safe-area-inset-bottom,0px))!important;max-height:min(32dvh,230px);overflow:auto}
+ .cap{bottom:calc(104px + env(safe-area-inset-bottom,0px))!important;max-height:72px;overflow:auto}
+ .seek{bottom:calc(62px + env(safe-area-inset-bottom,0px))!important}
+}
+@media(max-width:350px){.focusbtn{right:6px!important}.unitselect{left:6px!important}}
 </style>
+<!-- ga --><script async src="https://www.googletagmanager.com/gtag/js?id=G-VMR5RYVQK4"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-VMR5RYVQK4');</script><!-- /ga -->
 </head>
 <body>
 <div id="app">
