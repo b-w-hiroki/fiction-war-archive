@@ -1,0 +1,20 @@
+{
+  "id": "/",
+  "name": "フィクション戦史アーカイブ",
+  "short_name": "フィクション戦史",
+  "description": "フィクション作品の戦争・会戦を時系列と3Dでたどる非公式戦史アーカイブ",
+  "lang": "ja",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0b1727",
+  "theme_color": "#0b1727",
+  "icons": [
+    {
+      "src": "/icons/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
