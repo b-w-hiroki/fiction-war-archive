@@ -80,6 +80,12 @@ for(const c of cases){
     if(!await page.locator('#hud').evaluate(el=>el.classList.contains('focus'))) throw new Error('focus mode not enabled');
     await page.locator('#focusToggle').click();
     if(await page.locator('#hud').evaluate(el=>el.classList.contains('focus'))) throw new Error('focus mode not disabled');
+    const layout=await page.evaluate(()=>{
+      const rect=id=>document.getElementById(id).getBoundingClientRect();
+      const overlap=(a,b)=>a.left<b.right&&b.left<a.right&&a.top<b.bottom&&b.top<a.bottom;
+      return {titleBrief:overlap(rect('briefOpen'),rect('cTitle')),toggleTitle:overlap(rect('focusToggle'),rect('cTitle')),toggleBrief:overlap(rect('focusToggle'),rect('briefOpen')),togglePlay:overlap(rect('focusToggle'),rect('play'))};
+    });
+    if(Object.values(layout).some(Boolean)) throw new Error('mobile HUD overlap '+JSON.stringify(layout));
     const seek=page.locator('#phaseSeek');
     await seek.fill('500');await seek.dispatchEvent('input');await page.waitForTimeout(250);
     const rangeAfterSeek=await page.locator('#rangeMode').textContent();
