@@ -445,15 +445,15 @@ function pan(dx,dy){const s=T.r*.0016,c=Math.cos(T.th),n=Math.sin(T.th);T.tx+=-d
 
 /* ---------- UI ---------- */
 const stepsEl=$('steps'),phaseSeek=$('phaseSeek');
-let selectedUnit=0;
-function showUnitInfo(){
+let selectedUnit=0;let selectedUnitActive=false;
+function showUnitInfo(){selectedUnitActive=true;
  const o=units[selectedUnit],st=o.st[phase],state=WORD[st.s]||st.s||'待機';
  $('unitInfoName').textContent=o.name;
  $('unitInfoText').textContent='指揮官：'+(o.cmd||'不明')+' ／ 兵種：'+(KIND_LABEL[o.kind]||'不明')+' ／ 状態：'+state+' ／ 戦力：'+(o.actualStrength||'作中数値未登録')+' ／ 3D表示用モデル：'+o.n+'（実戦力ではありません）';
  $('unitInfo').hidden=false;
 }
 $('unitSelect').onclick=()=>{selectedUnit=(selectedUnit+1)%units.length;showUnitInfo()};
-$('unitInfoClose').onclick=()=>{$('unitInfo').hidden=true};
+$('unitInfoClose').onclick=()=>{$('unitInfo').hidden=true;selectedUnitActive=false};
 
 function briefText(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
 $('briefSides').innerHTML=RESULT.sides.map(side=>'<article class="briefside"><h3 style="color:'+(side.side==='E'?'#e8b65c':'#65c5da')+'">'+briefText(side.name)+'</h3><dl><dt>総戦力</dt><dd>'+briefText(side.before||'不明')+'</dd><dt>総大将・指揮官</dt><dd>'+briefText(side.cmdr||'不明')+'</dd><dt>主な参加将軍・指揮官</dt><dd>'+briefText(side.others||'記載なし')+'</dd></dl></article>').join('');
@@ -596,7 +596,7 @@ function loop(){
    const mvx=o.sp[k3]-px,mvz=o.sp[k3+2]-pz;if(!o.init&&Math.hypot(mvx,mvz)>.04)hy=Math.atan2(mvx,mvz);
    let d=hy-o.sy[i];while(d>Math.PI)d-=Math.PI*2;while(d<-Math.PI)d+=Math.PI*2;o.sy[i]=o.init?hy:o.sy[i]+d*Math.min(1,dt*3);
    dummy.position.set(o.sp[k3],o.sp[k3+1],o.sp[k3+2]);dummy.rotation.set(br?q[3]*br*2:0,o.sy[i],br?q[5]*br*2:0);
-   const stateScale=s.s==='charge'?1.16:s.s==='broken'?.9:1,ks=(o.kind==='fleet'?1.34:o.kind==='ship'?1.62:o.kind==='aircraft'?1.72:o.kind==='ground_vehicle'?1.52:o.kind==='fortress'?1.92:o.kind==='cavalry'?1.48:o.kind==='archer'?1.38:1.32)*vk*stateScale;dummy.scale.set(ks,ks,ks);dummy.updateMatrix();dummy.scale.set(1,1,1);o.mesh.setMatrixAt(i,dummy.matrix);
+   const selectionScale=selectedUnitActive&&units[selectedUnit]===o?1.3:1;const stateScale=s.s==='charge'?1.16:s.s==='broken'?.9:1,ks=(o.kind==='fleet'?1.34:o.kind==='ship'?1.62:o.kind==='aircraft'?1.72:o.kind==='ground_vehicle'?1.52:o.kind==='fortress'?1.92:o.kind==='cavalry'?1.48:o.kind==='archer'?1.38:1.32)*vk*stateScale*selectionScale;dummy.scale.set(ks,ks,ks);dummy.updateMatrix();dummy.scale.set(1,1,1);o.mesh.setMatrixAt(i,dummy.matrix);
    o.wp[k3]=o.sp[k3];o.wp[k3+1]=o.sp[k3+1];o.wp[k3+2]=o.sp[k3+2];ax+=X;az+=Z}
   o.init=false;
   if(ring){o.x=ax/o.n;o.z=az/o.n}
