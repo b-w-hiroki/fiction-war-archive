@@ -499,9 +499,13 @@ function updateRangeBadge(i){
  else txt.textContent='待機';
 }
 function updateTactic(P){
- const txt=[P.title||'',P.text||''].join(' ');
- const types=[['包囲',/包囲|挟撃|背後を取|後背に回|取り囲/],['突破',/突破|中央を抜|突破口/],['撤退',/撤退|後退|退却|退く|撤収/]];
- const found=types.find(x=>x[1].test(txt));$('tactic').hidden=!found;
+ // Only explicitly tagged phases or unambiguous phase titles qualify.
+ // Descriptive prose can mention an opponent's plan or a failed maneuver.
+ const explicit=typeof P.tactic==='string'?P.tactic:'';
+ const title=P.title||'';
+ const types=[['包囲',/包囲|挟撃/],['突破',/突破/],['撤退',/撤退|退却|後退|撤収/]];
+ const found=types.find(([name,re])=>explicit===name||(!explicit&&re.test(title)));
+ $('tactic').hidden=!found;
  $('tacticText').textContent=found?found[0]:'';
 }
 function setPhase(i){
