@@ -37,7 +37,7 @@ def fort_cannon(name,sub,side,pos,target_unit,phase,delay=1.5,color='0xcfd6df',r
 
 # ---------- 地球圏・地上戦の環境 ----------
 
-def ground(low='0x3d5a3a', high='0x8a8268', size=260, amp=6, y=-4, seed=1, water=None):
+def ground(low='0x3d5a3a', high='0x8a8268', size=260, amp=6, y=-4, seed=1, water=None, sky='0x34404d'):
     """地上戦の地形。units は y=0 付近に浮かせて置く。water='0x2a5a78' で低地を水面に（描画時は背景色として減彩・減光）"""
     w = f"""const waterColor=new THREE.Color({water});waterColor.multiplyScalar(.52);const wat=new THREE.Mesh(new THREE.PlaneGeometry({size},{size}),new THREE.MeshBasicMaterial({{color:waterColor,transparent:false,depthWrite:true}}));wat.rotation.x=-Math.PI/2;wat.position.y=({y})-.2;scene.add(wat);""" if water else ''
     return f"""
@@ -46,14 +46,14 @@ def ground(low='0x3d5a3a', high='0x8a8268', size=260, amp=6, y=-4, seed=1, water
   h=h*{amp}+({y});p.setY(i,h);t.copy(lo).lerp(hi,Math.min(1,Math.max(0,(h-({y})+{amp})/({amp}*2))));c.set([t.r,t.g,t.b],i*3)}}
  g.setAttribute('color',new THREE.BufferAttribute(c,3));g.computeVertexNormals();
  const m=new THREE.Mesh(g,new THREE.MeshLambertMaterial({{vertexColors:true,emissive:0x080b0c}}));scene.add(m);{w}
- scene.background=new THREE.Color(0x34404d);scene.fog=new THREE.Fog(0x34404d,320,1100);}})();
+ const skyColor=new THREE.Color({sky}).multiplyScalar(.65);scene.background=skyColor;scene.fog=new THREE.Fog(skyColor,320,1100);}})();
 """
 
 
 def sky_env(sun=(80, 120, 40)):
     """地上用の光源（恒星は置かない）"""
-    return f"""const SUNL=new THREE.DirectionalLight(0xfff2dc,1.0);SUNL.position.set({sun[0]},{sun[1]},{sun[2]});scene.add(SUNL);
-scene.add(new THREE.HemisphereLight(0xcfe0f0,0x4a4a3a,.75));
+    return f"""const SUNL=new THREE.DirectionalLight(0xfff2dc,.72);SUNL.position.set({sun[0]},{sun[1]},{sun[2]});scene.add(SUNL);
+scene.add(new THREE.HemisphereLight(0xcfe0f0,0x4a4a3a,.48));
 """
 
 
@@ -131,8 +131,7 @@ def space_env(pos=(-160, 60, -220), color='0xfff4e0'):
 
 
 def land_env(low, high, water=None, amp=6, seed=1, sky='0x6f8297'):
-    e = sky_env() + ground(low=low, high=high, amp=amp, seed=seed, water=water)
-    return e.replace('0x6f8297', sky)
+    return sky_env() + ground(low=low, high=high, amp=amp, seed=seed, water=water, sky=sky)
 
 
 def wall(r=60, h=14, cx=0, cz=0, y=-4, color='0xb8b0a0', arc=6.2832, start=0):
