@@ -160,6 +160,15 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.capmore{di
  .unitinfo{bottom:calc(204px + env(safe-area-inset-bottom,0px));max-height:32dvh;overflow-y:auto}
 }
 @media(max-width:350px){.title{max-width:calc(100% - 110px)}.briefopen{max-width:88px}.focusbtn{right:6px!important}}
+/* Mobile control lanes: top heading, mid actions, lower playback controls. */
+@media(max-width:600px){
+ .focusbtn{bottom:calc(188px + env(safe-area-inset-bottom,0px))!important;right:8px!important;min-width:76px;min-height:44px}
+ .unitselect{bottom:calc(188px + env(safe-area-inset-bottom,0px))!important;left:8px!important;min-width:90px;min-height:44px;max-width:125px}
+ .unitinfo{bottom:calc(242px + env(safe-area-inset-bottom,0px))!important;max-height:min(32dvh,230px);overflow:auto}
+ .cap{bottom:calc(104px + env(safe-area-inset-bottom,0px))!important;max-height:72px;overflow:auto}
+ .seek{bottom:calc(62px + env(safe-area-inset-bottom,0px))!important}
+}
+@media(max-width:350px){.focusbtn{right:6px!important}.unitselect{left:6px!important}}
 </style>
 </head>
 <body>
