@@ -32,5 +32,13 @@
   ],
   "soon": [],
   "pages_url": "https://fiction-war-archive.birdman-studio.com",
-  "domain": "fiction-war-archive.birdman-studio.com"
+  "domain": "fiction-war-archive.birdman-studio.com",
+  "public_release": {
+    "standard_version": "1.0.0",
+    "playbook_commit": "95c2b957b1ab2725adb537589ab1cc34e18096f2",
+    "operator": "birdman studio",
+    "updated": "2026-10-20",
+    "contact_email": "hiroki.torii4649@gmail.com",
+    "contact_endpoint": "https://asia-southeast1-otsukai-app-4b62b.cloudfunctions.net/submitContactForm"
+  }
 }

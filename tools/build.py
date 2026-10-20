@@ -186,6 +186,7 @@ def build_portal(default, works, hub, out_file, artifact):
                 + html.replace('<style>', '<style>\nbody{margin:0;padding-top:env(safe-area-inset-top,0px)}', 1)
                 .replace('<div class="wrap">', '</head>\n<body>\n<div class="wrap">', 1) + '\n</body>\n</html>\n')
     out_file.parent.mkdir(parents=True, exist_ok=True)
+    html = html.replace('<!--@@PUBLIC_LINKS@@-->', '' if artifact else public_links('../'))
     out_file.write_text(html if artifact else with_ga(html))
 
 
@@ -208,6 +209,7 @@ def build_hub(counts, link_portal, out_file, artifact):
         html = re.sub(r'^<!doctype html>\n<html lang="ja">\n<head>\n(<meta [^>]*>\n)*', '', html)
         html = html.replace('</head>\n<body>\n', '').replace('\n</body>\n</html>', '')
     out_file.parent.mkdir(parents=True, exist_ok=True)
+    html = html.replace('<!--@@PUBLIC_LINKS@@-->', '' if artifact else public_links())
     out_file.write_text(html if artifact else with_ga(html))
 
 
@@ -243,6 +245,28 @@ def build_work(work, artifact):
     return data
 
 
+def public_links(prefix=''):
+    return ('<nav class="public-links" aria-label="運営情報">'
+            + ''.join(f'<a href="{prefix}{path}.html">{label}</a>' for path, label in
+                      [('about', 'このサイトについて'), ('privacy', 'プライバシー'), ('contact', 'お問い合わせ')])
+            + '</nav>')
+
+
+def build_public_pages(base):
+    config = SITE['public_release']
+    template = (ENGINE / 'public-page.html').read_text()
+    for slug, title in [('about', 'このサイトについて・免責事項'), ('privacy', 'プライバシーポリシー'), ('contact', 'お問い合わせ')]:
+        content = (ENGINE / f'{slug}-content.html').read_text()
+        content = content.replace('@@CONTACT_EMAIL@@', escape(config['contact_email'], quote=True))
+        if slug == 'contact':
+            content = content.replace('<form id="contact-form">', '<form id="contact-form" data-endpoint="' + escape(config['contact_endpoint'], quote=True) + '">')
+        html = template.replace('@@TITLE@@', title).replace('@@CONTENT@@', content)
+        html = html.replace('@@SCRIPT@@', '<script src="contact.js" defer></script>' if slug == 'contact' else '')
+        description = f'フィクション戦史アーカイブの{title}。AI収集・非公式コンテンツの運営方針とお問い合わせの案内。'
+        (base / f'{slug}.html').write_text(with_search_meta(html, description, page_url(f'{slug}.html')))
+    (base / 'contact.js').write_text((ENGINE / 'contact.js').read_text())
+
+
 def main():
     artifact = '--artifact' in sys.argv
     works = {w: build_work(w, artifact) for w in SITE['works']}
@@ -259,7 +283,10 @@ def main():
     if favicon.exists() and not artifact:
         (base / 'favicon.svg').write_bytes(favicon.read_bytes())
     guide = (ENGINE / 'guide.html').read_text()
+    guide = guide.replace('</body>', '<footer style="max-width:1000px;margin:24px auto;padding:20px">' + public_links() + '</footer></body>').replace('</style>', '.public-links{display:flex;flex-wrap:wrap;gap:8px 18px}.public-links a{display:inline-flex;align-items:center;min-height:44px}</style>') if not artifact else guide
     (base / 'guide.html').write_text(guide if artifact else with_ga(guide))
+    if not artifact:
+        build_public_pages(base)
     if not artifact and SITE.get('domain'):  # GitHub Pages の独自ドメイン
         (base / 'CNAME').write_text(SITE['domain'] + '\n')
         (base / 'robots.txt').write_text('User-agent: *\nAllow: /\n\nSitemap: ' + page_url('sitemap.xml') + '\n')
