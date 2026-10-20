@@ -414,15 +414,15 @@ function pan(dx,dy){const s=T.r*.0016,c=Math.cos(T.th),n=Math.sin(T.th);T.tx+=-d
 
 /* ---------- UI ---------- */
 const stepsEl=$('steps'),phaseSeek=$('phaseSeek');
-let selectedUnit=0;let selectedUnitActive=false;
-function showUnitInfo(){selectedUnitActive=true;
+let selectedUnit=0;let selectedUnitActive=false;let unitCameraFollow=false;
+function showUnitInfo(){selectedUnitActive=true;unitCameraFollow=true;setAuto(false);
  const o=units[selectedUnit],st=o.st[phase],state=WORD[st.s]||st.s||'待機';
  $('unitInfoName').textContent=o.name;
  $('unitInfoText').textContent='指揮官：'+(o.cmd||'不明')+' ／ 兵種：'+(KIND_LABEL[o.kind]||'不明')+' ／ 状態：'+state+' ／ 戦力：'+(o.actualStrength||'作中数値未登録')+' ／ 3D表示用モデル：'+o.n+'（実戦力ではありません）';
  $('unitInfo').hidden=false;
 }
 $('unitSelect').onclick=()=>{selectedUnit=(selectedUnit+1)%units.length;showUnitInfo()};
-$('unitInfoClose').onclick=()=>{$('unitInfo').hidden=true;selectedUnitActive=false};
+$('unitInfoClose').onclick=()=>{$('unitInfo').hidden=true;selectedUnitActive=false;unitCameraFollow=false};
 
 function briefText(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
 $('briefSides').innerHTML=RESULT.sides.map(side=>'<article class="briefside"><h3 style="color:'+(side.side==='E'?'#e8b65c':'#65c5da')+'">'+briefText(side.name)+'</h3><dl><dt>総戦力</dt><dd>'+briefText(side.before||'不明')+'</dd><dt>総大将・指揮官</dt><dd>'+briefText(side.cmdr||'不明')+'</dd><dt>主な参加将軍・指揮官</dt><dd>'+briefText(side.others||'記載なし')+'</dd></dl></article>').join('');
@@ -601,6 +601,7 @@ function loop(){
  // 矢印
  arrows.forEach(a=>{const p=Math.max(0,Math.min(1,(now-a.t0)/1.8));a.line.geometry.setDrawRange(0,Math.floor(ease(p)*81));a.head.visible=p>=1});
  // カメラ
+ if(unitCameraFollow&&selectedUnitActive){const target=units[selectedUnit];if(target){T.tx+=(target.x-T.tx)*Math.min(1,dt*3);T.ty+=(target.y-T.ty)*Math.min(1,dt*3);T.tz+=(target.z-T.tz)*Math.min(1,dt*3)}}
  if(auto&&playing&&!reduce)T.th+=dt*.015;
  const kk=1-Math.exp(-dt*(auto?.8:9));for(const key in T)C[key]+=(T[key]-C[key])*kk;
  const pr=Math.min(1.5,Math.max(1,1/Math.sqrt(cam.aspect*1.3))),r=C.r*pr;
