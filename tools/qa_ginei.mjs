@@ -29,7 +29,7 @@ for(const file of files){
 
     const tacticState=await page.evaluate(()=>({
       hasCue:!!document.querySelector('#tactic'),
-      explicit:typeof updateTactic==='function',
+      explicit:document.documentElement.innerHTML.includes('function updateTactic(P)'),
       initialText:document.querySelector('#tacticText')?.textContent||''
     }));
     if(!tacticState.hasCue||!tacticState.explicit) throw new Error('tactical cue not initialized');
