@@ -88,6 +88,18 @@ for(const c of cases){
     await page.locator('#unitSelect').click();
     if(!await page.locator('#unitInfo').isVisible()) throw new Error('unit detail did not open');
     if(!await page.locator('#unitInfoText').textContent()) throw new Error('unit detail empty');
+    // Expanded captions and unit details must not obscure the seek/play controls.
+    await page.locator('#capMore').click();
+    const expandedLayout=await page.evaluate(()=>{
+      const box=id=>document.getElementById(id).getBoundingClientRect();
+      const hit=(a,b)=>a.left<b.right&&b.left<a.right&&a.top<b.bottom&&b.top<a.bottom;
+      const visible=id=>getComputedStyle(document.getElementById(id)).display!=='none';
+      const cap=box('cap'),unit=box('unitInfo'),seek=box('phaseSeek'),play=box('play');
+      return {capSeek:hit(cap,seek),unitSeek:hit(unit,seek),unitPlay:hit(unit,play),capPlay:hit(cap,play),unitCap:visible('unitInfo')&&hit(unit,cap)};
+    });
+    if(Object.values(expandedLayout).some(Boolean)) throw new Error('expanded HUD overlap '+JSON.stringify(expandedLayout));
+    await page.locator('#capMore').click();
+    await page.locator('#unitSelect').click();
     await page.locator('#unitInfoClose').click();
     if(await page.locator('#unitInfo').isVisible()) throw new Error('unit detail did not close');
     await page.locator('#focusToggle').click();
