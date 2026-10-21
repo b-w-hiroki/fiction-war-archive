@@ -1,0 +1,34 @@
+name: Rebuild mobile caption pages (temporary)
+on:
+  push:
+    branches: [fix/mobile-caption-320-layout-qa]
+    paths:
+      - engine/template.html
+      - .github/workflows/rebuild-mobile-caption-temp.yml
+permissions:
+  contents: write
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/mobile-caption-320-layout-qa
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Rebuild generated battle pages
+        run: python3 tools/build.py all
+      - name: Commit generated pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs
+          if ! git diff --cached --quiet; then
+            git commit -m "Regenerate all battles for short-height caption clearance"
+            git push origin HEAD:fix/mobile-caption-320-layout-qa
+          fi
