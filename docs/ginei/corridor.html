@@ -463,7 +463,7 @@ function pan(dx,dy){const s=T.r*.0016,c=Math.cos(T.th),n=Math.sin(T.th);T.tx+=-d
 /* ---------- UI ---------- */
 const stepsEl=$('steps'),phaseSeek=$('phaseSeek');
 let selectedUnit=0;let selectedUnitActive=false;let unitCameraFollow=false;
-function showUnitInfo(){selectedUnitActive=true;unitCameraFollow=true;setAuto(false);
+function showUnitInfo(){const cap=$('cap');cap.classList.remove('expanded');$('capMore').textContent='全文';$('capMore').setAttribute('aria-expanded','false');selectedUnitActive=true;unitCameraFollow=true;setAuto(false);
  const o=units[selectedUnit],st=o.st[phase],state=WORD[st.s]||st.s||'待機';
  $('unitInfoName').textContent=o.name;
  $('unitInfoText').textContent='指揮官：'+(o.cmd||'不明')+' ／ 兵種：'+(KIND_LABEL[o.kind]||'不明')+' ／ 状態：'+state+' ／ 戦力：'+(o.actualStrength||'作中数値未登録')+' ／ 3D表示用モデル：'+o.n+'（実戦力ではありません）';
@@ -590,7 +590,7 @@ function renderResult(){const R=RESULT,cE=CSS.E,cA=CSS.A;
  <h4>その後の勢力への影響</h4><ul>${R.after.map(a=>`<li>${a}</li>`).join('')}</ul>${R.refs&&R.refs.length?`<h4>原作・アニメの該当箇所</h4><ul>${R.refs.map(r=>`<li><b>${r.k}</b>　${r.v}</li>`).join('')}</ul>`:''}${R.prev||R.next?`<h4>前後の流れ</h4><ul>${R.prev?`<li>前：${R.prev}</li>`:''}${R.next?`<li>次：${R.next}</li>`:''}</ul>`:''}<div class="src">${R.note}</div>`;
  $('resClose').onclick=()=>$('res').classList.remove('on');}
 $('resOpen').onclick=()=>{renderResult();$('res').classList.add('on')};
-$('capMore').onclick=()=>{const c=$('cap'),on=c.classList.toggle('expanded');$('capMore').textContent=on?'閉じる':'全文';$('capMore').setAttribute('aria-expanded',String(on))};
+$('capMore').onclick=()=>{const c=$('cap'),on=c.classList.toggle('expanded');if(on){$('unitInfo').hidden=true;selectedUnitActive=false;unitCameraFollow=false}$('capMore').textContent=on?'閉じる':'全文';$('capMore').setAttribute('aria-expanded',String(on))};
 /* ---------- ループ ---------- */
 function resize(){const w=$('stage').clientWidth,h=$('stage').clientHeight;renderer.setSize(w,h,false);cam.aspect=w/h;const f=w<h?.24:.12;cam.setViewOffset(w,h*(1+f),0,h*f,w,h);cam.updateProjectionMatrix()}
 new ResizeObserver(resize).observe($('stage'));resize();
