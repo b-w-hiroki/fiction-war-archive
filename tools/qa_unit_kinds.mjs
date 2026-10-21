@@ -17,7 +17,7 @@ for(const c of cases){
   const html=fs.readFileSync(disk,'utf8');
   // Land scenes must use the dimmed field palette and current sky-lighting pipeline.
   if(/skyColor=new THREE.Color\(|waterColor=new THREE.Color\(/.test(html)){
-    for(const token of ['skyColor=new THREE.Color(', 'multiplyScalar(.65)', 'DirectionalLight(0xfff2dc,.72)', 'HemisphereLight(0xcfe0f0,0x4a4a3a,.48)']){
+    for(const token of ['skyColor=new THREE.Color(', 'multiplyScalar(.34)', 'multiplyScalar(.25)', 'multiplyScalar(.29)', 'DirectionalLight(0xfff2dc,.72)', 'HemisphereLight(0xcfe0f0,0x4a4a3a,.48)']){
       if(!html.includes(token)) failures.push({url:c.url,error:'terrain lighting regression: missing '+token});
     }
     if(html.includes('scene.background=new THREE.Color(0x34404d)')) failures.push({url:c.url,error:'stale terrain sky background'});
