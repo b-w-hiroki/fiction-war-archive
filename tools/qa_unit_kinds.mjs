@@ -99,6 +99,7 @@ for(const c of cases){
     });
     if(Object.values(expandedLayout).some(Boolean)) throw new Error('expanded HUD overlap '+JSON.stringify(expandedLayout));
     await page.locator('#capMore').click();
+    await page.locator('#unitSelect').click();
     await page.locator('#unitInfoClose').click();
     if(await page.locator('#unitInfo').isVisible()) throw new Error('unit detail did not close');
     await page.locator('#focusToggle').click();
