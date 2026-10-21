@@ -128,6 +128,17 @@ for(const c of cases){
       seek:document.querySelector('#phaseSeek').getBoundingClientRect()
     }));
     await page.screenshot({path:'test-results/field-visual/'+c.url.split('/').filter(Boolean).join('-')+'-320.png'});
+    // Re-check compact panel states at 320px, including the mutually exclusive overlay rule.
+    await page.locator('#unitSelect').click();
+    await page.locator('#capMore').click();
+    const compactPanels=await page.evaluate(()=>{
+      const rect=id=>document.getElementById(id).getBoundingClientRect();
+      const overlap=(a,b)=>a.left<b.right&&b.left<a.right&&a.top<b.bottom&&b.top<a.bottom;
+      const cap=rect('cap'),seek=rect('phaseSeek'),play=rect('play');
+      return {detailHidden:document.getElementById('unitInfo').hidden,captionExpanded:document.getElementById('cap').classList.contains('expanded'),capSeek:overlap(cap,seek),capPlay:overlap(cap,play),captionRight:cap.right};
+    });
+    if(!compactPanels.detailHidden||!compactPanels.captionExpanded||compactPanels.capSeek||compactPanels.capPlay||compactPanels.captionRight>321) throw new Error('320px expanded panel regression '+JSON.stringify(compactPanels));
+    await page.locator('#capMore').click();
     if(compact.overflow) throw new Error('320px horizontal overflow');
     for(const key of ['play','seek']){
       const b=compact[key];
