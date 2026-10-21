@@ -39,14 +39,14 @@ def fort_cannon(name,sub,side,pos,target_unit,phase,delay=1.5,color='0xcfd6df',r
 
 def ground(low='0x3d5a3a', high='0x8a8268', size=260, amp=6, y=-4, seed=1, water=None, sky='0x34404d'):
     """地上戦の地形。units は y=0 付近に浮かせて置く。water='0x2a5a78' で低地を水面に（描画時は背景色として減彩・減光）"""
-    w = f"""const waterColor=new THREE.Color({water});waterColor.multiplyScalar(.52);const wat=new THREE.Mesh(new THREE.PlaneGeometry({size},{size}),new THREE.MeshBasicMaterial({{color:waterColor,transparent:false,depthWrite:true}}));wat.rotation.x=-Math.PI/2;wat.position.y=({y})-.2;scene.add(wat);""" if water else ''
+    w = f"""const waterColor=new THREE.Color({water});waterColor.multiplyScalar(.32);const wat=new THREE.Mesh(new THREE.PlaneGeometry({size},{size}),new THREE.MeshBasicMaterial({{color:waterColor,transparent:false,depthWrite:true}}));wat.rotation.x=-Math.PI/2;wat.position.y=({y})-.2;scene.add(wat);""" if water else ''
     return f"""
-(function(){{const S={size},N=110,g=new THREE.PlaneGeometry(S,S,N,N);g.rotateX(-Math.PI/2);const p=g.attributes.position,c=new Float32Array(p.count*3),lo=new THREE.Color({low}).multiplyScalar(.58),hi=new THREE.Color({high}).multiplyScalar(.62),t=new THREE.Color();
+(function(){{const S={size},N=110,g=new THREE.PlaneGeometry(S,S,N,N);g.rotateX(-Math.PI/2);const p=g.attributes.position,c=new Float32Array(p.count*3),lo=new THREE.Color({low}).multiplyScalar(.25),hi=new THREE.Color({high}).multiplyScalar(.29),t=new THREE.Color();
  for(let i=0;i<p.count;i++){{const x=p.getX(i),z=p.getZ(i);let h=0,f=.012,a=1;for(let o=0;o<4;o++){{h+=a*(Math.sin(x*f+{seed}*1.7+o)*Math.cos(z*f*1.3+{seed}+o*2.1));f*=2.1;a*=.48}}
   h=h*{amp}+({y});p.setY(i,h);t.copy(lo).lerp(hi,Math.min(1,Math.max(0,(h-({y})+{amp})/({amp}*2))));c.set([t.r,t.g,t.b],i*3)}}
  g.setAttribute('color',new THREE.BufferAttribute(c,3));g.computeVertexNormals();
  const m=new THREE.Mesh(g,new THREE.MeshLambertMaterial({{vertexColors:true,emissive:0x080b0c}}));scene.add(m);{w}
- const skyColor=new THREE.Color({sky}).multiplyScalar(.65);scene.background=skyColor;scene.fog=new THREE.Fog(skyColor,320,1100);}})();
+ const skyColor=new THREE.Color({sky}).multiplyScalar(.34);scene.background=skyColor;scene.fog=new THREE.Fog(skyColor,320,1100);}})();
 """
 
 
