@@ -171,14 +171,15 @@ for(const c of cases){
       return {expanded:cap.classList.contains('expanded'),scrollable:cap.scrollHeight>cap.clientHeight+20,
         noSeekOverlap:a.bottom<=b.top+1,buttonReachable:m.height>=40&&m.top>=a.top-1&&m.bottom<=a.bottom+1,
         focusHidden:getComputedStyle(document.getElementById('focusToggle')).visibility==='hidden',
-        unitHidden:getComputedStyle(document.getElementById('unitSelect')).visibility==='hidden'};
+        unitHidden:getComputedStyle(document.getElementById('unitSelect')).visibility==='hidden',
+        forceHidden:getComputedStyle(document.querySelector('.force')).visibility==='hidden'};
     });
     if(Object.values(fullCaption).some(v=>!v)) throw new Error('320x568 expanded caption regression '+JSON.stringify(fullCaption));
     await page.screenshot({path:'test-results/field-visual/'+c.url.split('/').filter(Boolean).join('-')+'-320-expanded.png'});
     await page.locator('#cap').evaluate(el=>{el.scrollTop=el.scrollHeight});
     await page.locator('#capMore').click();
     await page.locator('#cText').evaluate((el,v)=>{el.textContent=v},originalCaption);
-    const controlsRestored=await page.evaluate(()=>getComputedStyle(document.getElementById('unitSelect')).visibility!=='hidden'&&getComputedStyle(document.getElementById('focusToggle')).visibility!=='hidden');
+    const controlsRestored=await page.evaluate(()=>getComputedStyle(document.getElementById('unitSelect')).visibility!=='hidden'&&getComputedStyle(document.getElementById('focusToggle')).visibility!=='hidden'&&getComputedStyle(document.querySelector('.force')).visibility!=='hidden');
     if(!controlsRestored) throw new Error('320x568 HUD controls did not return after closing caption');
     if(compact.overflow) throw new Error('320px horizontal overflow');
     for(const key of ['play','seek']){
