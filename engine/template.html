@@ -170,12 +170,18 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.capmore{di
  .focusbtn{bottom:calc(188px + env(safe-area-inset-bottom,0px))!important;right:8px!important;min-width:76px;min-height:44px}
  .unitselect{bottom:calc(188px + env(safe-area-inset-bottom,0px))!important;left:8px!important;min-width:90px;min-height:44px;max-width:125px}
  .unitinfo{bottom:calc(242px + env(safe-area-inset-bottom,0px))!important;max-height:min(32dvh,230px);overflow:auto}
- .cap{bottom:calc(104px + env(safe-area-inset-bottom,0px))!important;max-height:124px;overflow:hidden}
- .focusbtn{top:42dvh!important;bottom:auto!important;right:8px!important}
- .cap.expanded{max-height:min(52dvh,400px);overflow-y:auto;overscroll-behavior:contain}
- .cap.expanded p{max-height:none;overflow:visible}
+ /* The summary and its More button must remain inside the caption at short heights. */
+ .cap{bottom:calc(104px + env(safe-area-inset-bottom,0px))!important;max-height:min(30dvh,180px);overflow:hidden;display:flex;flex-direction:column}
+ .cap .time,.cap h2,.cap .tactic,.capmore{flex-shrink:0}
+ .cap p{min-height:0;flex-shrink:1}
+ /* Put secondary controls in the same lane above the compact caption. */
+ .focusbtn,.unitselect{top:42dvh!important;bottom:auto!important}
+ .focusbtn{right:8px!important}
+ .cap.expanded{max-height:min(52dvh,400px);overflow:hidden}
+ .cap.expanded p{display:block;-webkit-line-clamp:unset;min-height:0;flex:1 1 auto;max-height:none;overflow-y:auto;overscroll-behavior:contain}
  .capmore{min-height:32px}
- @media(max-width:350px){.cap{max-height:130px}.cap.expanded{max-height:48dvh}}
+ .hud.caption-open .focusbtn,.hud.caption-open .unitselect{visibility:hidden;pointer-events:none}
+ @media(max-width:350px){.cap.expanded{max-height:48dvh}}
  .seek{bottom:calc(62px + env(safe-area-inset-bottom,0px))!important}
 }
 @media(max-width:350px){.focusbtn{right:6px!important}.unitselect{left:6px!important}}
@@ -412,7 +418,7 @@ function pan(dx,dy){const s=T.r*.0016,c=Math.cos(T.th),n=Math.sin(T.th);T.tx+=-d
 /* ---------- UI ---------- */
 const stepsEl=$('steps'),phaseSeek=$('phaseSeek');
 let selectedUnit=0;let selectedUnitActive=false;let unitCameraFollow=false;
-function showUnitInfo(){const cap=$('cap');cap.classList.remove('expanded');$('capMore').textContent='全文';$('capMore').setAttribute('aria-expanded','false');selectedUnitActive=true;unitCameraFollow=true;setAuto(false);
+function showUnitInfo(){const cap=$('cap');cap.classList.remove('expanded');$('hud').classList.remove('caption-open');$('capMore').textContent='全文';$('capMore').setAttribute('aria-expanded','false');selectedUnitActive=true;unitCameraFollow=true;setAuto(false);
  const o=units[selectedUnit],st=o.st[phase],state=WORD[st.s]||st.s||'待機';
  $('unitInfoName').textContent=o.name;
  $('unitInfoText').textContent='指揮官：'+(o.cmd||'不明')+' ／ 兵種：'+(KIND_LABEL[o.kind]||'不明')+' ／ 状態：'+state+' ／ 戦力：'+(o.actualStrength||'作中数値未登録')+' ／ 3D表示用モデル：'+o.n+'（実戦力ではありません）';
@@ -539,7 +545,7 @@ function renderResult(){const R=RESULT,cE=CSS.E,cA=CSS.A;
  <h4>その後の勢力への影響</h4><ul>${R.after.map(a=>`<li>${a}</li>`).join('')}</ul>${R.refs&&R.refs.length?`<h4>原作・アニメの該当箇所</h4><ul>${R.refs.map(r=>`<li><b>${r.k}</b>　${r.v}</li>`).join('')}</ul>`:''}${R.prev||R.next?`<h4>前後の流れ</h4><ul>${R.prev?`<li>前：${R.prev}</li>`:''}${R.next?`<li>次：${R.next}</li>`:''}</ul>`:''}<div class="src">${R.note}</div>`;
  $('resClose').onclick=()=>$('res').classList.remove('on');}
 $('resOpen').onclick=()=>{renderResult();$('res').classList.add('on')};
-$('capMore').onclick=()=>{const c=$('cap'),on=c.classList.toggle('expanded');if(on){$('unitInfo').hidden=true;selectedUnitActive=false;unitCameraFollow=false}$('capMore').textContent=on?'閉じる':'全文';$('capMore').setAttribute('aria-expanded',String(on))};
+$('capMore').onclick=()=>{const c=$('cap'),on=c.classList.toggle('expanded');$('hud').classList.toggle('caption-open',on);if(on){$('unitInfo').hidden=true;selectedUnitActive=false;unitCameraFollow=false}$('capMore').textContent=on?'閉じる':'全文';$('capMore').setAttribute('aria-expanded',String(on))};
 /* ---------- ループ ---------- */
 function resize(){const w=$('stage').clientWidth,h=$('stage').clientHeight;renderer.setSize(w,h,false);cam.aspect=w/h;const f=w<h?.24:.12;cam.setViewOffset(w,h*(1+f),0,h*f,w,h);cam.updateProjectionMatrix()}
 new ResizeObserver(resize).observe($('stage'));resize();
