@@ -189,6 +189,7 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.capmore{di
  .unitinfo{top:calc(48px + env(safe-area-inset-top,0px));bottom:auto!important;max-height:min(26dvh,148px)!important}
  .hud:has(.cap.expanded) .focusbtn,.hud:has(.cap.expanded) .unitselect{visibility:hidden;pointer-events:none}
  .hud:has(.unitinfo:not([hidden])) .force{visibility:hidden;pointer-events:none}
+ @media(max-height:650px){.hud:has(.cap.expanded) .force{visibility:hidden;pointer-events:none}}
 }
 </style>
 <!-- ga --><script async src="https://www.googletagmanager.com/gtag/js?id=G-VMR5RYVQK4"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-VMR5RYVQK4');</script><!-- /ga -->
