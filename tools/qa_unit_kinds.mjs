@@ -22,6 +22,61 @@ const base='http://127.0.0.1:8000';
 const browser=await chromium.launch({headless:true,args:['--use-gl=swiftshader','--enable-webgl','--ignore-gpu-blocklist']});
 const failures=[];
 fs.mkdirSync('test-results/field-visual',{recursive:true});
+// Regression coverage for very short smartphones and long (3+ line) phase explanations.
+async function auditCaptionViewport(page,c,width,height){
+  await page.setViewportSize({width,height});
+  await page.waitForTimeout(120);
+  const text=page.locator('#cText');
+  const original=await text.textContent();
+  await text.evaluate(el=>{el.textContent='両軍は陣形を立て直しながら、前線の動きと補給経路を確認して次の作戦へ移行した。'.repeat(14)});
+  const slug=c.url.split('/').filter(Boolean).join('-');
+  const prefix='test-results/field-visual/'+slug+'-'+width+'x'+height;
+  const state=await page.evaluate(()=>{
+    const $=id=>document.getElementById(id);
+    const rect=id=>$(id).getBoundingClientRect();
+    const intersects=(a,b)=>a.left<b.right&&b.left<a.right&&a.top<b.bottom&&b.top<a.bottom;
+    const cap=rect('cap'),more=rect('capMore'),seek=rect('phaseSeek'),unit=rect('unitSelect'),focus=rect('focusToggle');
+    return {
+      capSeek:intersects(cap,seek),
+      capUnit:intersects(cap,unit),
+      capFocus:intersects(cap,focus),
+      moreVisible:more.top>=cap.top-1&&more.bottom<=cap.bottom+1,
+      moreH:more.height,
+      summaryLines:getComputedStyle($('cText')).webkitLineClamp,
+      horizontalOverflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+1
+    };
+  });
+  if(state.capSeek||state.capUnit||state.capFocus||!state.moreVisible||state.moreH<30||state.horizontalOverflow)
+    throw new Error('mobile caption compact regression '+width+'x'+height+': '+JSON.stringify(state));
+  await page.screenshot({path:prefix+'-compact.png'});
+  await page.locator('#capMore').click();
+  const expanded=await page.evaluate(()=>{
+    const $=id=>document.getElementById(id);
+    const rect=id=>$(id).getBoundingClientRect();
+    const overlap=(a,b)=>a.left<b.right&&b.left<a.right&&a.top<b.bottom&&b.top<a.bottom;
+    const cap=rect('cap'),seek=rect('phaseSeek'),play=rect('play'),body=$('cText'),more=rect('capMore');
+    return {
+      expanded:$('cap').classList.contains('expanded'),
+      scrollable:body.scrollHeight>body.clientHeight+2,
+      capSeek:overlap(cap,seek),capPlay:overlap(cap,play),
+      buttonVisible:more.top>=cap.top-1&&more.bottom<=cap.bottom+1,
+      unitHidden:getComputedStyle($('unitSelect')).visibility==='hidden',
+      focusHidden:getComputedStyle($('focusToggle')).visibility==='hidden',
+      maxHeight:parseFloat(getComputedStyle($('cap')).maxHeight),
+    };
+  });
+  const limit=width<=350?height*.48:Math.min(height*.52,400);
+  if(!expanded.expanded||!expanded.scrollable||expanded.capSeek||expanded.capPlay||
+    !expanded.buttonVisible||!expanded.unitHidden||!expanded.focusHidden||expanded.maxHeight>limit+2)
+    throw new Error('mobile caption expanded regression '+width+'x'+height+': '+JSON.stringify(expanded));
+  await text.evaluate(el=>{el.scrollTop=el.scrollHeight});
+  const scrolled=await text.evaluate(el=>el.scrollTop);
+  if(scrolled<10) throw new Error('expanded phase copy cannot scroll '+width+'x'+height);
+  await page.screenshot({path:prefix+'-expanded.png'});
+  await page.locator('#capMore').click();
+  await text.evaluate((el,value)=>{el.textContent=value},original);
+}
+
 for(const c of cases){
   const disk='docs'+c.url;
   const html=fs.readFileSync(disk,'utf8');
@@ -46,6 +101,7 @@ for(const c of cases){
     if(await page.locator('#brief').isVisible()) await page.locator('#briefStart').click();
     await page.waitForTimeout(500);
     await page.screenshot({path:'test-results/field-visual/'+c.url.split('/').filter(Boolean).join('-')+'-390.png'});
+    await auditCaptionViewport(page,c,390,844);
     const state=await page.evaluate(()=>({
       legend:[...document.querySelectorAll('#kindLegend .k')].map(x=>x.textContent.trim()),
       canvas:!!document.querySelector('#stage canvas'),
@@ -149,6 +205,7 @@ for(const c of cases){
     });
     if(!compactPanels.detailHidden||!compactPanels.captionExpanded||compactPanels.capSeek||compactPanels.capPlay||compactPanels.captionRight>321) throw new Error('320px expanded panel regression '+JSON.stringify(compactPanels));
     await page.locator('#capMore').click();
+    await auditCaptionViewport(page,c,320,568);
     if(compact.overflow) throw new Error('320px horizontal overflow');
     for(const key of ['play','seek']){
       const b=compact[key];
