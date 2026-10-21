@@ -8,6 +8,16 @@ const cases=[
   {url:'/gundam-uc0079/garma.html',legend:['航空機','陸上兵器','艦船'],src:["kind:'aircraft'","kind:'ground_vehicle'","kind:'ship'","r:'close'","r:'far'"]},
   {url:'/arslan/atropatene1.html',legend:['歩兵','騎兵'],src:["kind:'infantry'","kind:'cavalry'","r:'close'","r:'far'"]}
 ];
+// Audit every generated battle page, not only the five browser samples.
+const generated=fs.readdirSync('docs',{recursive:true}).filter(path=>typeof path==='string'&&path.endsWith('.html'));
+const battles=generated.map(path=>({path,html:fs.readFileSync('docs/'+path,'utf8')})).filter(x=>x.html.includes('id="phaseSeek"')&&x.html.includes('id="stage"'));
+if(battles.length!==254) throw new Error('Expected 254 battle pages, found '+battles.length);
+const required=['id="focusToggle"','id="unitInfo"','id="capMore"','visibleLabs.sort','Math.abs(k.x-v.x)<116','function showUnitInfo()'];
+for(const {path,html} of battles){
+  for(const token of required) if(!html.includes(token)) throw new Error('Battle HUD regression '+path+': missing '+token);
+  if(html.includes('scene.background=new THREE.Color(0x34404d)')) throw new Error('Stale bright terrain '+path);
+}
+console.log('All battle HUD invariant QA passed:',battles.length);
 const base='http://127.0.0.1:8000';
 const browser=await chromium.launch({headless:true,args:['--use-gl=swiftshader','--enable-webgl','--ignore-gpu-blocklist']});
 const failures=[];
