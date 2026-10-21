@@ -164,6 +164,17 @@ for(const c of cases){
         clamped:getComputedStyle(document.getElementById('cText')).webkitLineClamp==='3'};
     });
     if(Object.values(shortCaption).some(v=>!v)) throw new Error('320x568 collapsed caption inaccessible '+JSON.stringify(shortCaption));
+    // The smaller status panel must retain access to links and all its content.
+    const forceContent=await page.locator('.force').evaluate(el=>{
+      const back=el.querySelector('a.back');
+      el.scrollTop=el.scrollHeight;
+      const panel=el.getBoundingClientRect(),link=back?.getBoundingClientRect();
+      const reachable=!back||(link.top>=panel.top-1&&link.bottom<=panel.bottom+1);
+      el.scrollTop=0;
+      return {reachable,overflowY:getComputedStyle(el).overflowY};
+    });
+    if(!forceContent.reachable||forceContent.overflowY!=='auto') throw new Error('compact force panel content inaccessible '+JSON.stringify(forceContent));
+
     await page.locator('#capMore').click();
     await page.waitForTimeout(100);
     const fullCaption=await page.evaluate(()=>{
