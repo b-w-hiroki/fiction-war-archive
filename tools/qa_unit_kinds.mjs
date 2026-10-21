@@ -79,6 +79,11 @@ for(const c of cases){
     if(!state.stateLabels) throw new Error('explicit unit state labels missing');
     if(!state.momentum) throw new Error('battle momentum missing');
     if(state.momentumPos<8||state.momentumPos>92) throw new Error('battle momentum marker invalid '+state.momentumPos);
+    // Expanded phase copy must not be trapped by the compact caption height.
+    await page.locator('#capMore').click();
+    const captionExpanded=await page.locator('#cap').evaluate(el=>({expanded:el.classList.contains('expanded'),maxHeight:parseFloat(getComputedStyle(el).maxHeight),scrollHeight:el.scrollHeight}));
+    if(!captionExpanded.expanded||captionExpanded.maxHeight<=130) throw new Error('expanded caption still clipped '+JSON.stringify(captionExpanded));
+    await page.locator('#capMore').click();
     // Unit panel, focus mode and camera follow must remain operable.
     await page.locator('#unitSelect').click();
     if(!await page.locator('#unitInfo').isVisible()) throw new Error('unit detail did not open');
