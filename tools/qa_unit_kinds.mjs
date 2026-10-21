@@ -11,6 +11,7 @@ const cases=[
 const base='http://127.0.0.1:8000';
 const browser=await chromium.launch({headless:true,args:['--use-gl=swiftshader','--enable-webgl','--ignore-gpu-blocklist']});
 const failures=[];
+fs.mkdirSync('test-results/field-visual',{recursive:true});
 for(const c of cases){
   const disk='docs'+c.url;
   const html=fs.readFileSync(disk,'utf8');
@@ -34,6 +35,7 @@ for(const c of cases){
     await page.waitForSelector('#stage canvas',{timeout:15000});
     if(await page.locator('#brief').isVisible()) await page.locator('#briefStart').click();
     await page.waitForTimeout(500);
+    await page.screenshot({path:'test-results/field-visual/'+c.url.split('/').filter(Boolean).join('-')+'-390.png'});
     const state=await page.evaluate(()=>({
       legend:[...document.querySelectorAll('#kindLegend .k')].map(x=>x.textContent.trim()),
       canvas:!!document.querySelector('#stage canvas'),
@@ -108,6 +110,7 @@ for(const c of cases){
       play:document.querySelector('#play').getBoundingClientRect(),
       seek:document.querySelector('#phaseSeek').getBoundingClientRect()
     }));
+    await page.screenshot({path:'test-results/field-visual/'+c.url.split('/').filter(Boolean).join('-')+'-320.png'});
     if(compact.overflow) throw new Error('320px horizontal overflow');
     for(const key of ['play','seek']){
       const b=compact[key];
