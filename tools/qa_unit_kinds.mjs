@@ -160,6 +160,7 @@ for(const c of cases){
       return {buttonVisible:more.height>=40&&more.top>=cap.top-1&&more.bottom<=cap.bottom+1,
         captionAboveSeek:cap.bottom<=seek.top+1,
         focusClear:!overlap(cap,focus),unitClear:!overlap(cap,unit),
+        forceFocusClear:!overlap(document.querySelector('.force').getBoundingClientRect(),focus),forceUnitClear:!overlap(document.querySelector('.force').getBoundingClientRect(),unit),
         clamped:getComputedStyle(document.getElementById('cText')).webkitLineClamp==='3'};
     });
     if(Object.values(shortCaption).some(v=>!v)) throw new Error('320x568 collapsed caption inaccessible '+JSON.stringify(shortCaption));
