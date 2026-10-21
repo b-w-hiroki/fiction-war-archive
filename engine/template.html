@@ -179,6 +179,18 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.capmore{di
  .seek{bottom:calc(62px + env(safe-area-inset-bottom,0px))!important}
 }
 @media(max-width:350px){.focusbtn{right:6px!important}.unitselect{left:6px!important}}
+
+/* Compact phones: reserve actual caption height, keep its expand action accessible,
+   and keep contextual HUD controls away from the caption and playback. */
+@media(max-width:600px){
+ .cap{max-height:min(38dvh,205px);overflow-y:auto;overscroll-behavior:contain}
+ .capmore{position:sticky;bottom:0;z-index:1;min-height:44px;min-width:68px;padding:6px 10px;border-radius:8px;background:var(--panel2)}
+ .focusbtn,.unitselect{top:auto!important;bottom:calc(321px + env(safe-area-inset-bottom,0px))!important}
+ .unitinfo{top:calc(48px + env(safe-area-inset-top,0px));bottom:auto!important;max-height:min(26dvh,148px)!important}
+ .hud:has(.cap.expanded) .focusbtn,.hud:has(.cap.expanded) .unitselect{visibility:hidden;pointer-events:none}
+ .hud:has(.unitinfo:not([hidden])) .force{visibility:hidden;pointer-events:none}
+ @media(max-height:650px){.hud:has(.cap.expanded) .force{visibility:hidden;pointer-events:none}}
+}
 </style>
 </head>
 <body>

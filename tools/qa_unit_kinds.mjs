@@ -130,7 +130,7 @@ for(const c of cases){
     if(!momentumAfterSeek) throw new Error('momentum HUD empty after seek');
     await seek.dispatchEvent('change');await page.locator('#play').click();await page.waitForTimeout(900);await page.locator('#play').click();
     // 320px compact viewport regression: no horizontal overflow or offscreen controls.
-    await page.setViewportSize({width:320,height:720});
+    await page.setViewportSize({width:320,height:568});
     await page.waitForTimeout(200);
     const compact=await page.evaluate(()=>({
       overflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+1,
@@ -149,6 +149,38 @@ for(const c of cases){
     });
     if(!compactPanels.detailHidden||!compactPanels.captionExpanded||compactPanels.capSeek||compactPanels.capPlay||compactPanels.captionRight>321) throw new Error('320px expanded panel regression '+JSON.stringify(compactPanels));
     await page.locator('#capMore').click();
+    // Stress the genuinely short 320x568 viewport with a three-line+ narrative.
+    const originalCaption=await page.locator('#cText').textContent();
+    await page.locator('#cText').evaluate(el=>{el.textContent='三つ以上の行にまたがる長いフェイズ説明の表示確認。部隊移動、戦況判断、前線の変化を画面内で読み取れること。'.repeat(10)});
+    const shortCaption=await page.evaluate(()=>{
+      const box=id=>document.getElementById(id).getBoundingClientRect();
+      const overlap=(a,b)=>a.left<b.right&&b.left<a.right&&a.top<b.bottom&&b.top<a.bottom;
+      const cap=box('cap'),more=box('capMore'),seek=box('phaseSeek');
+      const focus=box('focusToggle'),unit=box('unitSelect');
+      return {buttonVisible:more.height>=40&&more.top>=cap.top-1&&more.bottom<=cap.bottom+1,
+        captionAboveSeek:cap.bottom<=seek.top+1,
+        focusClear:!overlap(cap,focus),unitClear:!overlap(cap,unit),
+        clamped:getComputedStyle(document.getElementById('cText')).webkitLineClamp==='3'};
+    });
+    if(Object.values(shortCaption).some(v=>!v)) throw new Error('320x568 collapsed caption inaccessible '+JSON.stringify(shortCaption));
+    await page.locator('#capMore').click();
+    await page.waitForTimeout(100);
+    const fullCaption=await page.evaluate(()=>{
+      const cap=document.getElementById('cap'),more=document.getElementById('capMore'),seek=document.getElementById('phaseSeek');
+      const a=cap.getBoundingClientRect(),b=seek.getBoundingClientRect(),m=more.getBoundingClientRect();
+      return {expanded:cap.classList.contains('expanded'),scrollable:cap.scrollHeight>cap.clientHeight+20,
+        noSeekOverlap:a.bottom<=b.top+1,buttonReachable:m.height>=40&&m.top>=a.top-1&&m.bottom<=a.bottom+1,
+        focusHidden:getComputedStyle(document.getElementById('focusToggle')).visibility==='hidden',
+        unitHidden:getComputedStyle(document.getElementById('unitSelect')).visibility==='hidden',
+        forceHidden:getComputedStyle(document.querySelector('.force')).visibility==='hidden'};
+    });
+    if(Object.values(fullCaption).some(v=>!v)) throw new Error('320x568 expanded caption regression '+JSON.stringify(fullCaption));
+    await page.screenshot({path:'test-results/field-visual/'+c.url.split('/').filter(Boolean).join('-')+'-320-expanded.png'});
+    await page.locator('#cap').evaluate(el=>{el.scrollTop=el.scrollHeight});
+    await page.locator('#capMore').click();
+    await page.locator('#cText').evaluate((el,v)=>{el.textContent=v},originalCaption);
+    const controlsRestored=await page.evaluate(()=>getComputedStyle(document.getElementById('unitSelect')).visibility!=='hidden'&&getComputedStyle(document.getElementById('focusToggle')).visibility!=='hidden'&&getComputedStyle(document.querySelector('.force')).visibility!=='hidden');
+    if(!controlsRestored) throw new Error('320x568 HUD controls did not return after closing caption');
     if(compact.overflow) throw new Error('320px horizontal overflow');
     for(const key of ['play','seek']){
       const b=compact[key];
