@@ -191,6 +191,14 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.capmore{di
  .hud:has(.unitinfo:not([hidden])) .force{visibility:hidden;pointer-events:none}
  @media(max-height:650px){.hud:has(.cap.expanded) .force{visibility:hidden;pointer-events:none}}
 }
+
+/* Short mobile screens: keep the status panel, contextual actions and
+   phase explanation in non-overlapping vertical lanes. */
+@media(max-width:600px) and (max-height:650px){
+ .force{max-height:calc(100dvh - 378px);overflow-y:auto;overscroll-behavior:contain}
+ .focusbtn,.unitselect{bottom:calc(292px + env(safe-area-inset-bottom,0px))!important}
+ .cap:not(.expanded){max-height:180px}
+}
 </style>
 <!-- ga --><script async src="https://www.googletagmanager.com/gtag/js?id=G-VMR5RYVQK4"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-VMR5RYVQK4');</script><!-- /ga -->
 </head>
@@ -217,7 +225,7 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.capmore{di
       <div class="time"><b id="cTime"></b><span id="cClock"></span></div>
       <h2 id="cTitle"></h2><div class="tactic" id="tactic" hidden><b>戦術</b><span id="tacticText"></span></div>
       <p id="cText"></p>
-      <button class="capmore" id="capMore" type="button" aria-expanded="false">全文</button>
+      <button class="capmore" id="capMore" type="button" aria-controls="cText" aria-expanded="false">全文</button>
     </div>
     <div class="seek ui" aria-label="バトルフェイズ移動">
       <span id="seekNow">1 / 1</span>
@@ -494,7 +502,7 @@ function previewSeek(raw){
   const st=o.st[ui],key=subOf(o,st)+st.s;if(key!==o.labKey&&o.lab){reSprite(o.lab,o.name,subOf(o,st),CSS[o.side]);o.labKey=key}
  });
  if(auto&&P.cam&&P.cam.t)camTo(P.cam);
- $('cTime').textContent=P.time;$('cClock').textContent=P.clock;$('cTitle').textContent=P.title;$('cText').textContent=P.text;updateTactic(P);
+ $('cTime').textContent=P.time;$('cClock').textContent=P.clock;$('cTitle').textContent=P.title;$('cText').textContent=P.text;$('cap').scrollTop=0;$('cText').scrollTop=0;updateTactic(P);
  [...stepsEl.children].forEach((b,k)=>{b.classList.toggle('on',k===ui);b.classList.toggle('done',k<q)});
  $('seekNow').textContent=(q+1).toFixed(1)+' / '+PH.length;$('seekLabel').textContent=P.step||P.time;
  phaseSeek.setAttribute('aria-valuenow',String(Math.round(raw/10)));phaseSeek.setAttribute('aria-valuetext',P.time+' '+P.title);
@@ -555,7 +563,7 @@ function setPhase(i){
   P.cam.t=[cx,cy,cz];P.cam.r=Math.max(90,(ext+10)*.8/Math.tan(hf)/pr)*(P.cam.k||1)}
  if(auto)camTo(P.cam);
  $('cTime').textContent=P.time;$('cClock').textContent=P.clock;$('cTitle').textContent=P.title;$('cText').textContent=P.text;
- const cap=$('cap');cap.classList.remove('in');void cap.offsetWidth;cap.classList.add('in');
+ const cap=$('cap');cap.scrollTop=0;$('cText').scrollTop=0;cap.classList.remove('in');void cap.offsetWidth;cap.classList.add('in');
  [...stepsEl.children].forEach((b,j)=>{b.classList.toggle('on',j===i);b.classList.toggle('done',j<i)});
  const sv=PH.length<=1?0:Math.round(i/(PH.length-1)*1000);phaseSeek.value=String(sv);phaseSeek.setAttribute('aria-valuenow',String(Math.round(sv/10)));phaseSeek.setAttribute('aria-valuetext',P.time+' '+P.title);
  $('seekNow').textContent=(i+1)+' / '+PH.length;$('seekLabel').textContent=P.step||P.time;
@@ -583,7 +591,7 @@ function renderResult(){const R=RESULT,cE=CSS.E,cA=CSS.A;
  <h4>その後の勢力への影響</h4><ul>${R.after.map(a=>`<li>${a}</li>`).join('')}</ul>${R.refs&&R.refs.length?`<h4>原作・アニメの該当箇所</h4><ul>${R.refs.map(r=>`<li><b>${r.k}</b>　${r.v}</li>`).join('')}</ul>`:''}${R.prev||R.next?`<h4>前後の流れ</h4><ul>${R.prev?`<li>前：${R.prev}</li>`:''}${R.next?`<li>次：${R.next}</li>`:''}</ul>`:''}<div class="src">${R.note}</div>`;
  $('resClose').onclick=()=>$('res').classList.remove('on');}
 $('resOpen').onclick=()=>{renderResult();$('res').classList.add('on')};
-$('capMore').onclick=()=>{const c=$('cap'),on=c.classList.toggle('expanded');if(on){$('unitInfo').hidden=true;selectedUnitActive=false;unitCameraFollow=false}$('capMore').textContent=on?'閉じる':'全文';$('capMore').setAttribute('aria-expanded',String(on))};
+$('capMore').onclick=()=>{const c=$('cap'),on=c.classList.toggle('expanded');c.scrollTop=0;$('cText').scrollTop=0;if(on){$('unitInfo').hidden=true;selectedUnitActive=false;unitCameraFollow=false}$('capMore').textContent=on?'閉じる':'全文';$('capMore').setAttribute('aria-expanded',String(on))};
 /* ---------- ループ ---------- */
 function resize(){const w=$('stage').clientWidth,h=$('stage').clientHeight;renderer.setSize(w,h,false);cam.aspect=w/h;const f=w<h?.24:.12;cam.setViewOffset(w,h*(1+f),0,h*f,w,h);cam.updateProjectionMatrix()}
 new ResizeObserver(resize).observe($('stage'));resize();

@@ -160,9 +160,21 @@ for(const c of cases){
       return {buttonVisible:more.height>=40&&more.top>=cap.top-1&&more.bottom<=cap.bottom+1,
         captionAboveSeek:cap.bottom<=seek.top+1,
         focusClear:!overlap(cap,focus),unitClear:!overlap(cap,unit),
+        forceFocusClear:!overlap(document.querySelector('.force').getBoundingClientRect(),focus),forceUnitClear:!overlap(document.querySelector('.force').getBoundingClientRect(),unit),
         clamped:getComputedStyle(document.getElementById('cText')).webkitLineClamp==='3'};
     });
     if(Object.values(shortCaption).some(v=>!v)) throw new Error('320x568 collapsed caption inaccessible '+JSON.stringify(shortCaption));
+    // The smaller status panel must retain access to links and all its content.
+    const forceContent=await page.locator('.force').evaluate(el=>{
+      const back=el.querySelector('a.back');
+      el.scrollTop=el.scrollHeight;
+      const panel=el.getBoundingClientRect(),link=back?.getBoundingClientRect();
+      const reachable=!back||(link.top>=panel.top-1&&link.bottom<=panel.bottom+1);
+      el.scrollTop=0;
+      return {reachable,overflowY:getComputedStyle(el).overflowY};
+    });
+    if(!forceContent.reachable||forceContent.overflowY!=='auto') throw new Error('compact force panel content inaccessible '+JSON.stringify(forceContent));
+
     await page.locator('#capMore').click();
     await page.waitForTimeout(100);
     const fullCaption=await page.evaluate(()=>{
@@ -181,6 +193,35 @@ for(const c of cases){
     await page.locator('#cText').evaluate((el,v)=>{el.textContent=v},originalCaption);
     const controlsRestored=await page.evaluate(()=>getComputedStyle(document.getElementById('unitSelect')).visibility!=='hidden'&&getComputedStyle(document.getElementById('focusToggle')).visibility!=='hidden'&&getComputedStyle(document.querySelector('.force')).visibility!=='hidden');
     if(!controlsRestored) throw new Error('320x568 HUD controls did not return after closing caption');
+    // Keep the expanded narrative at its beginning when scrubbing or committing a new phase.
+    if(await page.locator('#capMore').getAttribute('aria-controls')!=='cText') throw new Error('caption expansion missing aria-controls');
+    await page.locator('#cText').evaluate(el=>{
+      const descriptor=Object.getOwnPropertyDescriptor(Node.prototype,'textContent');
+      const filler='戦況の変化と各部隊の移動を詳しく確認する。'.repeat(110);
+      Object.defineProperty(el,'textContent',{
+        configurable:true,
+        get(){return descriptor.get.call(this)},
+        set(value){descriptor.set.call(this,String(value)+filler)}
+      });
+      el.textContent=el.textContent;
+    });
+    await page.locator('#capMore').click();
+    await page.locator('#cap').evaluate(el=>{el.scrollTop=el.scrollHeight});
+    const beforePhaseSwitch=await page.locator('#cap').evaluate(el=>el.scrollTop);
+    if(beforePhaseSwitch<30) throw new Error('long narrative did not scroll before phase transition');
+    await seek.fill('1000');
+    await seek.dispatchEvent('input');
+    const previewScroll=await page.locator('#cap').evaluate(el=>el.scrollTop);
+    if(previewScroll>1) throw new Error('previewing a phase kept stale narrative scroll '+previewScroll);
+    await page.locator('#cap').evaluate(el=>{el.scrollTop=el.scrollHeight});
+    await seek.dispatchEvent('change');
+    const committedScroll=await page.locator('#cap').evaluate(el=>el.scrollTop);
+    if(committedScroll>1) throw new Error('committing a phase kept stale narrative scroll '+committedScroll);
+    await page.locator('#capMore').click();
+    await page.locator('#cText').evaluate(el=>{delete el.textContent});
+    await seek.fill('0');
+    await seek.dispatchEvent('change');
+
     if(compact.overflow) throw new Error('320px horizontal overflow');
     for(const key of ['play','seek']){
       const b=compact[key];
