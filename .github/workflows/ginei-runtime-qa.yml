@@ -11,6 +11,9 @@ on:
       - "tools/qa_ginei.mjs"
       - ".github/workflows/ginei-runtime-qa.yml"
   workflow_dispatch:
+permissions:
+  contents: read
+
 jobs:
   qa:
     runs-on: ubuntu-latest
