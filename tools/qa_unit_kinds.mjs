@@ -93,7 +93,23 @@ for(const c of cases){
     await page.locator('#capMore').click();
     const captionExpanded=await page.locator('#cap').evaluate(el=>({expanded:el.classList.contains('expanded'),maxHeight:parseFloat(getComputedStyle(el).maxHeight),scrollHeight:el.scrollHeight}));
     if(!captionExpanded.expanded||captionExpanded.maxHeight<=130) throw new Error('expanded caption still clipped '+JSON.stringify(captionExpanded));
+    // Capture and validate a genuinely long expanded narrative at 390x844, too.
+    const original390Caption=await page.locator('#cText').textContent();
+    await page.locator('#cText').evaluate(el=>{el.textContent='長文フェイズ説明の読みやすさ、内部スクロール、シークバーとの距離を390px画面でも確認する。'.repeat(12)});
     await page.locator('#capMore').click();
+    const wideExpanded=await page.evaluate(()=>{
+      const cap=document.getElementById('cap'),seek=document.getElementById('phaseSeek'),more=document.getElementById('capMore');
+      const a=cap.getBoundingClientRect(),b=seek.getBoundingClientRect(),m=more.getBoundingClientRect();
+      return {expanded:cap.classList.contains('expanded'),scrollable:cap.scrollHeight>cap.clientHeight+20,
+        noSeekOverlap:a.bottom<=b.top+1,buttonReachable:m.height>=40&&m.top>=a.top-1&&m.bottom<=a.bottom+1};
+    });
+    if(Object.values(wideExpanded).some(v=>!v)) throw new Error('390x844 expanded caption regression '+JSON.stringify(wideExpanded));
+    await page.screenshot({path:'test-results/field-visual/'+c.url.split('/').filter(Boolean).join('-')+'-390-expanded.png'});
+    const wideScroll=await page.locator('#cap').evaluate(el=>{el.scrollTop=el.scrollHeight;return el.scrollTop});
+    if(wideScroll<20) throw new Error('390x844 caption does not scroll to end');
+    await page.screenshot({path:'test-results/field-visual/'+c.url.split('/').filter(Boolean).join('-')+'-390-expanded-bottom.png'});
+    await page.locator('#capMore').click();
+    await page.locator('#cText').evaluate((el,v)=>{el.textContent=v},original390Caption);
     // Unit panel, focus mode and camera follow must remain operable.
     await page.locator('#unitSelect').click();
     if(!await page.locator('#unitInfo').isVisible()) throw new Error('unit detail did not open');
@@ -188,7 +204,9 @@ for(const c of cases){
     });
     if(Object.values(fullCaption).some(v=>!v)) throw new Error('320x568 expanded caption regression '+JSON.stringify(fullCaption));
     await page.screenshot({path:'test-results/field-visual/'+c.url.split('/').filter(Boolean).join('-')+'-320-expanded.png'});
-    await page.locator('#cap').evaluate(el=>{el.scrollTop=el.scrollHeight});
+    const bottomScroll=await page.locator('#cap').evaluate(el=>{el.scrollTop=el.scrollHeight;return el.scrollTop});
+    if(bottomScroll<20) throw new Error('320x568 caption does not scroll to end');
+    await page.screenshot({path:'test-results/field-visual/'+c.url.split('/').filter(Boolean).join('-')+'-320-expanded-bottom.png'});
     await page.locator('#capMore').click();
     await page.locator('#cText').evaluate((el,v)=>{el.textContent=v},originalCaption);
     const controlsRestored=await page.evaluate(()=>getComputedStyle(document.getElementById('unitSelect')).visibility!=='hidden'&&getComputedStyle(document.getElementById('focusToggle')).visibility!=='hidden'&&getComputedStyle(document.querySelector('.force')).visibility!=='hidden');
