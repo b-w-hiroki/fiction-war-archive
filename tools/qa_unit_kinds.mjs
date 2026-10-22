@@ -96,7 +96,6 @@ for(const c of cases){
     // Capture and validate a genuinely long expanded narrative at 390x844, too.
     const original390Caption=await page.locator('#cText').textContent();
     await page.locator('#cText').evaluate(el=>{el.textContent='長文フェイズ説明の読みやすさ、内部スクロール、シークバーとの距離を390px画面でも確認する。'.repeat(12)});
-    await page.locator('#capMore').click();
     const wideExpanded=await page.evaluate(()=>{
       const cap=document.getElementById('cap'),seek=document.getElementById('phaseSeek'),more=document.getElementById('capMore');
       const a=cap.getBoundingClientRect(),b=seek.getBoundingClientRect(),m=more.getBoundingClientRect();
