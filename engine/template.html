@@ -204,7 +204,7 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.capmore{di
 <body>
 <div id="app">
   <div id="stage"></div>
-  <section class="brief" id="brief" aria-label="開戦前の戦力紹介" role="dialog" aria-modal="true"><div class="briefcard"><h2>開戦前｜両陣営の戦力</h2><div class="briefsides" id="briefSides"></div><div class="briefactions"><button type="button" id="briefClose">閉じる</button><button type="button" class="briefstart" id="briefStart">戦況を見る ▶</button></div></div></section>
+  <section class="brief" id="brief" aria-label="開戦前の戦力紹介" role="dialog" aria-modal="true"><div class="briefcard"><h2>開戦前｜両陣営の戦力</h2><div class="briefsides" id="briefSides"></div><!--@@QUICK_TOUR@@--><div class="briefactions"><button type="button" id="briefClose">閉じる</button><button type="button" class="briefstart" id="briefStart">戦況を見る ▶</button></div></div></section>
   <div class="hud" id="hud">
     <button class="unitselect" id="unitSelect" type="button">部隊情報</button><section class="unitinfo" id="unitInfo" hidden aria-live="polite"><button id="unitInfoClose" type="button" aria-label="部隊情報を閉じる">×</button><strong id="unitInfoName"></strong><p id="unitInfoText"></p></section>
     <button class="briefopen" id="briefOpen" type="button" aria-label="開戦前の戦力紹介を再表示">戦力紹介</button>
@@ -444,7 +444,7 @@ $('unitInfoClose').onclick=()=>{$('unitInfo').hidden=true;selectedUnitActive=fal
 function briefText(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
 $('briefSides').innerHTML=RESULT.sides.map(side=>'<article class="briefside"><h3 style="color:'+(side.side==='E'?'#e8b65c':'#65c5da')+'">'+briefText(side.name)+'</h3><dl><dt>総戦力</dt><dd>'+briefText(side.before||'不明')+'</dd><dt>総大将・指揮官</dt><dd>'+briefText(side.cmdr||'不明')+'</dd><dt>主な参加将軍・指揮官</dt><dd>'+briefText(side.others||'記載なし')+'</dd></dl></article>').join('');
 function closeBrief(){$('brief').hidden=true;$('briefOpen').focus()}
-$('briefStart').onclick=closeBrief;$('briefClose').onclick=closeBrief;
+/*@@QUICK_TOUR_SCRIPT@@*/$('briefStart').onclick=closeBrief;$('briefClose').onclick=closeBrief;
 $('briefOpen').onclick=()=>{$('brief').hidden=false;$('briefStart').focus()};
 
 const hud=$('hud'),focusToggle=$('focusToggle');

@@ -93,6 +93,18 @@ def build_battle(path, work_dir, refs, out_dir, ga=False, back=''):
     s = (ENGINE / 'template.html').read_text()
     for k in ['TITLE', 'HEAD', 'ERA', 'NOTE']:
         s = s.replace('@@%s@@' % k, getattr(c, k))
+    tour = getattr(c, 'QUICK_TOUR', [])
+    markup = ''
+    script = ''
+    if tour:
+        markup = '<section aria-label="3場面で振り返る"><h3>3場面で振り返る</h3><p>既存の場面へ移動します。配置は説明用の概略です。</p>'
+        for item in tour:
+            if not isinstance(item['phase'], int) or item['phase'] < 0:
+                raise ValueError('invalid quick tour phase')
+            markup += '<button type="button" data-tour-phase="' + str(item['phase']) + '" style="display:block;width:100%;min-height:48px;margin:6px 0;padding:10px;text-align:left;background:#233344;color:#f4f7fa;border:1px solid #7c8a9a;border-radius:8px">' + escape(item['label']) + '</button><p>' + escape(item['why']) + '</p>'
+        markup += '</section>'
+        script = "document.querySelectorAll('[data-tour-phase]').forEach(b=>{b.onclick=()=>{const i=Number(b.dataset.tourPhase);if(!Number.isInteger(i)||i<0||i>=PH.length)return;playing=false;updPlay();closeBrief();setPhase(i)}});"
+    s = s.replace('<!--@@QUICK_TOUR@@-->', markup).replace('/*@@QUICK_TOUR_SCRIPT@@*/', script)
     title = c.TITLE.replace(' 3D俯瞰', '')
     description = f'{title}（{c.ERA}）を作中情報に基づいて3D俯瞰で再構成し、経過、戦果、原作・アニメの該当箇所を確認できます。'
     canonical = page_url(f'{work_dir.name}/{key}.html')
