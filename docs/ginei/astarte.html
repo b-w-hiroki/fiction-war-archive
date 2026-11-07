@@ -205,7 +205,7 @@ button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.capmore{di
 <body>
 <div id="app">
   <div id="stage"></div>
-  <section class="brief" id="brief" aria-label="開戦前の戦力紹介" role="dialog" aria-modal="true"><div class="briefcard"><h2>開戦前｜両陣営の戦力</h2><div class="briefsides" id="briefSides"></div><div class="briefactions"><button type="button" id="briefClose">閉じる</button><button type="button" class="briefstart" id="briefStart">戦況を見る ▶</button></div></div></section>
+  <section class="brief" id="brief" aria-label="開戦前の戦力紹介" role="dialog" aria-modal="true"><div class="briefcard"><h2>開戦前｜両陣営の戦力</h2><div class="briefsides" id="briefSides"></div><section aria-label="3場面で振り返る"><h3>3場面で振り返る</h3><p>既存の場面へ移動します。配置は説明用の概略です。</p><button type="button" data-tour-phase="0" style="display:block;width:100%;min-height:48px;margin:6px 0;padding:10px;text-align:left;background:#233344;color:#f4f7fa;border:1px solid #7c8a9a;border-radius:8px">1. 開始配置｜三方からの包囲</button><p>同盟軍は分かれて接近。包囲が完成する前に戦うことが帝国軍の狙い。</p><button type="button" data-tour-phase="2" style="display:block;width:100%;min-height:48px;margin:6px 0;padding:10px;text-align:left;background:#233344;color:#f4f7fa;border:1px solid #7c8a9a;border-radius:8px">2. 転機｜各個撃破</button><p>帝国軍は第4艦隊に続き第6艦隊の背後へ。全体の兵力差ではなく、各局面の集中が勝敗を変えた。</p><button type="button" data-tour-phase="6" style="display:block;width:100%;min-height:48px;margin:6px 0;padding:10px;text-align:left;background:#233344;color:#f4f7fa;border:1px solid #7c8a9a;border-radius:8px">3. 結果｜第2艦隊は壊滅を免れる</button><p>帝国軍の勝利。ただし第2艦隊の対応で決定的な殲滅には至らず、両軍は撤退。出典・概数は戦果画面で確認。</p></section><div class="briefactions"><button type="button" id="briefClose">閉じる</button><button type="button" class="briefstart" id="briefStart">戦況を見る ▶</button></div></div></section>
   <div class="hud" id="hud">
     <button class="unitselect" id="unitSelect" type="button">部隊情報</button><section class="unitinfo" id="unitInfo" hidden aria-live="polite"><button id="unitInfoClose" type="button" aria-label="部隊情報を閉じる">×</button><strong id="unitInfoName"></strong><p id="unitInfoText"></p></section>
     <button class="briefopen" id="briefOpen" type="button" aria-label="開戦前の戦力紹介を再表示">戦力紹介</button>
@@ -480,7 +480,7 @@ $('unitInfoClose').onclick=()=>{$('unitInfo').hidden=true;selectedUnitActive=fal
 function briefText(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
 $('briefSides').innerHTML=RESULT.sides.map(side=>'<article class="briefside"><h3 style="color:'+(side.side==='E'?'#e8b65c':'#65c5da')+'">'+briefText(side.name)+'</h3><dl><dt>総戦力</dt><dd>'+briefText(side.before||'不明')+'</dd><dt>総大将・指揮官</dt><dd>'+briefText(side.cmdr||'不明')+'</dd><dt>主な参加将軍・指揮官</dt><dd>'+briefText(side.others||'記載なし')+'</dd></dl></article>').join('');
 function closeBrief(){$('brief').hidden=true;$('briefOpen').focus()}
-$('briefStart').onclick=closeBrief;$('briefClose').onclick=closeBrief;
+document.querySelectorAll('[data-tour-phase]').forEach(b=>{b.onclick=()=>{const i=Number(b.dataset.tourPhase);if(!Number.isInteger(i)||i<0||i>=PH.length)return;playing=false;updPlay();closeBrief();setPhase(i)}});$('briefStart').onclick=closeBrief;$('briefClose').onclick=closeBrief;
 $('briefOpen').onclick=()=>{$('brief').hidden=false;$('briefStart').focus()};
 
 const hud=$('hud'),focusToggle=$('focusToggle');
