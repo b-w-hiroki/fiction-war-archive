@@ -97,11 +97,12 @@ def build_battle(path, work_dir, refs, out_dir, ga=False, back=''):
     markup = ''
     script = ''
     if tour:
-        markup = '<section aria-label="3場面で振り返る"><h3>3場面で振り返る</h3><p>既存の場面へ移動します。配置は説明用の概略です。</p>'
+        markup = '<style>.quick-tour{margin-top:20px}.quick-tour h3{margin:0 0 8px}.quick-tour-intro{font-size:13px;line-height:1.7;color:#b6c5d2;margin:0 0 12px}.quick-tour-card{display:block;width:100%;margin:8px 0;padding:12px;text-align:left;background:#192938;color:#f4f7fa;border:1px solid #657486;border-radius:9px;font:inherit;cursor:pointer}.quick-tour-card:hover{background:#233344;border-color:#b6c5d2}.quick-tour-card:focus-visible{outline:3px solid #e8b65c;outline-offset:3px}.quick-tour-label{display:block;font-size:14px;font-weight:800;line-height:1.6}.quick-tour-why{display:block;margin-top:6px;font-size:13px;line-height:1.7;color:#c5d1dc}</style><section class="quick-tour" aria-label="3場面で振り返る"><h3>3場面で振り返る</h3><p class="quick-tour-intro">カードを選ぶと、その場面へ移動します。<br>配置は説明用の概略です。</p>'
         for item in tour:
             if not isinstance(item['phase'], int) or item['phase'] < 0:
                 raise ValueError('invalid quick tour phase')
-            markup += '<button type="button" data-tour-phase="' + str(item['phase']) + '" style="display:block;width:100%;min-height:48px;margin:6px 0;padding:10px;text-align:left;background:#233344;color:#f4f7fa;border:1px solid #7c8a9a;border-radius:8px">' + escape(item['label']) + '</button><p>' + escape(item['why']) + '</p>'
+            phase_id = str(item['phase'])
+            markup += '<button type="button" class="quick-tour-card" data-tour-phase="' + phase_id + '" aria-labelledby="tour-label-' + phase_id + '" aria-describedby="tour-why-' + phase_id + '"><span class="quick-tour-label" id="tour-label-' + phase_id + '">' + escape(item['label']) + '</span><span class="quick-tour-why" id="tour-why-' + phase_id + '">' + escape(item['why']) + '</span></button>'
         markup += '</section>'
         script = "document.querySelectorAll('[data-tour-phase]').forEach(b=>{b.onclick=()=>{const i=Number(b.dataset.tourPhase);if(!Number.isInteger(i)||i<0||i>=PH.length)return;playing=false;updPlay();closeBrief();setPhase(i)}});"
     s = s.replace('<!--@@QUICK_TOUR@@-->', markup).replace('/*@@QUICK_TOUR_SCRIPT@@*/', script)
