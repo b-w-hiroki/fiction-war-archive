@@ -17,6 +17,14 @@ class QuickTourTests(unittest.TestCase):
             self.assertIn(f'id="tour-why-{phase}"', text)
         self.assertEqual(text.count('class="quick-tour-card"'), 3)
         self.assertIn('.quick-tour-card:focus-visible', text)
+    def test_visual_hierarchy_retains_story_and_accessibility(self):
+        text = (ROOT / 'docs/ginei/astarte.html').read_text()
+        self.assertEqual(text.count('class="quick-tour-stage"'), 3)
+        for stage in ('1. 開始配置', '2. 転機', '3. 結果'):
+            self.assertIn(stage + '</span>', text)
+        self.assertIn('prefers-reduced-motion', text)
+        self.assertIn('forced-colors:active', text)
+        self.assertIn('aria-describedby="tour-why-2"', text)
     def test_other_battle_unchanged(self):
         text = (ROOT / 'docs/ginei/amritsar.html').read_text()
         self.assertNotIn('data-tour-phase', text)
