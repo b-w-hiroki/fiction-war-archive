@@ -19,11 +19,15 @@ try {
     assert.equal(await page.locator('.quick-tour-card').count(), 3);
     for (const phase of [0, 2, 6]) {
       const card = page.locator('[data-tour-phase="' + phase + '"]');
-      await card.scrollIntoViewIfNeeded();
+      await card.evaluate(el => el.scrollIntoView({block: 'center', behavior: 'instant'}));
       const box = await card.boundingBox();
       assert.ok(box.x >= 0 && box.x + box.width <= width + 1, 'card outside viewport');
       assert.ok(await card.evaluate(el => el.scrollWidth <= el.clientWidth), 'card text overflow');
       await card.focus();
+      if (label === 'after') {
+        const actions = await page.locator('.briefactions').boundingBox();
+        assert.ok(box.y + box.height <= actions.y + 1, 'focused card obscured by sticky actions');
+      }
       assert.ok(await card.evaluate(el => el === document.activeElement));
       await page.screenshot({path: 'qa-astarte/' + label + '-' + width + '-card-' + phase + '.png'});
       await page.keyboard.press(phase === 2 ? 'Space' : 'Enter');
@@ -37,6 +41,14 @@ try {
     await first.focus();
     await page.keyboard.press('Tab');
     assert.ok(await page.locator('.quick-tour-card').nth(1).evaluate(el => el === document.activeElement));
+    await page.keyboard.press('Tab');
+    assert.ok(await page.locator('.quick-tour-card').nth(2).evaluate(el => el === document.activeElement));
+    if (label === 'after') {
+      const last = await page.locator('.quick-tour-card').nth(2).boundingBox();
+      const actions = await page.locator('.briefactions').boundingBox();
+      assert.ok(last.y + last.height <= actions.y + 1, 'Tab-focused last card obscured');
+    }
+    await page.keyboard.press('Shift+Tab');
     await page.keyboard.press('Shift+Tab');
     assert.ok(await first.evaluate(el => el === document.activeElement));
     await page.locator('#briefClose').click();
