@@ -1,5 +1,7 @@
 name: Ginei runtime QA
 on:
+  push:
+    branches: [main]
   pull_request:
     branches:
       - main
@@ -9,6 +11,7 @@ on:
       - "works/ginei/**"
       - "tools/build.py"
       - "tools/qa_ginei.mjs"
+      - "tools/qa_astarte_cards.mjs"
       - ".github/workflows/ginei-runtime-qa.yml"
   workflow_dispatch:
 permissions:
@@ -40,3 +43,26 @@ jobs:
           sleep 2
       - name: Run Ginei browser QA
         run: node tools/qa_ginei.mjs
+
+      - name: Check story cards at mobile widths
+        run: node tools/qa_astarte_cards.mjs
+      - name: Prepare PR base for visual comparison
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git fetch origin "$BASE_SHA"
+          git worktree add /tmp/fiction-base "$BASE_SHA"
+          python3 -m http.server 8001 --directory /tmp/fiction-base/docs >/tmp/base-http.log 2>&1 &
+          sleep 2
+      - name: Capture and check PR base
+        if: github.event_name == 'pull_request'
+        env:
+          QA_BASE: http://127.0.0.1:8001
+          QA_LABEL: before
+        run: node tools/qa_astarte_cards.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: astarte-card-qa
+          path: qa-astarte/
